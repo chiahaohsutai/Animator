@@ -1,7 +1,5 @@
 package cs3500.model.Transformation;
 
-import cs3500.model.ITransform;
-
 /**
  * Represents a transformation for a given object. A transformation happens in a time interval,
  * and it refers to a change in the field of the object.

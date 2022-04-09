@@ -1,6 +1,7 @@
 package cs3500.model;
 
 import cs3500.model.Shape.IShape;
+import cs3500.model.Transformation.TransformType;
 
 /**
  * This interface contains all the mutable operations of the simple animator. The simple animator
@@ -75,23 +76,45 @@ public interface IAnimator extends ReadAnimator {
   void setColor(String name, int start, int end, int r, int g, int b);
 
   /**
-   * Deletes the most recent transformation from the animation for the given shape.
+   * Deletes the most recent transformation of the given type from the animation for the given
+   * shape.
    *
    * @param name is the id/name of the shape from which you want to remove the transform from.
+   * @param type is the type pof transformation you want to delete.
    * @throws IllegalArgumentException if the name is not in the animation.
    * @throws IllegalArgumentException if you call the method on a shape that has not gone
    *     through any transformations.
    */
-  void deleteTransform(String name);
+  void deleteTransform(String name, TransformType type);
 
   /**
-   * Sets the boundary canvas for the animation. By default, when creating the animation,
-   * the animation will have a boundary of 100x100. However, this boundary can be changed using
-   * this method.
+   * Sets the boundary canvas for the animation.
    *
    * @param width of the canvas.
    * @param height of the canvas.
    * @throws IllegalArgumentException if the with or height <= 0;
    */
   void setBounds(int width, int height);
+
+  /**
+   * Gets the width of the canvas. If the dimensions have not been set yet the return will be 0.
+   *
+   * @return the width of the canvas.
+   */
+  int getCanvasWidth();
+
+  /**
+   * Gets the height of the canvas. If the dimensions have not been set yet the return will be 0.
+   *
+   * @return the height of the canvas.
+   */
+  int getCanvasHeight();
+
+  /**
+   * Sets the tick rate for the animation (in ticks per second).
+   *
+   * @param tick is the tick rate of the animation. (tick per second is the rate.)
+   * @throws IllegalArgumentException if the tick rate is 0 or negative.
+   */
+  void setTickRate(int tick);
 }

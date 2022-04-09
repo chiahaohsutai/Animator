@@ -15,7 +15,7 @@ public class ScaleTransform extends ATransform {
    * @param width is the width of the new scale.
    * @param height is the height of the new scale.
    */
-  protected ScaleTransform(int start, int end, double width, double height) {
+  public ScaleTransform(int start, int end, double width, double height) {
     super(start, end);
     checkDimensions(width, height);
     this.width = width;

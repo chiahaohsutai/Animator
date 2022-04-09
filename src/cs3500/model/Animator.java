@@ -11,9 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import cs3500.model.Shape.IShape;
+import cs3500.model.Transformation.ColorTransform;
+import cs3500.model.Transformation.ITransform;
+import cs3500.model.Transformation.PositionTransform;
+import cs3500.model.Transformation.ScaleTransform;
+import cs3500.model.Transformation.TransformType;
 
 /**
  * Represents an animator that can animate simple geometric shapes. Tracks the state of each shape
@@ -22,20 +27,24 @@ import cs3500.model.Shape.IShape;
 public class Animator implements IAnimator {
   private int width;
   private int height;
-  private final int tickRate;
+  private int tickRate;
   private final Map<String, IShape> shapes;
   private final Map<Integer, List<String>> creationTimes;
   private final Map<Integer, List<String>> obituaryTimes;
-  private final Map<String, Deque<ITransform>> transformations;
+  private final Map<String, Deque<ITransform>> colorTransfomrations;
+  private final Map<String, Deque<ITransform>> scaleTransfomrations;
+  private final Map<String, Deque<ITransform>> positionTransfomrations;
 
-  public Animator(int tickRate) {
-    this.width = 100;
-    this.height = 100;
-    this.tickRate = tickRate;
+  public Animator() {
+    this.width = 0;
+    this.height = 0;
+    this.tickRate = 1;
     this.shapes = new LinkedHashMap<>();
     this.creationTimes = new TreeMap<>(Comparator.comparingInt(key -> key));
     this.obituaryTimes = new TreeMap<>(Comparator.comparingInt(key -> key));
-    this.transformations = new HashMap<>();
+    this.colorTransfomrations = new HashMap<>();
+    this.scaleTransfomrations = new HashMap<>();
+    this.positionTransfomrations = new HashMap<>();
   }
 
   @Override
@@ -55,7 +64,9 @@ public class Animator implements IAnimator {
     obituaryTimes.get(end).add(name);
 
     // create a space for transformations.
-    transformations.put(name, new LinkedList<>());
+    colorTransfomrations.put(name, new LinkedList<>());
+    scaleTransfomrations.put(name, new LinkedList<>());
+    positionTransfomrations.put(name, new LinkedList<>());
   }
 
   @Override
@@ -63,7 +74,9 @@ public class Animator implements IAnimator {
     checkForNulls(name);
     checkNameExistence(name);
     shapes.remove(name);
-    transformations.remove(name);
+    colorTransfomrations.remove(name);
+    positionTransfomrations.remove(name);
+    scaleTransfomrations.remove(name);
     // remove from the rest of data structures.
     for (Map<Integer, List<String>> m : Arrays.asList(creationTimes, obituaryTimes)) {
       for (List<String> names : m.values()) {
@@ -78,28 +91,40 @@ public class Animator implements IAnimator {
 
   @Override
   public void move(String name, int start, int end, double xCoordinate, double yCoordinate) {
-    checkForNulls(name);
     checkNameExistence(name);
-
+    checkValidInterval(start, end);
+    checkIntervalOverlap(positionTransfomrations.get(name), start);
+    positionTransfomrations.get(name).add(new PositionTransform(start, end, xCoordinate, yCoordinate));
   }
 
   @Override
   public void reScale(String name, int start, int end, double width, double height) {
-
+    checkNameExistence(name);
+    checkValidInterval(start, end);
+    checkDimensions(width, height);
+    checkIntervalOverlap(scaleTransfomrations.get(name), start);
+    scaleTransfomrations.get(name).add(new ScaleTransform(start, end, width, height));
   }
 
   @Override
   public void setColor(String name, int start, int end, int r, int g, int b) {
-
+    checkNameExistence(name);
+    checkValidInterval(start, end);
+    checkRGB(r, g, b);
+    checkIntervalOverlap(colorTransfomrations.get(name), start);
+    colorTransfomrations.get(name).add(new ColorTransform(start, end, r, g, b));
   }
 
   @Override
-  public void deleteTransform(String name) {
+  public void deleteTransform(String name, TransformType type) {
     checkNameExistence(name);
-    if (transformations.get(name).isEmpty()) {
-      throw new IllegalArgumentException("The shape has no transformations.");
+    List<Deque<ITransform>> transforms = Stream.of(positionTransfomrations, scaleTransfomrations,
+            colorTransfomrations).map((l) -> (l.get(name))).collect(Collectors.toList());
+    for (Deque<ITransform> d : transforms) {
+      if (!d.isEmpty() && d.getFirst().getType() == type) {
+        d.removeLast();
+      }
     }
-    transformations.get(name).removeLast();
   }
 
   @Override
@@ -110,7 +135,23 @@ public class Animator implements IAnimator {
   }
 
   @Override
-  public IShape get(String name) {
+  public int getCanvasWidth() {
+    return width;
+  }
+
+  @Override
+  public int getCanvasHeight() {
+    return height;
+  }
+
+  @Override
+  public void setTickRate(int tick) {
+    this.tickRate = tick;
+  }
+
+
+  @Override
+  public IShape getShape(String name) {
     checkForNulls(name);
     checkNameExistence(name);
     return shapes.get(name).copy();
@@ -128,6 +169,7 @@ public class Animator implements IAnimator {
    * @throws IllegalArgumentException if the name does not exist.
    */
   private void checkNameExistence(String name) {
+    checkForNulls(name);
     if (!shapes.containsKey(name)) {
       throw new IllegalArgumentException("The given name does not exist.");
     }
@@ -198,6 +240,22 @@ public class Animator implements IAnimator {
   private void checkDimensions(double width, double height) {
     if (width <= 0 || height <= 0) {
       throw new IllegalArgumentException("Dimensions cannot be <= 0");
+    }
+  }
+
+  /**
+   * Checks the end time for the last transformed.
+   *
+   * @param list is the list of transforms.
+   * @param start is the start of the interval.
+   * @throws IllegalArgumentException is the transform leads to an overlap.
+   */
+  private void checkIntervalOverlap(Deque<ITransform> list, int start) {
+    if (!list.isEmpty()) {
+      int end = list.getLast().getInterval()[1];
+      if (start > end + 1) {
+        throw new IllegalArgumentException("Invalid start. Causes overlap");
+      }
     }
   }
 }

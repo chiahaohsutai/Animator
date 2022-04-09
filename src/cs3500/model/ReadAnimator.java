@@ -17,10 +17,11 @@ public interface ReadAnimator {
    * @throws IllegalArgumentException if the id/name doesn't exist.
    * @throws IllegalArgumentException if the given id/name is null.
    */
-  IShape get(String name);
+  IShape getShape(String name);
 
   /**
-   * Returns the tick rate of the model. The tick rate at which the animation plays.
+   * Returns the tick rate of the model. The tick rate at which the animation plays. The animation
+   * will return 1 by default unless the user sets a custom tick rate. 
    *
    * @return the tick rate of the animation.
    */

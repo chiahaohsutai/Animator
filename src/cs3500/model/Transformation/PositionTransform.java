@@ -14,7 +14,7 @@ public class PositionTransform extends ATransform {
    * @param y is the y-coordinate.
    *
    */
-  protected PositionTransform(int start, int end, double x, double y) {
+  public PositionTransform(int start, int end, double x, double y) {
     super(start, end);
     this.x = x;
     this.y = y;
