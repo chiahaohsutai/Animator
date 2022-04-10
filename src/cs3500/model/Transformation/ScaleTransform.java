@@ -32,6 +32,11 @@ public class ScaleTransform extends ATransform {
     return new double[] {width, height};
   }
 
+  @Override
+  public ITransform copy() {
+    return new ScaleTransform(start, end, width, height);
+  }
+
   /**
    * Checks that the dimensions are valid.
    *

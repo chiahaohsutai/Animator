@@ -21,8 +21,13 @@ public abstract class ATransform implements ITransform {
   }
 
   @Override
-  public int[] getInterval() {
-    return new int[] {start, end};
+  public int getEnd() {
+    return end;
+  }
+
+  @Override
+  public int getStart() {
+    return start;
   }
 
   /**

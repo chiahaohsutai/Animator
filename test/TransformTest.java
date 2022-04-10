@@ -8,7 +8,10 @@ import cs3500.model.Transformation.TransformType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
-public class ATransformTest {
+public class TransformTest {
+
+  // dummy constructor.
+  ITransform constructor;
 
   @Test
   public void testGetTypePosition() {
@@ -50,78 +53,123 @@ public class ATransformTest {
   }
 
   @Test
-  public void testGetIntervalPosition() {
+  public void testGetStartPosition() {
     ITransform t = new PositionTransform(0, 1, 10, 10);
-    int[] result = new int[] {0, 1};
-    assertArrayEquals(result, t.getInterval());
+    assertEquals(0, t.getStart());
   }
 
   @Test
-  public void testGetIntervalColor() {
+  public void testGetStartColor() {
     ITransform t = new ColorTransform(0, 1, 10, 10, 10);
-    int[] result = new int[] {0, 1};
-    assertArrayEquals(result, t.getInterval());
+    assertEquals(0, t.getStart());
   }
 
   @Test
-  public void testGetIntervalScale() {
+  public void testGetStartScale() {
     ITransform t = new ScaleTransform(0, 1, 10, 10);
-    int[] result = new int[] {0, 1};
-    assertArrayEquals(result, t.getInterval());
+    assertEquals(0, t.getStart());
+  }
+
+  @Test
+  public void testGetEndPosition() {
+    ITransform t = new PositionTransform(0, 1, 10, 10);
+    assertEquals(1, t.getEnd());
+  }
+
+  @Test
+  public void testGetEndColor() {
+    ITransform t = new ColorTransform(0, 1, 10, 10, 10);
+    assertEquals(1, t.getEnd());
+  }
+
+  @Test
+  public void testGetEndScale() {
+    ITransform t = new ScaleTransform(0, 1, 10, 10);
+    assertEquals(1, t.getEnd());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeColor() {
-    ITransform t = new ColorTransform(-1, 1, 1,1 ,1);
+    constructor = new ColorTransform(-1, 1, 1,1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimePosition() {
-    ITransform t = new PositionTransform(-1, 1, 1,1 );
+    constructor = new PositionTransform(-1, 1, 1,1 );
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeScale() {
-    ITransform t = new ScaleTransform(-1, 1, 1,1);
+    constructor = new ScaleTransform(-1, 1, 1,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeEndScale() {
-    ITransform t = new ScaleTransform(1, -1, 1,1);
+    constructor = new ScaleTransform(1, -1, 1,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeEndColor() {
-    ITransform t = new ColorTransform(1, -1, 1,1 ,1);
+    constructor = new ColorTransform(1, -1, 1,1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeEndPosition() {
-    ITransform t = new PositionTransform(1, -1, 1,1 );
+    constructor = new PositionTransform(1, -1, 1,1 );
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidWidthScale() {
-    ITransform t = new ScaleTransform(1, 1, -1,1);
+    constructor = new ScaleTransform(1, 1, -1,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidHeightScale() {
-    ITransform t = new ScaleTransform(1, 1, 1,-1);
+    constructor = new ScaleTransform(1, 1, 1,-1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidColorR() {
-    ITransform t = new ColorTransform(1, 1, -1,1 ,1);
+    constructor = new ColorTransform(1, 1, -1,1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidColorG() {
-    ITransform t = new ColorTransform(1, 1, 1,-1 ,1);
+    constructor = new ColorTransform(1, 1, 1,-1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidColorB() {
-    ITransform t = new ColorTransform(1, 1, 1,1 ,-1);
+    constructor = new ColorTransform(1, 1, 1,1 ,-1);
+  }
+
+  @Test
+  public void makeCopyColor() {
+    ITransform t1 = new ColorTransform(0, 1, 10, 10, 10);
+    ITransform t2 = t1.copy();
+    assertEquals(t2.getEnd(), t1.getEnd());
+    assertEquals(t2.getStart(), t1.getStart());
+    assertArrayEquals(t2.getData(), t1.getData(), 0.0001);
+    assertEquals(t2.getType(), t1.getType());
+  }
+
+  @Test
+  public void makeCopyScale() {
+    ITransform t1 = new ScaleTransform(0, 1, 10, 10);
+    ITransform t2 = t1.copy();
+    assertEquals(t2.getEnd(), t1.getEnd());
+    assertEquals(t2.getStart(), t1.getStart());
+    assertArrayEquals(t2.getData(), t1.getData(), 0.0001);
+    assertEquals(t2.getType(), t1.getType());
+  }
+
+  @Test
+  public void makeCopyMove() {
+    ITransform t1 = new PositionTransform(0, 1, 10, 10);
+    ITransform t2 = t1.copy();
+    assertEquals(t2.getEnd(), t1.getEnd());
+    assertEquals(t2.getStart(), t1.getStart());
+    assertArrayEquals(t2.getData(), t1.getData(), 0.0001);
+    assertEquals(t2.getType(), t1.getType());
   }
 }

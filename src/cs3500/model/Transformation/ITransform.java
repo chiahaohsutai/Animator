@@ -25,10 +25,23 @@ public interface ITransform {
   double[] getData();
 
   /**
-   * Gets the interval in which the transformation is happening. The interval is in the
-   * notion of ticks.
+   * Gets the interval in which the transformation ends.
    *
-   * @return the interval in which the transformation happens.
+   * @return the tick at which the transformation ends.
    */
-  int[] getInterval();
+  int getEnd();
+
+  /**
+   * Gets the start time of the transform.
+   *
+   * @return the start time of the transformation.
+   */
+  int getStart();
+
+  /**
+   * Makes a copy of the transform. A deep copy.
+   *
+   * @return a copy of the transform.
+   */
+  ITransform copy();
 }

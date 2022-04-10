@@ -2,6 +2,8 @@ package cs3500.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -31,10 +33,13 @@ public class Animator implements IAnimator {
   private final Map<String, IShape> shapes;
   private final Map<Integer, List<String>> creationTimes;
   private final Map<Integer, List<String>> obituaryTimes;
-  private final Map<String, Deque<ITransform>> colorTransfomrations;
-  private final Map<String, Deque<ITransform>> scaleTransfomrations;
-  private final Map<String, Deque<ITransform>> positionTransfomrations;
+  private final Map<String, Deque<ITransform>> colorTransformations;
+  private final Map<String, Deque<ITransform>> scaleTransformations;
+  private final Map<String, Deque<ITransform>> positionTransformations;
 
+  /**
+   * Creates an instance of an animator with a tick rate of 1 and a canvas dimension of 0x0.
+   */
   public Animator() {
     this.width = 0;
     this.height = 0;
@@ -42,9 +47,9 @@ public class Animator implements IAnimator {
     this.shapes = new LinkedHashMap<>();
     this.creationTimes = new TreeMap<>(Comparator.comparingInt(key -> key));
     this.obituaryTimes = new TreeMap<>(Comparator.comparingInt(key -> key));
-    this.colorTransfomrations = new HashMap<>();
-    this.scaleTransfomrations = new HashMap<>();
-    this.positionTransfomrations = new HashMap<>();
+    this.colorTransformations = new HashMap<>();
+    this.scaleTransformations = new HashMap<>();
+    this.positionTransformations = new HashMap<>();
   }
 
   @Override
@@ -57,16 +62,15 @@ public class Animator implements IAnimator {
     shapes.put(name, shape);
 
     // initialize a list if the key doesn't exist in the map.
-    for (Map<Integer, List<String>> m : Arrays.asList(creationTimes, obituaryTimes)) {
-      initializeMap(m, start);
-    }
+    initializeMap(obituaryTimes, end);
+    initializeMap(creationTimes, start);
     creationTimes.get(start).add(name);
     obituaryTimes.get(end).add(name);
 
     // create a space for transformations.
-    colorTransfomrations.put(name, new LinkedList<>());
-    scaleTransfomrations.put(name, new LinkedList<>());
-    positionTransfomrations.put(name, new LinkedList<>());
+    colorTransformations.put(name, new LinkedList<>());
+    scaleTransformations.put(name, new LinkedList<>());
+    positionTransformations.put(name, new LinkedList<>());
   }
 
   @Override
@@ -74,9 +78,9 @@ public class Animator implements IAnimator {
     checkForNulls(name);
     checkNameExistence(name);
     shapes.remove(name);
-    colorTransfomrations.remove(name);
-    positionTransfomrations.remove(name);
-    scaleTransfomrations.remove(name);
+    colorTransformations.remove(name);
+    positionTransformations.remove(name);
+    scaleTransformations.remove(name);
     // remove from the rest of data structures.
     for (Map<Integer, List<String>> m : Arrays.asList(creationTimes, obituaryTimes)) {
       for (List<String> names : m.values()) {
@@ -93,8 +97,9 @@ public class Animator implements IAnimator {
   public void move(String name, int start, int end, double xCoordinate, double yCoordinate) {
     checkNameExistence(name);
     checkValidInterval(start, end);
-    checkIntervalOverlap(positionTransfomrations.get(name), start);
-    positionTransfomrations.get(name).add(new PositionTransform(start, end, xCoordinate, yCoordinate));
+    checkIntervalOverlap(positionTransformations.get(name), start);
+    positionTransformations.get(name).add(new PositionTransform(start, end,
+            xCoordinate, yCoordinate));
   }
 
   @Override
@@ -102,8 +107,8 @@ public class Animator implements IAnimator {
     checkNameExistence(name);
     checkValidInterval(start, end);
     checkDimensions(width, height);
-    checkIntervalOverlap(scaleTransfomrations.get(name), start);
-    scaleTransfomrations.get(name).add(new ScaleTransform(start, end, width, height));
+    checkIntervalOverlap(scaleTransformations.get(name), start);
+    scaleTransformations.get(name).add(new ScaleTransform(start, end, width, height));
   }
 
   @Override
@@ -111,15 +116,14 @@ public class Animator implements IAnimator {
     checkNameExistence(name);
     checkValidInterval(start, end);
     checkRGB(r, g, b);
-    checkIntervalOverlap(colorTransfomrations.get(name), start);
-    colorTransfomrations.get(name).add(new ColorTransform(start, end, r, g, b));
+    checkIntervalOverlap(colorTransformations.get(name), start);
+    colorTransformations.get(name).add(new ColorTransform(start, end, r, g, b));
   }
 
   @Override
   public void deleteTransform(String name, TransformType type) {
     checkNameExistence(name);
-    List<Deque<ITransform>> transforms = Stream.of(positionTransfomrations, scaleTransfomrations,
-            colorTransfomrations).map((l) -> (l.get(name))).collect(Collectors.toList());
+    List<Deque<ITransform>> transforms = getTransforms(name);
     for (Deque<ITransform> d : transforms) {
       if (!d.isEmpty() && d.getFirst().getType() == type) {
         d.removeLast();
@@ -149,17 +153,41 @@ public class Animator implements IAnimator {
     this.tickRate = tick;
   }
 
-
   @Override
   public IShape getShape(String name) {
     checkForNulls(name);
-    checkNameExistence(name);
+    if (!shapes.containsKey(name)) {
+      return null;
+    }
     return shapes.get(name).copy();
   }
 
   @Override
   public int getTickRate() {
     return this.tickRate;
+  }
+
+  @Override
+  public Map<String, List<ITransform>> getState() {
+    Map<String, List<ITransform>> result = new HashMap<>();
+    for (String name : shapes.keySet()) {
+      List<ITransform> sortedList = new ArrayList<>();
+
+      // get the deque for the given name
+      List<Deque<ITransform>> transforms = getTransforms(name);
+      // filters the list (remove empty lists)
+      Stream<Deque<ITransform>> list = transforms.stream().filter(Collection::isEmpty);
+      // convert the stream into a list
+      List<Deque<ITransform>> nonEmpty = list.collect(Collectors.toList());
+
+      nonEmpty.forEach(sortedList::addAll);
+      sortedList.sort(Comparator.comparingInt(ITransform::getStart));
+      result.put(name, sortedList);
+    }
+    if (result.values().isEmpty()) {
+      return null;
+    }
+    return result;
   }
 
   /**
@@ -252,10 +280,21 @@ public class Animator implements IAnimator {
    */
   private void checkIntervalOverlap(Deque<ITransform> list, int start) {
     if (!list.isEmpty()) {
-      int end = list.getLast().getInterval()[1];
+      int end = list.getLast().getEnd();
       if (start > end + 1) {
         throw new IllegalArgumentException("Invalid start. Causes overlap");
       }
     }
+  }
+
+  /**
+   * Gets all the transformation for the given name.
+   *
+   * @param name is the shape of the shape.
+   * @return a list with all the position, scale, color transformation in the written order.
+   */
+  private List<Deque<ITransform>> getTransforms(String name) {
+    return Stream.of(positionTransformations, scaleTransformations,
+            colorTransformations).map((l) -> (l.get(name))).collect(Collectors.toList());
   }
 }

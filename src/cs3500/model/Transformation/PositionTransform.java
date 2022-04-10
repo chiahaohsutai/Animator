@@ -29,4 +29,9 @@ public class PositionTransform extends ATransform {
   public double[] getData() {
     return new double[] {x, y};
   }
+
+  @Override
+  public ITransform copy() {
+    return new PositionTransform(start, end, x, y);
+  }
 }

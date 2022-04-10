@@ -1,6 +1,10 @@
 package cs3500.model;
 
+import java.util.List;
+import java.util.Map;
+
 import cs3500.model.Shape.IShape;
+import cs3500.model.Transformation.ITransform;
 
 /**
  * This interface contains all the observable operations of the simple animator. The simple animator
@@ -14,16 +18,27 @@ public interface ReadAnimator {
    * Gets the shape with the given id.
    *
    * @param name is the name/id of the shape you want to get.
-   * @throws IllegalArgumentException if the id/name doesn't exist.
    * @throws IllegalArgumentException if the given id/name is null.
+   * @return the shape associated with the id if the id exists in the animator or null if the shape
+   *     does not exist in the animator.
    */
   IShape getShape(String name);
 
   /**
    * Returns the tick rate of the model. The tick rate at which the animation plays. The animation
-   * will return 1 by default unless the user sets a custom tick rate. 
+   * will return 1 by default unless the user sets a custom tick rate.
    *
    * @return the tick rate of the animation.
    */
   int getTickRate();
+
+  /**
+   * Gets the current state of the model, where the keys are the name of the shape and the value
+   * list is a list of all the transforms the shape goes through during the animation. The values
+   * of the list are sorted by start. This means that the ITransforms in the list are sorted in
+   * increasing order of start time.
+   *
+   * @return the state of the model or null if there have been no changes in the model.
+   */
+  Map<String, List<ITransform>> getState();
 }

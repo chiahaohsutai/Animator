@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * This class represents the unit tests for the functionality of the SShape class. It tests
  * that the mutating methods function appropriately and that the getters return the correct value.
  */
-public class AShapeTest {
+public class ShapeTest {
 
   // to test the constructor.
   IShape constructor;

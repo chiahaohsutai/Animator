@@ -38,6 +38,11 @@ public class ColorTransform extends ATransform {
     return new double[] {values[0], values[1], values[2]};
   }
 
+  @Override
+  public ITransform copy() {
+    return new ColorTransform(start, end, color.getRed(), color.getGreen(), color.getBlue());
+  }
+
   /**
    * Checks that the RGB values are in the range [0, 255].
    * @param r is the red component of the RGB.
