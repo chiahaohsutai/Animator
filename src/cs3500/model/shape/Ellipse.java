@@ -1,4 +1,4 @@
-package cs3500.model.Shape;
+package cs3500.model.shape;
 
 /**
  * Create a circular/elliptical geometric shape.
@@ -17,7 +17,6 @@ public class Ellipse extends AShape {
    * @param b is the blue component in an sRGB color.
    * @throws IllegalArgumentException if any RGB value is not in the range [0, 255].
    * @throws IllegalArgumentException if high or width are less than or equal to 0.
-   * @throws IllegalArgumentException if the type is null.
    */
   public Ellipse(double w, double h, double x, double y, int r, int g, int b) {
     super(w, h, x, y, r, g, b);
@@ -25,6 +24,14 @@ public class Ellipse extends AShape {
 
   @Override
   public IShape copy() {
-    return new Ellipse(getWidth(), getHeight(), getX(), getY(), getRed(), getGreen(), getBlue());
+    Ellipse e = new Ellipse(getWidth(), getHeight(), getX(), getY(), getRed(),
+            getGreen(), getBlue());
+    e.setName(e.getName());
+    return e;
+  }
+
+  @Override
+  public void visitor(ISVisitor visitor) {
+    visitor.visitEllipse(this);
   }
 }

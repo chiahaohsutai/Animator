@@ -1,7 +1,9 @@
-package cs3500.model.Shape;
+package cs3500.model.shape;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -9,6 +11,7 @@ import java.util.stream.Stream;
  * geometric or non-geometric form of the shape.
  */
 public abstract class AShape implements IShape {
+  protected String name;
   protected double height;
   protected double width;
   protected Color color;
@@ -27,7 +30,6 @@ public abstract class AShape implements IShape {
    * @param b is the blue component in an sRGB color.
    * @throws IllegalArgumentException if any RGB value is not in the range [0, 255].
    * @throws IllegalArgumentException if high or width are less than or equal to 0.
-   * @throws IllegalArgumentException if the type is null.
    */
   protected AShape(double w, double h, double x, double y, int r, int g, int b) {
     checkRGB(r, g, b);
@@ -36,6 +38,7 @@ public abstract class AShape implements IShape {
     this.position = new Point2D.Double(x, y);
     this.height = h;
     this.width = w;
+    this.name = null;
   }
 
   /**
@@ -44,6 +47,11 @@ public abstract class AShape implements IShape {
    * @return a copy of the shape.
    */
   public abstract IShape copy();
+
+  @Override
+  public String getName() {
+    return this.name;
+  }
 
   @Override
   public void move(double x, double y) {
@@ -101,6 +109,12 @@ public abstract class AShape implements IShape {
     return this.height;
   }
 
+  @Override
+  public void setName(String name) {
+    checkForNulls(name);
+    this.name = name;
+  }
+
   /**
    * Checks that the RGB values are in the range [0, 255].
    * @param r is the red component of the RGB.
@@ -125,6 +139,18 @@ public abstract class AShape implements IShape {
   protected void checkDimensions(double w, double h) {
     if (w <= 0 || h <= 0) {
       throw new IllegalArgumentException("The parameters need to be > 0");
+    }
+  }
+
+  /**
+   * Check is any of the given values is null.
+   *
+   * @param o is an array of parameters which will be checked for null.
+   * @throws IllegalArgumentException if any value is null in the array.
+   */
+  protected void checkForNulls(Object... o) {
+    if (Arrays.stream(o).anyMatch(Objects::isNull)) {
+      throw new IllegalArgumentException("Cannot have null values.");
     }
   }
 }

@@ -1,4 +1,4 @@
-package cs3500.model.Transformation;
+package cs3500.model.transformation;
 
 public class PositionTransform extends ATransform {
   private final double x;

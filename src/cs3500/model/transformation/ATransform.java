@@ -1,4 +1,4 @@
-package cs3500.model.Transformation;
+package cs3500.model.transformation;
 
 /**
  * Represents a transformation for a given object. A transformation happens in a time interval,

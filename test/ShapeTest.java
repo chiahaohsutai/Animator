@@ -1,10 +1,11 @@
 import org.junit.Test;
 
-import cs3500.model.Shape.Ellipse;
-import cs3500.model.Shape.IShape;
-import cs3500.model.Shape.Rect;
+import cs3500.model.shape.Ellipse;
+import cs3500.model.shape.IShape;
+import cs3500.model.shape.Rect;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * This class represents the unit tests for the functionality of the SShape class. It tests
@@ -255,5 +256,14 @@ public class ShapeTest {
     assertEquals(rect_copy.getBlue(), rect.getBlue());
     assertEquals(rect_copy.getWidth(), rect.getWidth(), 0.0001);
     assertEquals(rect_copy.getHeight(), rect.getHeight(), 0.0001);
+    assertEquals(rect_copy.getName(), rect.getName());
+  }
+
+  @Test
+  public void getName() {
+    initRect();
+    assertNull(rect.getName());
+    rect.
+    assertEquals();
   }
 }

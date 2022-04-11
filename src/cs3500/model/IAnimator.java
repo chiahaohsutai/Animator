@@ -1,7 +1,7 @@
 package cs3500.model;
 
-import cs3500.model.Shape.IShape;
-import cs3500.model.Transformation.TransformType;
+import cs3500.model.shape.IShape;
+import cs3500.model.transformation.TransformType;
 
 /**
  * This interface contains all the mutable operations of the simple animator. The simple animator
@@ -95,20 +95,6 @@ public interface IAnimator extends ReadAnimator {
    * @throws IllegalArgumentException if the with or height <= 0;
    */
   void setBounds(int width, int height);
-
-  /**
-   * Gets the width of the canvas. If the dimensions have not been set yet the return will be 0.
-   *
-   * @return the width of the canvas.
-   */
-  int getCanvasWidth();
-
-  /**
-   * Gets the height of the canvas. If the dimensions have not been set yet the return will be 0.
-   *
-   * @return the height of the canvas.
-   */
-  int getCanvasHeight();
 
   /**
    * Sets the tick rate for the animation (in ticks per second).

@@ -2,8 +2,6 @@ package cs3500.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -15,12 +13,12 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import cs3500.model.Shape.IShape;
-import cs3500.model.Transformation.ColorTransform;
-import cs3500.model.Transformation.ITransform;
-import cs3500.model.Transformation.PositionTransform;
-import cs3500.model.Transformation.ScaleTransform;
-import cs3500.model.Transformation.TransformType;
+import cs3500.model.shape.IShape;
+import cs3500.model.transformation.ColorTransform;
+import cs3500.model.transformation.ITransform;
+import cs3500.model.transformation.PositionTransform;
+import cs3500.model.transformation.ScaleTransform;
+import cs3500.model.transformation.TransformType;
 
 /**
  * Represents an animator that can animate simple geometric shapes. Tracks the state of each shape
@@ -176,7 +174,7 @@ public class Animator implements IAnimator {
       // get the deque for the given name
       List<Deque<ITransform>> transforms = getTransforms(name);
       // filters the list (remove empty lists)
-      Stream<Deque<ITransform>> list = transforms.stream().filter(Collection::isEmpty);
+      Stream<Deque<ITransform>> list = transforms.stream().filter(l -> !l.isEmpty());
       // convert the stream into a list
       List<Deque<ITransform>> nonEmpty = list.collect(Collectors.toList());
 
@@ -281,7 +279,7 @@ public class Animator implements IAnimator {
   private void checkIntervalOverlap(Deque<ITransform> list, int start) {
     if (!list.isEmpty()) {
       int end = list.getLast().getEnd();
-      if (start > end + 1) {
+      if (start < end) {
         throw new IllegalArgumentException("Invalid start. Causes overlap");
       }
     }

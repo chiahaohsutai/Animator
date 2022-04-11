@@ -1,4 +1,4 @@
-package cs3500.model.Shape;
+package cs3500.model.shape;
 
 /**
  * Represents a mutable shape that has the ability to move, change size and set its color. Details
@@ -92,4 +92,22 @@ public interface IShape {
    * @return returns a copy of the object calling the method.
    */
   IShape copy();
+
+  /**
+   * Accepts a visitor to the shape.
+   *
+   * @param visitor is the visitor that is visiting the class.
+   * @throws IllegalArgumentException if the visitor is null.
+   */
+  void visitor(ISVisitor visitor);
+
+  /**
+   * Gets the name of the shape.
+   */
+  String getName();
+
+  /**
+   * Sets the name of the shape. The shape has null for name as default.
+   */
+  void setName(String name);
 }

@@ -1,6 +1,4 @@
-package cs3500.model.Transformation;
-
-import cs3500.model.Transformation.TransformType;
+package cs3500.model.transformation;
 
 /**
  * Represents a transformation in an animation. A transformation refers to any type of change that

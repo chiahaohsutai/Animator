@@ -1,10 +1,10 @@
 import org.junit.Test;
 
-import cs3500.model.Transformation.ColorTransform;
-import cs3500.model.Transformation.ITransform;
-import cs3500.model.Transformation.PositionTransform;
-import cs3500.model.Transformation.ScaleTransform;
-import cs3500.model.Transformation.TransformType;
+import cs3500.model.transformation.ColorTransform;
+import cs3500.model.transformation.ITransform;
+import cs3500.model.transformation.PositionTransform;
+import cs3500.model.transformation.ScaleTransform;
+import cs3500.model.transformation.TransformType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 

@@ -3,8 +3,8 @@ package cs3500.model;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.model.Shape.IShape;
-import cs3500.model.Transformation.ITransform;
+import cs3500.model.shape.IShape;
+import cs3500.model.transformation.ITransform;
 
 /**
  * This interface contains all the observable operations of the simple animator. The simple animator
@@ -41,4 +41,18 @@ public interface ReadAnimator {
    * @return the state of the model or null if there have been no changes in the model.
    */
   Map<String, List<ITransform>> getState();
+
+  /**
+   * Gets the width of the canvas. If the dimensions have not been set yet the return will be 0.
+   *
+   * @return the width of the canvas.
+   */
+  int getCanvasWidth();
+
+  /**
+   * Gets the height of the canvas. If the dimensions have not been set yet the return will be 0.
+   *
+   * @return the height of the canvas.
+   */
+  int getCanvasHeight();
 }

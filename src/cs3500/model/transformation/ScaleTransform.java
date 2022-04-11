@@ -1,4 +1,4 @@
-package cs3500.model.Transformation;
+package cs3500.model.transformation;
 
 /**
  * Represents a transformation that scales the given object to a new scale.

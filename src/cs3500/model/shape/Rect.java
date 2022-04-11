@@ -1,4 +1,4 @@
-package cs3500.model.Shape;
+package cs3500.model.shape;
 
 /**
  * Represents a rectangular parallelogram with a color and a position.
@@ -15,6 +15,8 @@ public class Rect extends AShape {
    * @param r is red-component for an RGB color.
    * @param g is the green-component for an RGB color.
    * @param b is the blue-component for an RGB color.
+   * @throws IllegalArgumentException if any RGB value is not in the range [0, 255].
+   * @throws IllegalArgumentException if high or width are less than or equal to 0.
    */
   public Rect(double w, double h, double x, double y, int r, int g, int b) {
     super(w, h, x, y, r, g, b);
@@ -22,6 +24,16 @@ public class Rect extends AShape {
 
   @Override
   public IShape copy() {
-    return new Rect(getWidth(), getHeight(), getX(), getY(), getRed(), getGreen(), getBlue());
+    Rect r = new Rect(getWidth(), getHeight(), getX(), getY(), getRed(),
+            getGreen(), getBlue());
+    r.setName(r.getName());
+    return r;
   }
+
+  @Override
+  public void visitor(ISVisitor visitor) {
+    visitor.visitRect(this);
+  }
+
+
 }
