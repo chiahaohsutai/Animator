@@ -58,7 +58,7 @@ public class Animator implements IAnimator {
       throw new IllegalArgumentException("The given shape or name already exists.");
     }
     shapes.put(name, shape);
-
+    shape.setName(name);
     // initialize a list if the key doesn't exist in the map.
     initializeMap(obituaryTimes, end);
     initializeMap(creationTimes, start);
@@ -75,6 +75,7 @@ public class Animator implements IAnimator {
   public void remove(String name) {
     checkForNulls(name);
     checkNameExistence(name);
+    shapes.get(name).setName(null);
     shapes.remove(name);
     colorTransformations.remove(name);
     positionTransformations.remove(name);
@@ -152,6 +153,16 @@ public class Animator implements IAnimator {
   }
 
   @Override
+  public int getStart(String name) {
+    return getTick(name, creationTimes);
+  }
+
+  @Override
+  public int getEnd(String name) {
+    return getTick(name, obituaryTimes);
+  }
+
+  @Override
   public IShape getShape(String name) {
     checkForNulls(name);
     if (!shapes.containsKey(name)) {
@@ -187,6 +198,8 @@ public class Animator implements IAnimator {
     }
     return result;
   }
+
+
 
   /**
    * Checks if the given name corresponds to a shape in the animator.
@@ -294,5 +307,23 @@ public class Animator implements IAnimator {
   private List<Deque<ITransform>> getTransforms(String name) {
     return Stream.of(positionTransformations, scaleTransformations,
             colorTransformations).map((l) -> (l.get(name))).collect(Collectors.toList());
+  }
+
+  /**
+   * Gets the tick at which the shape is being created or destroyed.
+   *
+   * @param name is the name of the shape.
+   * @param ticks map of ticks and shapes.
+   * @return the tick at which the name appears.
+   */
+  private int getTick(String name, Map<Integer, List<String>> ticks) {
+    checkNameExistence(name);
+    for (Map.Entry<Integer, List<String>> names : ticks.entrySet()) {
+      if (!names.getValue().contains(name)) {
+        continue;
+      }
+      return names.getKey();
+    }
+    throw new IllegalArgumentException("The name is not in the animator");
   }
 }

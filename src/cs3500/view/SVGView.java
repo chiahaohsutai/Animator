@@ -32,7 +32,9 @@ public class SVGView extends TextualView {
     Map<String, List<ITransform>> states = animator.getState();
 
     if (Objects.isNull(states)) {
-      svg.add(setCanvas(animator.getCanvasWidth(), animator.getCanvasHeight()) + "</svg>");
+      svg.add(setCanvas(animator.getCanvasWidth(), animator.getCanvasHeight()));
+
+      svg.add("</svg>");
       //render(String.join());
     }
 

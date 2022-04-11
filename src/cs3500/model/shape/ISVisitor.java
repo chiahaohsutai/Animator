@@ -9,6 +9,7 @@ public interface ISVisitor {
    * Visits the React Class and executes functionality according to the visitor.
    *
    * @param rect is the rectangle that will be visited.
+   * @throws IllegalArgumentException if the shape is null.
    */
   void visitRect(Rect rect);
 
@@ -16,6 +17,7 @@ public interface ISVisitor {
    * Visits the Ellipse Class and executes functionality according to the visitor.
    *
    * @param ellipse is the ellipse being visited.
+   * @throws IllegalArgumentException if the shape is null.
    */
   void visitEllipse(Ellipse ellipse);
 }

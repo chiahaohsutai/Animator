@@ -2,8 +2,6 @@ package cs3500.model.shape;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -111,7 +109,6 @@ public abstract class AShape implements IShape {
 
   @Override
   public void setName(String name) {
-    checkForNulls(name);
     this.name = name;
   }
 
@@ -139,18 +136,6 @@ public abstract class AShape implements IShape {
   protected void checkDimensions(double w, double h) {
     if (w <= 0 || h <= 0) {
       throw new IllegalArgumentException("The parameters need to be > 0");
-    }
-  }
-
-  /**
-   * Check is any of the given values is null.
-   *
-   * @param o is an array of parameters which will be checked for null.
-   * @throws IllegalArgumentException if any value is null in the array.
-   */
-  protected void checkForNulls(Object... o) {
-    if (Arrays.stream(o).anyMatch(Objects::isNull)) {
-      throw new IllegalArgumentException("Cannot have null values.");
     }
   }
 }

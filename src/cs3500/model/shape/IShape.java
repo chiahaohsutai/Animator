@@ -108,6 +108,8 @@ public interface IShape {
 
   /**
    * Sets the name of the shape. The shape has null for name as default.
+   *
+   * @param name is the name for the shape.
    */
   void setName(String name);
 }

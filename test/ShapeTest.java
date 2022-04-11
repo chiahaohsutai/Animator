@@ -263,7 +263,7 @@ public class ShapeTest {
   public void getName() {
     initRect();
     assertNull(rect.getName());
-    rect.
-    assertEquals();
+    rect.setName("cholo");
+    assertEquals("cholo", rect.getName());
   }
 }
