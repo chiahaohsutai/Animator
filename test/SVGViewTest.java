@@ -2,9 +2,11 @@ import org.junit.Test;
 
 import cs3500.model.Animator;
 import cs3500.model.IAnimator;
+import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.Rect;
 import cs3500.view.IView;
 import cs3500.view.SVGView;
+import cs3500.view.TextView;
 
 import static org.junit.Assert.*;
 
@@ -48,6 +50,25 @@ public class SVGViewTest {
             "attributeName=\"height\" from=\"10.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
             "</rect>\n" +
             "</svg>";
+    assertEquals(expected, output.toString());
+  }
+
+  @Test
+  public void testTextEllipse() {
+    IAnimator animator = new Animator();
+    animator.setTickRate(2);
+    animator.setBounds(100, 100);
+    animator.add("ellipse", new Ellipse(10, 10, 1, 1, 100, 100, 100),
+            0, 20);
+    animator.move("ellipse", 0,2, 20, 10);
+    animator.setColor("ellipse", 1, 3, 130, 10, 200);
+    animator.move("ellipse", 3, 4, 40, 30);
+    animator.reScale("ellipse", 4, 5, 20, 10);
+
+    Appendable output = new StringBuilder();
+    IView view = new SVGView(animator, output);
+    view.render();
+    String expected = "";
     assertEquals(expected, output.toString());
   }
 }

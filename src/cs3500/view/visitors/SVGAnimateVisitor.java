@@ -20,11 +20,7 @@ public class SVGAnimateVisitor implements ISVisitor {
 
   @Override
   public void visitEllipse(Ellipse ellipse) {
-    if (ellipse.getWidth() == ellipse.getHeight()) {
-      tags = String.join(" ", Arrays.asList("cx", "cy", "r"));
-    } else {
-      tags = String.join(" ", Arrays.asList("cx", "cy", "rx", "ry"));
-    }
+    tags = String.join(" ", Arrays.asList("cx", "cy", "rx", "ry"));
   }
 
   @Override

@@ -26,7 +26,7 @@ public class Ellipse extends AShape {
   public IShape copy() {
     IShape e = new Ellipse(getWidth(), getHeight(), getX(), getY(), getRed(),
             getGreen(), getBlue());
-    e.setName(e.getName());
+    e.setName(this.getName());
     return e;
   }
 

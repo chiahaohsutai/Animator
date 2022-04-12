@@ -3,7 +3,6 @@ package cs3500.view.visitors;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
 import cs3500.model.transformation.ColorTransform;

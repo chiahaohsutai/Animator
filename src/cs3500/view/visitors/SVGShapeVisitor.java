@@ -27,17 +27,10 @@ public class SVGShapeVisitor implements ISVisitor {
   @Override
   public void visitEllipse(Ellipse ellipse) {
     checkForNulls(ellipse);
-    if (ellipse.getHeight() == ellipse.getWidth()) {
-      this.results = String.format("<circle id=\"%s\" cx=\"%.3f\" cy=\"%.3f\" r=\"%.3f\" " +
-              "fill=\"rgb(%d,%d,%d)\" visibility=\"hidden\">\n</circle>",
-              ellipse.getName(), ellipse.getX(), ellipse.getY(), ellipse.getHeight(),
-              ellipse.getRed(), ellipse.getGreen(), ellipse.getBlue());
-    } else {
-      this.results = String.format("<ellipse id=\"%s\" cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" " +
-                      "ry=\"%.3f\" fill=\"rgb(%d,%d,%d)\" visibility=\"hidden\">\n</ellipse>",
-              ellipse.getName(), ellipse.getX(), ellipse.getY(), ellipse.getWidth(),
-              ellipse.getHeight(), ellipse.getRed(), ellipse.getGreen(), ellipse.getBlue());
-    }
+    this.results = String.format("<ellipse id=\"%s\" cx=\"%.3f\" cy=\"%.3f\" rx=\"%.3f\" " +
+                    "ry=\"%.3f\" fill=\"rgb(%d,%d,%d)\" visibility=\"hidden\">\n</ellipse>",
+            ellipse.getName(), ellipse.getX(), ellipse.getY(), ellipse.getWidth(),
+            ellipse.getHeight(), ellipse.getRed(), ellipse.getGreen(), ellipse.getBlue());
   }
 
   @Override

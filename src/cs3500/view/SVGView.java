@@ -120,16 +120,4 @@ public class SVGView extends TextualView {
             "attributeType=\"CSS\" to=\"visible\" begin=\"%.3fs\" dur=\"%.3fs\" " +
             "fill=\"freeze\"/>", start, duration);
   }
-
-  /**
-   * Adds the SVG tags to the output location.
-   *
-   * @param list is the svg tags in a list format.
-   */
-  private void render(List<String> list) {
-    try { output.append(String.join("\n", list)); }
-    catch (IOException e) {
-      throw new IllegalStateException("Failed to render the svg.");
-    }
-  }
 }
