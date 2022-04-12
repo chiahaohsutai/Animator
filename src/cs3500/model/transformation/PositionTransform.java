@@ -1,6 +1,8 @@
 package cs3500.model.transformation;
 
 public class PositionTransform extends ATransform {
+  private final double oldX;
+  private final double oldY;
   private final double x;
   private final double y;
 
@@ -14,8 +16,10 @@ public class PositionTransform extends ATransform {
    * @param y is the y-coordinate.
    *
    */
-  public PositionTransform(int start, int end, double x, double y) {
+  public PositionTransform(int start, int end, double oldX, double oldY, double x, double y) {
     super(start, end);
+    this.oldX = oldX;
+    this.oldY = oldY;
     this.x = x;
     this.y = y;
   }
@@ -32,6 +36,12 @@ public class PositionTransform extends ATransform {
 
   @Override
   public ITransform copy() {
-    return new PositionTransform(start, end, x, y);
+    return new PositionTransform(start, end, oldX, oldY, x, y);
+  }
+
+  @Override
+  public void visitor(ITVisitor visitor) {
+    checkForNulls(visitor);
+    visitor.visitPosition(this);
   }
 }

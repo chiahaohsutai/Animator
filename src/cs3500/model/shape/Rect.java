@@ -32,6 +32,7 @@ public class Rect extends AShape {
 
   @Override
   public void visitor(ISVisitor visitor) {
+    checkForNulls(visitor);
     visitor.visitRect(this);
   }
 

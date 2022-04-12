@@ -1,5 +1,8 @@
 package cs3500.model.transformation;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Represents a transformation for a given object. A transformation happens in a time interval,
  * and it refers to a change in the field of the object.
@@ -41,6 +44,18 @@ public abstract class ATransform implements ITransform {
   private void checkValidInterval(int start, int end) {
     if (start > end || start < 0) {
       throw new IllegalArgumentException("Invalid tick interval.");
+    }
+  }
+
+  /**
+   * Check is any of the given values is null.
+   *
+   * @param o is an array of parameters which will be checked for null.
+   * @throws IllegalArgumentException if any value is null in the array.
+   */
+  protected void checkForNulls(Object... o) {
+    if (Arrays.stream(o).anyMatch(Objects::isNull)) {
+      throw new IllegalArgumentException("Cannot have null values.");
     }
   }
 }

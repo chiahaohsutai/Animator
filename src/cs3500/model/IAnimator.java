@@ -103,22 +103,4 @@ public interface IAnimator extends ReadAnimator {
    * @throws IllegalArgumentException if the tick rate is 0 or negative.
    */
   void setTickRate(int tick);
-
-  /**
-   * Gets the tick at which the given shape appears.
-   *
-   * @param name is the name oof the shape.
-   * @throws IllegalArgumentException if the name is not in the animator.
-   * @throws IllegalArgumentException if the name is null.
-   */
-  int getStart(String name);
-
-  /**
-   * Guest the tick at which the given shape disappears.
-   *
-   * @param name is the name of the shape.
-   * @throws IllegalArgumentException if the name is not in the animator.
-   * @throws IllegalArgumentException if the name is null.
-   */
-  int getEnd(String name);
 }

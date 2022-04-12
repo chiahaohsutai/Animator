@@ -15,7 +15,7 @@ public class TransformTest {
 
   @Test
   public void testGetTypePosition() {
-    ITransform t = new PositionTransform(0, 1, 10, 10);
+    ITransform t = new PositionTransform(0, 1, 1, 1, 10, 10);
     assertEquals(TransformType.POSITION, t.getType());
   }
 
@@ -27,13 +27,13 @@ public class TransformTest {
 
   @Test
   public void testGetTypeScale() {
-    ITransform t = new ScaleTransform(0, 1, 10, 10);
+    ITransform t = new ScaleTransform(0, 1, 1, 1, 10, 10);
     assertEquals(TransformType.SCALE, t.getType());
   }
 
   @Test
   public void testGetDataPosition() {
-    ITransform t = new PositionTransform(0, 1, 10, 10);
+    ITransform t = new PositionTransform(0, 1, 1, 1, 10, 10);
     double[] result = new double[] {10, 10};
     assertArrayEquals(result, t.getData(), 0.0001);
   }
@@ -47,14 +47,14 @@ public class TransformTest {
 
   @Test
   public void testGetDataScale() {
-    ITransform t = new ScaleTransform(0, 1, 10, 10);
+    ITransform t = new ScaleTransform(0, 1, 1, 1,10, 10);
     double[] result = new double[] {10, 10};
     assertArrayEquals(result, t.getData(), 0.0001);
   }
 
   @Test
   public void testGetStartPosition() {
-    ITransform t = new PositionTransform(0, 1, 10, 10);
+    ITransform t = new PositionTransform(0, 1, 1, 1, 10, 10);
     assertEquals(0, t.getStart());
   }
 
@@ -66,13 +66,13 @@ public class TransformTest {
 
   @Test
   public void testGetStartScale() {
-    ITransform t = new ScaleTransform(0, 1, 10, 10);
+    ITransform t = new ScaleTransform(0, 1, 1, 1, 10, 10);
     assertEquals(0, t.getStart());
   }
 
   @Test
   public void testGetEndPosition() {
-    ITransform t = new PositionTransform(0, 1, 10, 10);
+    ITransform t = new PositionTransform(0, 1, 1, 1, 10, 10);
     assertEquals(1, t.getEnd());
   }
 
@@ -84,7 +84,7 @@ public class TransformTest {
 
   @Test
   public void testGetEndScale() {
-    ITransform t = new ScaleTransform(0, 1, 10, 10);
+    ITransform t = new ScaleTransform(0, 1, 1, 1, 10, 10);
     assertEquals(1, t.getEnd());
   }
 
@@ -95,17 +95,17 @@ public class TransformTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimePosition() {
-    constructor = new PositionTransform(-1, 1, 1,1 );
+    constructor = new PositionTransform(-1, 1, 0,0, 1, 1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeScale() {
-    constructor = new ScaleTransform(-1, 1, 1,1);
+    constructor = new ScaleTransform(-1, 1, 1, 1, 2,2);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeEndScale() {
-    constructor = new ScaleTransform(1, -1, 1,1);
+    constructor = new ScaleTransform(1, -1, 1, 1, 1,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -115,17 +115,17 @@ public class TransformTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeEndPosition() {
-    constructor = new PositionTransform(1, -1, 1,1 );
+    constructor = new PositionTransform(1, -1, 0,0, 1, 1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidWidthScale() {
-    constructor = new ScaleTransform(1, 1, -1,1);
+    constructor = new ScaleTransform(1, 1, 1, 1, -1,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidHeightScale() {
-    constructor = new ScaleTransform(1, 1, 1,-1);
+    constructor = new ScaleTransform(1, 1, 1, 1, 1,-1);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -155,7 +155,7 @@ public class TransformTest {
 
   @Test
   public void makeCopyScale() {
-    ITransform t1 = new ScaleTransform(0, 1, 10, 10);
+    ITransform t1 = new ScaleTransform(0, 1, 1, 1, 10, 10);
     ITransform t2 = t1.copy();
     assertEquals(t2.getEnd(), t1.getEnd());
     assertEquals(t2.getStart(), t1.getStart());
@@ -165,7 +165,7 @@ public class TransformTest {
 
   @Test
   public void makeCopyMove() {
-    ITransform t1 = new PositionTransform(0, 1, 10, 10);
+    ITransform t1 = new PositionTransform(0, 1, 1, 1, 10, 10);
     ITransform t2 = t1.copy();
     assertEquals(t2.getEnd(), t1.getEnd());
     assertEquals(t2.getStart(), t1.getStart());

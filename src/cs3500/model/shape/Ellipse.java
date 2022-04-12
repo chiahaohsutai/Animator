@@ -32,6 +32,7 @@ public class Ellipse extends AShape {
 
   @Override
   public void visitor(ISVisitor visitor) {
+    checkForNulls(visitor);
     visitor.visitEllipse(this);
   }
 }

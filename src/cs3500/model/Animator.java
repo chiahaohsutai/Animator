@@ -97,7 +97,15 @@ public class Animator implements IAnimator {
     checkNameExistence(name);
     checkValidInterval(start, end);
     checkIntervalOverlap(positionTransformations.get(name), start);
-    positionTransformations.get(name).add(new PositionTransform(start, end,
+    ITransform t = positionTransformations.get(name).peekLast();
+    if (Objects.isNull(t)) {
+      IShape s = shapes.get(name);
+      positionTransformations.get(name).add(new PositionTransform(start, end,
+              s.getX(), s.getY(), xCoordinate, yCoordinate));
+      return;
+    }
+    double[] data = t.getData();
+    positionTransformations.get(name).add(new PositionTransform(start, end, data[0], data[1],
             xCoordinate, yCoordinate));
   }
 
@@ -107,7 +115,16 @@ public class Animator implements IAnimator {
     checkValidInterval(start, end);
     checkDimensions(width, height);
     checkIntervalOverlap(scaleTransformations.get(name), start);
-    scaleTransformations.get(name).add(new ScaleTransform(start, end, width, height));
+    ITransform t = scaleTransformations.get(name).peekLast();
+    if (Objects.isNull(t)) {
+      IShape s = shapes.get(name);
+      scaleTransformations.get(name).add(new ScaleTransform(start, end, s.getWidth(),
+              s.getHeight(), width, height));
+      return;
+    }
+    double[] data = t.getData();
+    scaleTransformations.get(name).add(new ScaleTransform(start, end, data[0], data[1],
+            width, height));
   }
 
   @Override
@@ -199,7 +216,14 @@ public class Animator implements IAnimator {
     return result;
   }
 
-
+  @Override
+  public List<IShape> getShapes() {
+    List<IShape> shapesList = new ArrayList<>();
+    for (IShape shape : shapes.values()) {
+      shapesList.add(shape.copy());
+    }
+    return shapesList;
+  }
 
   /**
    * Checks if the given name corresponds to a shape in the animator.

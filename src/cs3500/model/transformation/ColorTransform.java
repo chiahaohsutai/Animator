@@ -43,6 +43,12 @@ public class ColorTransform extends ATransform {
     return new ColorTransform(start, end, color.getRed(), color.getGreen(), color.getBlue());
   }
 
+  @Override
+  public void visitor(ITVisitor visitor) {
+    checkForNulls(visitor);
+    visitor.visitColor(this);
+  }
+
   /**
    * Checks that the RGB values are in the range [0, 255].
    * @param r is the red component of the RGB.

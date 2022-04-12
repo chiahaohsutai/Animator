@@ -42,4 +42,11 @@ public interface ITransform {
    * @return a copy of the transform.
    */
   ITransform copy();
+
+  /**
+   * Accepts a visitor. The visitor determines the functionality of the method.
+   *
+   * @throws IllegalArgumentException if the visitor is null.
+   */
+  void visitor(ITVisitor visitor);
 }

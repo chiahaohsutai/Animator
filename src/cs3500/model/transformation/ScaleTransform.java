@@ -4,6 +4,8 @@ package cs3500.model.transformation;
  * Represents a transformation that scales the given object to a new scale.
  */
 public class ScaleTransform extends ATransform {
+  private final double oldW;
+  private final double oldH;
   private final double width;
   private final double height;
 
@@ -15,9 +17,12 @@ public class ScaleTransform extends ATransform {
    * @param width is the width of the new scale.
    * @param height is the height of the new scale.
    */
-  public ScaleTransform(int start, int end, double width, double height) {
+  public ScaleTransform(int start, int end, double oldW, double oldH, double width, double height) {
     super(start, end);
     checkDimensions(width, height);
+    checkDimensions(oldW, oldH);
+    this.oldW = oldW;
+    this.oldH = oldH;
     this.width = width;
     this.height = height;
   }
@@ -34,7 +39,13 @@ public class ScaleTransform extends ATransform {
 
   @Override
   public ITransform copy() {
-    return new ScaleTransform(start, end, width, height);
+    return new ScaleTransform(start, end, oldW, oldH, width, height);
+  }
+
+  @Override
+  public void visitor(ITVisitor visitor) {
+    checkForNulls(visitor);
+    visitor.visitScale(this);
   }
 
   /**

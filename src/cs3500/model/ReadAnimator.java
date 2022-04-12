@@ -55,4 +55,30 @@ public interface ReadAnimator {
    * @return the height of the canvas.
    */
   int getCanvasHeight();
+
+  /**
+   * Gets the tick at which the given shape appears.
+   *
+   * @param name is the name oof the shape.
+   * @throws IllegalArgumentException if the name is not in the animator.
+   * @throws IllegalArgumentException if the name is null.
+   */
+  int getStart(String name);
+
+  /**
+   * Guest the tick at which the given shape disappears.
+   *
+   * @param name is the name of the shape.
+   * @throws IllegalArgumentException if the name is not in the animator.
+   * @throws IllegalArgumentException if the name is null.
+   */
+  int getEnd(String name);
+
+  /**
+   * Gets all the shapes in the animator.
+   *
+   * @return a list with all the shapes in the animation. If the list is empty, then there is no
+   *     shapes in the animator.
+   */
+  List<IShape> getShapes();
 }
