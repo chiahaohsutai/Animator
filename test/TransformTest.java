@@ -21,7 +21,7 @@ public class TransformTest {
 
   @Test
   public void testGetTypeColor() {
-    ITransform t = new ColorTransform(0, 1, 10, 10, 10);
+    ITransform t = new ColorTransform(0, 1, 1, 1, 1, 10, 10, 10);
     assertEquals(TransformType.COLOR, t.getType());
   }
 
@@ -40,7 +40,7 @@ public class TransformTest {
 
   @Test
   public void testGetDataColor() {
-    ITransform t = new ColorTransform(0, 1, 10, 10, 10);
+    ITransform t = new ColorTransform(0, 1, 1, 1, 1,10, 10, 10);
     double[] result = new double[] {10, 10, 10};
     assertArrayEquals(result, t.getData(), 0.0001);
   }
@@ -60,7 +60,8 @@ public class TransformTest {
 
   @Test
   public void testGetStartColor() {
-    ITransform t = new ColorTransform(0, 1, 10, 10, 10);
+    ITransform t = new ColorTransform(0, 1, 1, 1, 1,
+            10, 10, 10);
     assertEquals(0, t.getStart());
   }
 
@@ -78,7 +79,8 @@ public class TransformTest {
 
   @Test
   public void testGetEndColor() {
-    ITransform t = new ColorTransform(0, 1, 10, 10, 10);
+    ITransform t = new ColorTransform(0, 1, 1, 1, 1,10,
+            10, 10);
     assertEquals(1, t.getEnd());
   }
 
@@ -90,7 +92,7 @@ public class TransformTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeColor() {
-    constructor = new ColorTransform(-1, 1, 1,1 ,1);
+    constructor = new ColorTransform(-1, 1, 0, 0, 0,1,1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -110,7 +112,7 @@ public class TransformTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTimeEndColor() {
-    constructor = new ColorTransform(1, -1, 1,1 ,1);
+    constructor = new ColorTransform(1, -1, 0, 0, 0, 1,1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -130,22 +132,22 @@ public class TransformTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidColorR() {
-    constructor = new ColorTransform(1, 1, -1,1 ,1);
+    constructor = new ColorTransform(1, 1, 0, 0, 0, -1,1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidColorG() {
-    constructor = new ColorTransform(1, 1, 1,-1 ,1);
+    constructor = new ColorTransform(1, 1, 0, 0, 0, 1,-1 ,1);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidColorB() {
-    constructor = new ColorTransform(1, 1, 1,1 ,-1);
+    constructor = new ColorTransform(1, 1, 0, 0, 0, 1,1 ,-1);
   }
 
   @Test
   public void makeCopyColor() {
-    ITransform t1 = new ColorTransform(0, 1, 10, 10, 10);
+    ITransform t1 = new ColorTransform(0, 1, 0, 0, 0, 10, 10, 10);
     ITransform t2 = t1.copy();
     assertEquals(t2.getEnd(), t1.getEnd());
     assertEquals(t2.getStart(), t1.getStart());

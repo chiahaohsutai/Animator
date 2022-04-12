@@ -38,6 +38,11 @@ public class ScaleTransform extends ATransform {
   }
 
   @Override
+  public double[] getOldData() {
+    return new double[] {oldW, oldH};
+  }
+
+  @Override
   public ITransform copy() {
     return new ScaleTransform(start, end, oldW, oldH, width, height);
   }

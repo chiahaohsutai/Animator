@@ -4,15 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import cs3500.model.ReadAnimator;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
+import cs3500.model.transformation.ITVisitor;
 import cs3500.model.transformation.ITransform;
 import cs3500.view.visitors.SVGShapeVisitor;
+import cs3500.view.visitors.SVGTransformVisitor;
 
 /**
  * Renders a view in SVG style compliant text.
@@ -35,10 +37,10 @@ public class SVGView extends TextualView {
     List<String> svg = new ArrayList<>();
     Map<String, List<ITransform>> states = animator.getState();
     svg.add(setCanvas(animator.getCanvasWidth(), animator.getCanvasHeight()));
+    ISVisitor visitor = new SVGShapeVisitor();
 
     // if no transformations happened then just draw the shape at their initial location.
     if (Objects.isNull(states)) {
-      ISVisitor visitor = new SVGShapeVisitor();
 
       // goes through all the shapes and adds them to the canvas.
       for (IShape s : animator.getShapes()) {
@@ -52,12 +54,46 @@ public class SVGView extends TextualView {
       return;
     }
 
+    // get all the animations from the list and convert to svg format.
     for (String key : states.keySet()) {
+
+      // get the shape in a svg tag.
+      IShape s = animator.getShape(key);
+      s.visitor(visitor);
+
+      // get all the animations in a svg tag.
       List<ITransform> transforms = states.get(key);
-      //Deque<String> animations = renderAnimationTags();
+      Deque<String> animations = renderAnimationTags(transforms, s);
+      String[] shape = visitor.toString().split("\n");
+
+      // add the shape and visibility tgs around the animation tags.
+      animations.addFirst(setVisibility(s.getName()));
+      animations.addFirst(shape[0]);
+      animations.addLast(shape[1]);
+
+      svg.addAll(animations);
     }
+
+    svg.add("</svg>");
+    render(svg);
   }
 
+  /**
+   * Renders all the animation tags for the given set of transforms.
+   *
+   * @param transforms is the list of all transforms for a given shape.
+   * @param s is the shape being transformed.
+   * @return a list with all the animation tags in SVG format.
+   */
+  private Deque<String> renderAnimationTags(List<ITransform> transforms, IShape s) {
+    Deque<String> animations = new LinkedList<>();
+    ITVisitor visitor = new SVGTransformVisitor(animator.getTickRate(), s);
+    for (ITransform t : transforms) {
+      t.visitor(visitor);
+      animations.add(visitor.toString());
+    }
+    return animations;
+  }
 
   /**
    * Initializes the svg tag with the canvas height and width.
@@ -66,7 +102,7 @@ public class SVGView extends TextualView {
    */
   private String setCanvas(int width, int height) {
     return String.format("<svg width=\"%d\" height=\"%d\" xmlns=\"http://www.w3.org/2000/svg\" " +
-            "version=\"1.1\"> \n", width, height);
+            "version=\"1.1\">", width, height);
   }
 
   /**

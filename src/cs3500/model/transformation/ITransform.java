@@ -23,6 +23,14 @@ public interface ITransform {
   double[] getData();
 
   /**
+   * Returns the original values. Each original value represents the state of the object before the
+   * transformation.
+   *
+   * @return the original values prior to the transformation.
+   */
+  double[] getOldData();
+
+  /**
    * Gets the interval in which the transformation ends.
    *
    * @return the tick at which the transformation ends.

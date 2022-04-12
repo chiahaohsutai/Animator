@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import cs3500.model.shape.IShape;
@@ -133,7 +135,16 @@ public class Animator implements IAnimator {
     checkValidInterval(start, end);
     checkRGB(r, g, b);
     checkIntervalOverlap(colorTransformations.get(name), start);
-    colorTransformations.get(name).add(new ColorTransform(start, end, r, g, b));
+    ITransform t = colorTransformations.get(name).peekLast();
+    if (Objects.isNull(t)) {
+      IShape s = shapes.get(name);
+      colorTransformations.get(name).add(new ColorTransform(start, end, s.getRed(),
+              s.getGreen(), s.getBlue(), r, g, b));
+      return;
+    }
+    double[] data = t.getData();
+    int[] c = Arrays.stream(data).mapToInt(d -> (int) d).toArray();
+    colorTransformations.get(name).add(new ColorTransform(start, end, c[0], c[1], c[2], r, g, b));
   }
 
   @Override

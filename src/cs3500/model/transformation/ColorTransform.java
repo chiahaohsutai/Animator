@@ -9,6 +9,7 @@ import java.util.stream.Stream;
  * Represents a color transformation.
  */
 public class ColorTransform extends ATransform {
+  private final Color oldColor;
   private final Color color;
 
   /**
@@ -21,9 +22,11 @@ public class ColorTransform extends ATransform {
    * @param b is the blue component in RGB.
    * @throws IllegalArgumentException if any parameter is not in the range [0, 255].
    */
-  public ColorTransform(int start, int end, int r, int g, int b) {
+  public ColorTransform(int start, int end, int oldR, int oldG, int oldB, int r, int g, int b) {
     super(start, end);
     checkRGB(r, g, b);
+    checkRGB(oldR, oldG, oldR);
+    this.oldColor = new Color(oldR, oldG, oldB);
     this.color = new Color(r, g, b);
   }
 
@@ -39,8 +42,15 @@ public class ColorTransform extends ATransform {
   }
 
   @Override
+  public double[] getOldData() {
+    double[] values = convert(oldColor.getRed(), oldColor.getGreen(), oldColor.getRed());
+    return new double[] {values[0], values[1], values[2]};
+  }
+
+  @Override
   public ITransform copy() {
-    return new ColorTransform(start, end, color.getRed(), color.getGreen(), color.getBlue());
+    return new ColorTransform(start, end, oldColor.getRed(), oldColor.getGreen(),
+            oldColor.getBlue(), color.getRed(), color.getGreen(), color.getBlue());
   }
 
   @Override

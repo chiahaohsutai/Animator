@@ -24,9 +24,9 @@ public class Rect extends AShape {
 
   @Override
   public IShape copy() {
-    Rect r = new Rect(getWidth(), getHeight(), getX(), getY(), getRed(),
+    IShape r = new Rect(getWidth(), getHeight(), getX(), getY(), getRed(),
             getGreen(), getBlue());
-    r.setName(r.getName());
+    r.setName(this.getName());
     return r;
   }
 
@@ -35,6 +35,4 @@ public class Rect extends AShape {
     checkForNulls(visitor);
     visitor.visitRect(this);
   }
-
-
 }

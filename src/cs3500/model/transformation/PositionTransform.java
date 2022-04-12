@@ -35,6 +35,11 @@ public class PositionTransform extends ATransform {
   }
 
   @Override
+  public double[] getOldData() {
+    return new double[] {oldX, oldY};
+  }
+
+  @Override
   public ITransform copy() {
     return new PositionTransform(start, end, oldX, oldY, x, y);
   }

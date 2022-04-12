@@ -24,7 +24,7 @@ public class Ellipse extends AShape {
 
   @Override
   public IShape copy() {
-    Ellipse e = new Ellipse(getWidth(), getHeight(), getX(), getY(), getRed(),
+    IShape e = new Ellipse(getWidth(), getHeight(), getX(), getY(), getRed(),
             getGreen(), getBlue());
     e.setName(e.getName());
     return e;
