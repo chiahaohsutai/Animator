@@ -1,4 +1,4 @@
-package cs3500.animator.io;
+package cs3500.io;
 
 /**
  * This interface contains all the methods that the AnimationFileReader class

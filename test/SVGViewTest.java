@@ -68,7 +68,29 @@ public class SVGViewTest {
     Appendable output = new StringBuilder();
     IView view = new SVGView(animator, output);
     view.render();
-    String expected = "";
+    String expected = "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\" " +
+            "version=\"1.1\">\n" +
+            "<ellipse id=\"ellipse\" cx=\"1.000\" cy=\"1.000\" rx=\"10.000\" ry=\"10.000\" " +
+            "fill=\"rgb(100,100,100)\" visibility=\"hidden\">\n" +
+            "<set attributeName=\"visibility\" attributeType=\"CSS\" to=\"visible\" " +
+            "begin=\"0.000s\" dur=\"10.000s\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.000s\" dur=\"1.000s\" " +
+            "attributeName=\"cx\" from=\"1.000\" to=\"20.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.000s\" dur=\"1.000s\" " +
+            "attributeName=\"cy\" from=\"1.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeName=\"fill\" attributeType=\"CSS\" " +
+            "from=\"rgb(100,100,100)\" to=\"rgb(130,10,130)\" begin=\"0.500s\" " +
+            "dur=\"1.000s\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"1.500s\" dur=\"0.500s\" " +
+            "attributeName=\"cx\" from=\"20.000\" to=\"40.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"1.500s\" dur=\"0.500s\" " +
+            "attributeName=\"cy\" from=\"10.000\" to=\"30.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"2.000s\" dur=\"0.500s\" " +
+            "attributeName=\"rx\" from=\"10.000\" to=\"20.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"2.000s\" dur=\"0.500s\" " +
+            "attributeName=\"ry\" from=\"10.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+            "</ellipse>\n" +
+            "</svg>";
     assertEquals(expected, output.toString());
   }
 }
