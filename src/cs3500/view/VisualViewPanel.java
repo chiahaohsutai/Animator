@@ -2,12 +2,12 @@ package cs3500.view;
 
 import java.awt.*;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.model.ReadAnimator;
 
 /**
- *
+ * Represents a
  */
 public class VisualViewPanel extends JPanel {
   private final ReadAnimator readOnlyModel;
@@ -15,12 +15,14 @@ public class VisualViewPanel extends JPanel {
 
   /**
    *
-   * @param readOnlyModel
+   * @param model
    */
-  public VisualViewPanel(ReadAnimator readOnlyModel) {
+  public VisualViewPanel(ReadAnimator model, int currentTick) {
     super();
 
-    this.readOnlyModel = readOnlyModel;
+    this.readOnlyModel = model;
+    this.currentTick = currentTick;
+
     this.setBackground(Color.white);
     this.currentTick = 0;
   }
@@ -28,6 +30,8 @@ public class VisualViewPanel extends JPanel {
   @Override
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
+
+
 
   }
 }

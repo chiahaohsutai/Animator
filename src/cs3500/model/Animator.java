@@ -234,6 +234,28 @@ public class Animator implements IAnimator {
     return shapesList;
   }
 
+  @Override
+  public List<IShape> getShapesAtTick(int tick) {
+    List<IShape> listOfShapes = new ArrayList<>();
+
+    for (IShape singleShape : this.getShapes()) {
+      if (getStart(singleShape.getName()) >= tick &&
+              getEnd(singleShape.getName()) < tick) {
+        listOfShapes.add(singleShape.copy());
+      }
+    }
+
+    return listOfShapes;
+  }
+
+  @Override
+  public List<ITransform> getTransformsAtTick(int tick) {
+    List<ITransform> listOfTransforms = new ArrayList<>();
+    Map<String, List<ITransform>> statesByShape = this.getState();
+
+    return null;
+  }
+
   /**
    * Checks if the given name corresponds to a shape in the animator.
    *
