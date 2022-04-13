@@ -1,5 +1,9 @@
 package cs3500.model.shape;
 
+import java.util.List;
+
+import cs3500.model.transformation.ITransform;
+
 /**
  * Create a circular/elliptical geometric shape.
  */

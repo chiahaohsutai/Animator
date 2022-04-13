@@ -18,12 +18,16 @@ public class VisualViewPanel extends JPanel {
    * @param readOnlyModel
    */
   public VisualViewPanel(ReadAnimator readOnlyModel) {
+    super();
+
     this.readOnlyModel = readOnlyModel;
+    this.setBackground(Color.white);
     this.currentTick = 0;
   }
 
   @Override
   public void paintComponent(Graphics g) {
+    Graphics2D g2 = (Graphics2D) g;
 
   }
 }
