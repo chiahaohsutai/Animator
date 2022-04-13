@@ -1,49 +1,35 @@
 package cs3500.view;
 
-import java.awt.*;
-
-import javax.swing.*;
-
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import cs3500.model.Animator;
 import cs3500.model.ReadAnimator;
 
 /**
- *
+ * Represents a graphical view of an animation.
  */
-public class VisualView extends JFrame implements IView {
+public class VisualView extends JFrame implements IVisual {
   private final VisualViewPanel panel;
-  private final ReadAnimator readOnlyModel;
-  private final int currentTick;
+  private final ReadAnimator model;
 
   /**
-   *
+   * Represents the window that holds the animation. The animation is played in this window.
    */
   public VisualView() {
     super();
-
-    this.readOnlyModel = new Animator();
-
-    this.currentTick = 0;
-
-    // set title of frame
     this.setTitle("The Easy Animator Visual View");
-
-    // set layout of frame
     this.setLayout(new BorderLayout());
+    model = new Animator();
+    panel = new VisualViewPanel(model);
 
-    // create view panel where animation is played
-    this.panel = new VisualViewPanel(readOnlyModel);
-    this.panel.setPreferredSize(new Dimension(readOnlyModel.getCanvasWidth(),
-            readOnlyModel.getCanvasHeight()));
-    this.add(panel, BorderLayout.NORTH);
+    panel.setPreferredSize(new Dimension(model.getCanvasWidth(), model.getCanvasHeight()));
+    this.add(panel, BorderLayout.CENTER);
 
-    // formatting the frame
+    // format the window.
     this.pack();
-
-    // closing the frame
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-    // make frame visible
     this.setVisible(true);
   }
 
@@ -51,4 +37,6 @@ public class VisualView extends JFrame implements IView {
   public void render() {
     panel.repaint();
   }
+
+
 }
