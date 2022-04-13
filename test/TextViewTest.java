@@ -29,7 +29,7 @@ public class TextViewTest {
     String expected = "Canvas 100 100\n" +
             "Add shape rect at time 0.000s\n" +
             "Moves from (1.000,1.000) to (20.000,10.000).\n" +
-            "Color changes from rgb=[100.000,100.000,100.000] to rgb=[130.000,10.000,130.000].\n" +
+            "Color changes from rgb=[100.000,100.000,100.000] to rgb=[130.000,10.000,200.000].\n" +
             "Moves from (20.000,10.000) to (40.000,30.000).\n" +
             "Re-scaled from (10.000,10.000) to (20.000,10.000).";
     assertEquals(expected, output.toString());
@@ -53,7 +53,7 @@ public class TextViewTest {
     String expected = "Canvas 100 100\n" +
             "Add shape ellipse at time 0.000s\n" +
             "Moves from (1.000,1.000) to (20.000,10.000).\n" +
-            "Color changes from rgb=[100.000,100.000,100.000] to rgb=[130.000,10.000,130.000].\n" +
+            "Color changes from rgb=[100.000,100.000,100.000] to rgb=[130.000,10.000,200.000].\n" +
             "Moves from (20.000,10.000) to (40.000,30.000).\n" +
             "Re-scaled from (10.000,10.000) to (20.000,10.000).";
     assertEquals(expected, output.toString());

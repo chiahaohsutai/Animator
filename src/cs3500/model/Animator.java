@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import cs3500.model.shape.IShape;
@@ -142,9 +140,9 @@ public class Animator implements IAnimator {
               s.getGreen(), s.getBlue(), r, g, b));
       return;
     }
-    double[] data = t.getData();
-    int[] c = Arrays.stream(data).mapToInt(d -> (int) d).toArray();
-    colorTransformations.get(name).add(new ColorTransform(start, end, c[0], c[1], c[2], r, g, b));
+    double[] c = t.getData();
+    colorTransformations.get(name).add(new ColorTransform(start, end, (int)c[0],
+            (int)c[1], (int)c[2], r, g, b));
   }
 
   @Override
@@ -206,7 +204,7 @@ public class Animator implements IAnimator {
 
   @Override
   public Map<String, List<ITransform>> getState() {
-    Map<String, List<ITransform>> result = new HashMap<>();
+    Map<String, List<ITransform>> result = new LinkedHashMap<>();
     for (String name : shapes.keySet()) {
       List<ITransform> sortedList = new ArrayList<>();
 
@@ -297,7 +295,7 @@ public class Animator implements IAnimator {
    * @param b is the blue component of the RGB.
    * @throws IllegalArgumentException if any value of the RGB is not in the range [0, 255].
    */
-  private void checkRGB(int r, int g, int b) {
+  private void checkRGB(double r, double g, double b) {
     boolean validateColors = Stream.of(r, g, b).allMatch((val -> val >= 0 && val <= 255));
     if (!validateColors) {
       throw new IllegalArgumentException("A parameter is not in the range [0, 255]");

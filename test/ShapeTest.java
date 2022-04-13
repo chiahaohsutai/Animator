@@ -98,13 +98,13 @@ public class ShapeTest {
   @Test
   public void testSetColor() {
     initEllipse();
-    assertEquals(255, ellipse.getRed());
-    assertEquals(255, ellipse.getGreen());
-    assertEquals(0, ellipse.getBlue());
+    assertEquals(255, ellipse.getRed(), 0.001);
+    assertEquals(255, ellipse.getGreen(), 0.001);
+    assertEquals(0, ellipse.getBlue(), 0.001);
     ellipse.setColor(20, 50, 1);
-    assertEquals(20, ellipse.getRed());
-    assertEquals(50, ellipse.getGreen());
-    assertEquals(1, ellipse.getBlue());
+    assertEquals(20, ellipse.getRed(), 0.001);
+    assertEquals(50, ellipse.getGreen(), 0.001);
+    assertEquals(1, ellipse.getBlue(), 0.001);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -204,19 +204,19 @@ public class ShapeTest {
   @Test
   public void getRed() {
     initRect();
-    assertEquals(255, rect.getRed());
+    assertEquals(255, rect.getRed(), 0.001);
   }
 
   @Test
   public void getBlue() {
     initRect();
-    assertEquals(0, rect.getBlue());
+    assertEquals(0, rect.getBlue(), 0.001);
   }
 
   @Test
   public void getGreen() {
     initEllipse();
-    assertEquals(255, ellipse.getGreen());
+    assertEquals(255, ellipse.getGreen(), 0.001);
   }
 
   @Test
@@ -251,9 +251,9 @@ public class ShapeTest {
     IShape rect_copy = rect.copy();
     assertEquals(rect_copy.getX(), rect.getX(), 0.0001);
     assertEquals(rect_copy.getY(), rect.getY(), 0.0001);
-    assertEquals(rect_copy.getRed(), rect.getRed());
-    assertEquals(rect_copy.getGreen(), rect.getGreen());
-    assertEquals(rect_copy.getBlue(), rect.getBlue());
+    assertEquals(rect_copy.getRed(), rect.getRed(), 0.001);
+    assertEquals(rect_copy.getGreen(), rect.getGreen(), 0.001);
+    assertEquals(rect_copy.getBlue(), rect.getBlue(), 0.001);
     assertEquals(rect_copy.getWidth(), rect.getWidth(), 0.0001);
     assertEquals(rect_copy.getHeight(), rect.getHeight(), 0.0001);
     assertEquals(rect_copy.getName(), rect.getName());

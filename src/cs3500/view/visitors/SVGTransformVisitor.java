@@ -34,10 +34,10 @@ public class SVGTransformVisitor implements ITVisitor {
   @Override
   public void visitColor(ColorTransform t) {
     double duration = getDuration(t.getStart(), t.getEnd());
-    int[] oldC = convert(t.getOldData());
-    int[] c = convert(t.getData());
+    double[] oldC = t.getOldData();
+    double[] c = t.getData();
     animate = String.format("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
-            "from=\"rgb(%d,%d,%d)\" to=\"rgb(%d,%d,%d)\" begin=\"%.3fs\" dur=\"%.3fs\" " +
+            "from=\"rgb(%.3f,%.3f,%.3f)\" to=\"rgb(%.3f,%.3f,%.3f)\" begin=\"%.3fs\" dur=\"%.3fs\" " +
             "fill=\"freeze\"/>", oldC[0], oldC[1], oldC[2], c[0], c[1], c[2],
             (double) t.getStart() / tickRate, duration);
   }
@@ -76,16 +76,6 @@ public class SVGTransformVisitor implements ITVisitor {
       list.add(String.format(template, start, duration, attributes[i], old[i], curr[i]));
     }
     animate = String.join("\n", list);
-  }
-
-  /**
-   * Converts the array of doubles to an array of integers. The original values are being truncated.
-   *
-   * @param array is an array of doubles.
-   * @return the same array but the values have been truncated to integers.
-   */
-  private int[] convert(double[] array) {
-    return Arrays.stream(array).mapToInt(c -> (int) c).toArray();
   }
 
   /**

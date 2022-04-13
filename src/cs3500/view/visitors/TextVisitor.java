@@ -3,7 +3,6 @@ package cs3500.view.visitors;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import cs3500.model.transformation.ColorTransform;
 import cs3500.model.transformation.ITVisitor;
 import cs3500.model.transformation.PositionTransform;
@@ -29,10 +28,8 @@ public class TextVisitor implements ITVisitor {
 
   @Override
   public void visitScale(ScaleTransform t) {
-    double[] old = t.getOldData();
-    double[] curr = t.getData();
-    entry = String.format("Re-scaled from (%.3f,%.3f) to (%.3f,%.3f).", old[0], old[1],
-            curr[0], curr[1]);
+    String template = "Re-scaled from (%.3f,%.3f) to (%.3f,%.3f).";
+    entry = makeEntry(template, t.getOldData(), t.getData());
   }
 
   @Override
