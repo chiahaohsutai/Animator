@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Stream;
 
 /**
@@ -69,17 +70,17 @@ public abstract class AShape implements IShape {
 
   @Override
   public int getRed() {
-    return this.color.getRed();
+    return color.getRed();
   }
 
   @Override
   public int getBlue() {
-    return this.color.getBlue();
+    return color.getBlue();
   }
 
   @Override
   public int getGreen() {
-    return this.color.getGreen();
+    return color.getGreen();
   }
 
   @Override
@@ -121,7 +122,7 @@ public abstract class AShape implements IShape {
    * @param b is the blue component of the RGB.
    * @throws IllegalArgumentException if any value of the RGB is not in the range [0, 255].
    */
-  protected void checkRGB(int r, int g, int b) {
+  protected void checkRGB(double r, double g, double b) {
     boolean validateColors = Stream.of(r, g, b).allMatch((val -> val >= 0 && val <= 255));
     if (!validateColors) {
       throw new IllegalArgumentException("A parameter is not in the range [0, 255]");

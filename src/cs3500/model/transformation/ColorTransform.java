@@ -1,8 +1,6 @@
 package cs3500.model.transformation;
 
 import java.awt.Color;
-import java.util.Arrays;
-import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 /**
@@ -22,7 +20,8 @@ public class ColorTransform extends ATransform {
    * @param b is the blue component in RGB.
    * @throws IllegalArgumentException if any parameter is not in the range [0, 255].
    */
-  public ColorTransform(int start, int end, int oldR, int oldG, int oldB, int r, int g, int b) {
+  public ColorTransform(int start, int end, int oldR, int oldG, int oldB, int r,
+                        int g, int b) {
     super(start, end);
     checkRGB(r, g, b);
     checkRGB(oldR, oldG, oldR);
@@ -37,14 +36,12 @@ public class ColorTransform extends ATransform {
 
   @Override
   public double[] getData() {
-    double[] values = convert(color.getRed(), color.getGreen(), color.getRed());
-    return new double[] {values[0], values[1], values[2]};
+    return new double[] {color.getRed(), color.getGreen(), color.getBlue()};
   }
 
   @Override
   public double[] getOldData() {
-    double[] values = convert(oldColor.getRed(), oldColor.getGreen(), oldColor.getRed());
-    return new double[] {values[0], values[1], values[2]};
+    return new double[] {oldColor.getRed(), oldColor.getGreen(), oldColor.getBlue()};
   }
 
   @Override
@@ -66,20 +63,10 @@ public class ColorTransform extends ATransform {
    * @param b is the blue component of the RGB.
    * @throws IllegalArgumentException if any value of the RGB is not in the range [0, 255].
    */
-  private void checkRGB(int r, int g, int b) {
+  private void checkRGB(double r, double g, double b) {
     boolean validateColors = Stream.of(r, g, b).allMatch((val -> val >= 0 && val <= 255));
     if (!validateColors) {
       throw new IllegalArgumentException("A parameter is not in the range [0, 255]");
     }
-  }
-
-  /**
-   * Converts the integers to an array of doubles.
-   *
-   * @return an array of doubles.
-   */
-  private double[] convert(int... values) {
-    DoubleStream collection = Arrays.stream(values).mapToDouble((v) -> (double)v);
-    return collection.toArray();
   }
 }

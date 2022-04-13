@@ -30,7 +30,8 @@ public class Builder implements TweenModelBuilder<IAnimator> {
   public TweenModelBuilder<IAnimator> addOval(String name, float cx, float cy, float xRadius,
                                               float yRadius, float red, float green, float blue,
                                               int startOfLife, int endOfLife) {
-    IShape oval = new Ellipse(xRadius, yRadius, cx, cy, (int) red, (int) green, (int) blue);
+    IShape oval = new Ellipse(xRadius, yRadius, cx, cy, (int)(red * 255),
+            (int)(green * 255), (int)(blue * 255));
     animator.add(name, oval, startOfLife, endOfLife);
     return this;
   }
@@ -39,7 +40,8 @@ public class Builder implements TweenModelBuilder<IAnimator> {
   public TweenModelBuilder<IAnimator> addRectangle(String name, float lx, float ly, float width,
                                                    float height, float red, float green, float blue,
                                                    int startOfLife, int endOfLife) {
-    IShape rect = new Rect(width, height, lx, ly, (int) red, (int) green, (int) blue);
+    IShape rect = new Rect(width, height, lx, ly, (int)(red * 255), (int)(green * 255),
+            (int)(blue * 255));
     animator.add(name, rect, startOfLife, endOfLife);
     return this;
   }
@@ -56,7 +58,8 @@ public class Builder implements TweenModelBuilder<IAnimator> {
   public TweenModelBuilder<IAnimator> addColorChange(String name, float oldR, float oldG,
                                                      float oldB, float newR, float newG,
                                                      float newB, int startTime, int endTime) {
-    animator.setColor(name, startTime, endTime, (int) newR, (int) newG, (int) newB);
+    animator.setColor(name, startTime, endTime, (int)(newR * 255), (int)(newG * 255),
+            (int)(newB * 255));
     return this;
   }
 
