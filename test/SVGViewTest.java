@@ -6,8 +6,7 @@ import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.Rect;
 import cs3500.view.IView;
 import cs3500.view.SVGView;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SVGViewTest {
 
