@@ -37,8 +37,8 @@ public class SVGTransformVisitor implements ITVisitor {
     double[] oldC = t.getOldData();
     double[] c = t.getData();
     animate = String.format("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
-            "from=\"rgb(%.3f,%.3f,%.3f)\" to=\"rgb(%.3f,%.3f,%.3f)\" begin=\"%.3fs\" dur=\"%.3fs\" " +
-            "fill=\"freeze\"/>", oldC[0], oldC[1], oldC[2], c[0], c[1], c[2],
+            "from=\"rgb(%.3f,%.3f,%.3f)\" to=\"rgb(%.3f,%.3f,%.3f)\" begin=\"%.3fs\" " +
+                    "dur=\"%.3fs\" fill=\"freeze\"/>", oldC[0], oldC[1], oldC[2], c[0], c[1], c[2],
             (double) t.getStart() / tickRate, duration);
   }
 

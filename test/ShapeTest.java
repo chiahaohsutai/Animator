@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import cs3500.model.shape.Ellipse;
+import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
 
@@ -265,5 +266,17 @@ public class ShapeTest {
     assertNull(rect.getName());
     rect.setName("cholo");
     assertEquals("cholo", rect.getName());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void visitNullRect() {
+    initRect();
+    rect.visitor(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void visitNullEllipse() {
+    initEllipse();
+    ellipse.visitor(null);
   }
 }
