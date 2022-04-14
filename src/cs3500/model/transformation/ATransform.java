@@ -3,6 +3,8 @@ package cs3500.model.transformation;
 import java.util.Arrays;
 import java.util.Objects;
 
+import cs3500.model.shape.IShape;
+
 /**
  * Represents a transformation for a given object. A transformation happens in a time interval,
  * and it refers to a change in the field of the object.
@@ -24,6 +26,15 @@ public abstract class ATransform implements ITransform {
   }
 
   @Override
+  public abstract TransformType getType();
+
+  @Override
+  public abstract double[] getData();
+
+  @Override
+  public abstract double[] getOldData();
+
+  @Override
   public int getEnd() {
     return end;
   }
@@ -32,6 +43,15 @@ public abstract class ATransform implements ITransform {
   public int getStart() {
     return start;
   }
+
+  @Override
+  public abstract ITransform copy();
+
+  @Override
+  public abstract void visitor(ITVisitor visitor);
+
+  @Override
+  public abstract IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor);
 
   /**
    * Checks if the time interval is consistent. This means that the time interval is not negative

@@ -1,5 +1,7 @@
 package cs3500.model.transformation;
 
+import cs3500.model.shape.IShape;
+
 public class PositionTransform extends ATransform {
   private final double oldX;
   private final double oldY;
@@ -48,5 +50,11 @@ public class PositionTransform extends ATransform {
   public void visitor(ITVisitor visitor) {
     checkForNulls(visitor);
     visitor.visitPosition(this);
+  }
+
+  @Override
+  public IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor) {
+    checkForNulls(shapeMutationVisitor);
+    return shapeMutationVisitor.visitAndApplyPositionTransform(this);
   }
 }

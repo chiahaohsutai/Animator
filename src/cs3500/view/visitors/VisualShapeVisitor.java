@@ -2,11 +2,8 @@ package cs3500.view.visitors;
 
 import java.awt.*;
 
-import javax.swing.*;
-
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
-import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
 
 public class VisualShapeVisitor implements ISVisitor {

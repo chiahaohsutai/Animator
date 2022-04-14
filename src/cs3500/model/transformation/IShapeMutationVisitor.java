@@ -11,19 +11,19 @@ public interface IShapeMutationVisitor {
    * @param t
    * @return
    */
-  IShape visitColor(ColorTransform t);
+  IShape visitAndApplyColorTransform(ColorTransform t);
 
   /**
    *
    * @param t
    * @return
    */
-  IShape visitPosition(PositionTransform t);
+  IShape visitAndApplyPositionTransform(PositionTransform t);
 
   /**
    *
    * @param t
    * @return
    */
-  IShape visitScale(ScaleTransform t);
+  IShape visitAndApplyScaleTransform(ScaleTransform t);
 }

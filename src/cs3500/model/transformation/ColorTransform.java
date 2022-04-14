@@ -3,6 +3,8 @@ package cs3500.model.transformation;
 import java.awt.Color;
 import java.util.stream.Stream;
 
+import cs3500.model.shape.IShape;
+
 /**
  * Represents a color transformation.
  */
@@ -54,6 +56,12 @@ public class ColorTransform extends ATransform {
   public void visitor(ITVisitor visitor) {
     checkForNulls(visitor);
     visitor.visitColor(this);
+  }
+
+  @Override
+  public IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor) {
+    checkForNulls(shapeMutationVisitor);
+    return shapeMutationVisitor.visitAndApplyColorTransform(this);
   }
 
   /**

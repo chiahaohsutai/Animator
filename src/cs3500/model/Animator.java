@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import cs3500.model.shape.IShape;
 import cs3500.model.transformation.ColorTransform;
-import cs3500.model.transformation.ITVisitor;
+import cs3500.model.transformation.IShapeMutationVisitor;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
 import cs3500.model.transformation.TransformType;
-import cs3500.view.visitors.VisualTransformVisitor;
+import cs3500.view.visitors.VisualShapeMutationVisitor;
 
 /**
  * Represents an animator that can animate simple geometric shapes. Tracks the state of each shape
@@ -235,20 +235,36 @@ public class Animator implements IAnimator {
 
   @Override
   public List<IShape> calculateStatesAtTick(int tick) {
-
+    // get all the transforms that happen to all shapes at given tick
+    // (shape id -> all transforms at given tick)
     Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
 
+    // initialize map entry (tick -> states of shapes at tick)
+    mostRecentStateOfShapesAtTick.put(tick, new ArrayList<>());
+
+    // apply the transform to the shape using visitor
     for (Map.Entry<String, List<ITransform>> singleShapeEntry : transformsAtTick.entrySet()) {
       IShape shapeToTransform = this.getShape(singleShapeEntry.getKey());
 
-      ITVisitor visualTransformVisitor = new VisualTransformVisitor(mostRecentStateOfShapesAtTick,
-              shapeToTransform, tick);
+      IShapeMutationVisitor visualShapeMutationVisitor =
+              new VisualShapeMutationVisitor(shapeToTransform, tick);
 
-      for (ITransform singleShapeTransformations : singleShapeEntry.getValue()) {
-        singleShapeTransformations.visitor(visualTransformVisitor);
+      // if the shape has no transforms, the state at the tick remains the same as before
+      if (singleShapeEntry.getValue().isEmpty()) {
+        mostRecentStateOfShapesAtTick.get(tick).add(shapeToTransform);
+
+        // if the shape has transforms, apply each transform using visitor
+      } else {
+        for (ITransform singleShapeTransformations : singleShapeEntry.getValue()) {
+          singleShapeTransformations.acceptShapeMutationVisitor(visualShapeMutationVisitor);
+
+          // store state of shape at tick in map
+          mostRecentStateOfShapesAtTick.get(tick).add(shapeToTransform);
+        }
       }
     }
 
+    // retrieve the states of shapes at tick
     return mostRecentStateOfShapesAtTick.get(tick);
   }
 
@@ -262,6 +278,9 @@ public class Animator implements IAnimator {
 
     Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
 
+    /*
+    Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
+
     for (String singleShapeID : statesByShape.keySet()) {
       statesByShapeAtTick.put(singleShapeID, new ArrayList<>());
     }
@@ -272,19 +291,27 @@ public class Animator implements IAnimator {
           ITransform copy = singleTransform.copy();
           statesByShapeAtTick.get(singleShapeEntry.getKey()).add(copy);
         }
+      }
+    }
+    */
 
-        /*
-        statesByShape.put(singleShapeEntry.getKey(),
+
+    for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
+      if (this.getStart(singleShapeEntry.getKey()) <= tick &&
+              this.getEnd(singleShapeEntry.getKey()) > tick) {
+        statesByShapeAtTick.put(singleShapeEntry.getKey(),
                 singleShapeEntry.getValue().stream()
-                        .filter((ITransform t) -> t.getStart() >= tick && t.getEnd() < tick)
-                        .map((ITransform t) -> t.copy())
+                        .filter((ITransform t) -> t.getStart() <= tick && t.getEnd() > tick)
+                        .map(ITransform::copy)
                         .collect(Collectors.toList()));
-
-         */
       }
     }
 
+
     return statesByShapeAtTick;
+
+
+    //return statesByShapeAtTick;
   }
 
   /**

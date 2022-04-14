@@ -1,5 +1,7 @@
 package cs3500.model.transformation;
 
+import cs3500.model.shape.IShape;
+
 /**
  * Represents a transformation that scales the given object to a new scale.
  */
@@ -51,6 +53,12 @@ public class ScaleTransform extends ATransform {
   public void visitor(ITVisitor visitor) {
     checkForNulls(visitor);
     visitor.visitScale(this);
+  }
+
+  @Override
+  public IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor) {
+    checkForNulls(shapeMutationVisitor);
+    return shapeMutationVisitor.visitAndApplyScaleTransform(this);
   }
 
   /**

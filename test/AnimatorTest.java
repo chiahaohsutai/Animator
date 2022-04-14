@@ -423,8 +423,29 @@ public class AnimatorTest {
     animator.add("rectangle", rectangle, 7, 12);
     animator.add("circle", circle, 15, 20);
 
-    List<IShape> expected = new ArrayList<>(Arrays.asList(square, rectangle));
+    List<IShape> list = animator.getShapes();
 
-    assertEquals(expected, animator.calculateStatesAtTick(8));
+    assertEquals(2, animator.calculateStatesAtTick(8).size());
+
+    IShape s = list.get(0);
+    IShape r = list.get(1);
+
+    assertEquals(square.getHeight(), s.getHeight(), 0.0001);
+    assertEquals(square.getWidth(), s.getWidth(), 0.0001);
+    assertEquals(square.getName(), s.getName());
+    assertEquals(square.getBlue(), s.getBlue());
+    assertEquals(square.getGreen(), s.getGreen());
+    assertEquals(square.getRed(), s.getRed());
+    assertEquals(square.getX(), s.getX(), 0.0001);
+    assertEquals(square.getY(), s.getY(), 0.0001);
+
+    assertEquals(rectangle.getHeight(), r.getHeight(), 0.0001);
+    assertEquals(rectangle.getWidth(), r.getWidth(), 0.0001);
+    assertEquals(rectangle.getName(), r.getName());
+    assertEquals(rectangle.getBlue(), r.getBlue());
+    assertEquals(rectangle.getGreen(), r.getGreen());
+    assertEquals(rectangle.getRed(), r.getRed());
+    assertEquals(rectangle.getX(), r.getX(), 0.0001);
+    assertEquals(rectangle.getY(), r.getY(), 0.0001);
   }
 }
