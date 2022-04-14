@@ -1,6 +1,5 @@
 package cs3500.view;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;

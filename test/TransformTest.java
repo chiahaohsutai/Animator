@@ -21,7 +21,8 @@ public class TransformTest {
 
   @Test
   public void testGetTypeColor() {
-    ITransform t = new ColorTransform(0, 1, 1, 1, 1, 10, 10, 10);
+    ITransform t = new ColorTransform(0, 1, 1, 1, 1, 10,
+            10, 10);
     assertEquals(TransformType.COLOR, t.getType());
   }
 
@@ -40,7 +41,8 @@ public class TransformTest {
 
   @Test
   public void testGetDataColor() {
-    ITransform t = new ColorTransform(0, 1, 1, 1, 1,10, 10, 10);
+    ITransform t = new ColorTransform(0, 1, 1, 1, 1,10,
+            10, 10);
     double[] result = new double[] {10, 10, 10};
     assertArrayEquals(result, t.getData(), 0.0001);
   }
@@ -147,7 +149,8 @@ public class TransformTest {
 
   @Test
   public void makeCopyColor() {
-    ITransform t1 = new ColorTransform(0, 1, 0, 0, 0, 10, 10, 10);
+    ITransform t1 = new ColorTransform(0, 1, 0, 0, 0, 10,
+            10, 10);
     ITransform t2 = t1.copy();
     assertEquals(t2.getEnd(), t1.getEnd());
     assertEquals(t2.getStart(), t1.getStart());
@@ -173,5 +176,42 @@ public class TransformTest {
     assertEquals(t2.getStart(), t1.getStart());
     assertArrayEquals(t2.getData(), t1.getData(), 0.0001);
     assertEquals(t2.getType(), t1.getType());
+  }
+
+  @Test
+  public void getOldDataColor() {
+    ITransform c = new ColorTransform(1, 2, 1, 1, 1, 3, 4, 5);
+    assertArrayEquals(new double[] {1, 1, 1}, c.getOldData(), 0.0001);
+  }
+
+  @Test
+  public void getOldDataPos() {
+    ITransform c = new PositionTransform(1, 2, 1, 1, 1, 3);
+    assertArrayEquals(new double[] {1, 1}, c.getOldData(), 0.0001);
+  }
+
+  @Test
+  public void getOldDataScale() {
+    ITransform c = new ScaleTransform(1, 2, 1, 1, 1, 3);
+    assertArrayEquals(new double[] {1, 1}, c.getOldData(), 0.0001);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testVisitorPos() {
+    ITransform p = new PositionTransform(1, 3, 1, 1, 10, 20);
+    p.visitor(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testVisitorColor() {
+    ITransform p = new ColorTransform(1, 3, 1, 1, 10, 20,
+            10, 10);
+    p.visitor(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testVisitorScale() {
+    ITransform p = new ScaleTransform(1, 3, 1, 1, 10, 20);
+    p.visitor(null);
   }
 }
