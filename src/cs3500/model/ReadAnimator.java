@@ -88,11 +88,4 @@ public interface ReadAnimator {
    * @return
    */
   List<IShape> getShapesAtTick(int tick);
-
-  /**
-   *
-   * @param tick
-   * @return
-   */
-  List<ITransform> getTransformsAtTick(int tick);
 }

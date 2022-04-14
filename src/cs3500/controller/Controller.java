@@ -34,7 +34,6 @@ public class Controller implements IController {
     };
 
     this.timer = new Timer(1000 / model.getTickRate(), performTask);
-    this.currentTick = 0;
     this.mostRecentStatesOfShapes = new ArrayList<>();
     this.view = view;
     this.model = model;
@@ -44,10 +43,5 @@ public class Controller implements IController {
   public void start() {
     view.makeVisible();
     timer.start();
-  }
-
-  @Override
-  public int getCurrentTick() {
-    return currentTick;
   }
 }

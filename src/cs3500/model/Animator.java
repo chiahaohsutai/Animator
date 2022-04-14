@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import cs3500.model.shape.IShape;
 import cs3500.model.transformation.ColorTransform;
+import cs3500.model.transformation.ITVisitor;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
 import cs3500.model.transformation.TransformType;
+import cs3500.view.visitors.VisualTransformVisitor;
 
 /**
  * Represents an animator that can animate simple geometric shapes. Tracks the state of each shape
@@ -34,6 +36,7 @@ public class Animator implements IAnimator {
   private final Map<String, Deque<ITransform>> colorTransformations;
   private final Map<String, Deque<ITransform>> scaleTransformations;
   private final Map<String, Deque<ITransform>> positionTransformations;
+  private Map<Integer, List<IShape>> mostRecentStateOfShapesAtTick;
 
   /**
    * Creates an instance of an animator with a tick rate of 1 and a canvas dimension of 0x0.
@@ -48,6 +51,7 @@ public class Animator implements IAnimator {
     this.colorTransformations = new HashMap<>();
     this.scaleTransformations = new HashMap<>();
     this.positionTransformations = new HashMap<>();
+    this.mostRecentStateOfShapesAtTick = new HashMap<>();
   }
 
   @Override
@@ -172,6 +176,26 @@ public class Animator implements IAnimator {
   }
 
   @Override
+  public void calculateStates(int tick) {
+
+    Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
+
+    for (Map.Entry<String, List<ITransform>> singleShapeEntry : transformsAtTick.entrySet()) {
+      IShape shapeToTransform = this.getShape(singleShapeEntry.getKey());
+
+      ITVisitor visualTransformVisitor = new VisualTransformVisitor(mostRecentStateOfShapesAtTick,
+              shapeToTransform, tick);
+
+      for (ITransform singleShapeTransformations : singleShapeEntry.getValue()) {
+        singleShapeTransformations.visitor(visualTransformVisitor);
+      }
+
+    }
+
+
+  }
+
+  @Override
   public int getStart(String name) {
     checkNameExistence(name);
     return getTick(name, creationTimes);
@@ -231,6 +255,13 @@ public class Animator implements IAnimator {
 
   @Override
   public List<IShape> getShapesAtTick(int tick) {
+    /*
+    return shapes.values().stream()
+            .map((IShape s) -> s.copy())
+            .filter((IShape s) -> getStart(s.getName()) >= tick && getEnd(s.getName()) < tick)
+            .collect(Collectors.toList());
+     */
+
     List<IShape> listOfShapes = new ArrayList<>();
 
     for (IShape singleShape : this.getShapes()) {
@@ -243,12 +274,23 @@ public class Animator implements IAnimator {
     return listOfShapes;
   }
 
-  @Override
-  public List<ITransform> getTransformsAtTick(int tick) {
-    List<ITransform> listOfTransforms = new ArrayList<>();
+  /**
+   *
+   * @param tick
+   * @return
+   */
+  private Map<String, List<ITransform>> getTransformsAtTick(int tick) {
     Map<String, List<ITransform>> statesByShape = this.getState();
 
-    return null;
+    for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
+      statesByShape.put(singleShapeEntry.getKey(),
+              singleShapeEntry.getValue().stream()
+                      .filter((ITransform t) -> t.getStart() >= tick && t.getEnd() < tick)
+                      .map((ITransform t) -> t.copy())
+                      .collect(Collectors.toList()));
+    }
+
+    return statesByShape;
   }
 
   /**
