@@ -87,5 +87,5 @@ public interface ReadAnimator {
    * @param tick
    * @return
    */
-  List<IShape> getShapesAtTick(int tick);
+  List<IShape> calculateStatesAtTick(int tick);
 }

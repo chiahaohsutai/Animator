@@ -176,26 +176,6 @@ public class Animator implements IAnimator {
   }
 
   @Override
-  public void calculateStates(int tick) {
-
-    Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
-
-    for (Map.Entry<String, List<ITransform>> singleShapeEntry : transformsAtTick.entrySet()) {
-      IShape shapeToTransform = this.getShape(singleShapeEntry.getKey());
-
-      ITVisitor visualTransformVisitor = new VisualTransformVisitor(mostRecentStateOfShapesAtTick,
-              shapeToTransform, tick);
-
-      for (ITransform singleShapeTransformations : singleShapeEntry.getValue()) {
-        singleShapeTransformations.visitor(visualTransformVisitor);
-      }
-
-    }
-
-
-  }
-
-  @Override
   public int getStart(String name) {
     checkNameExistence(name);
     return getTick(name, creationTimes);
@@ -254,24 +234,22 @@ public class Animator implements IAnimator {
   }
 
   @Override
-  public List<IShape> getShapesAtTick(int tick) {
-    /*
-    return shapes.values().stream()
-            .map((IShape s) -> s.copy())
-            .filter((IShape s) -> getStart(s.getName()) >= tick && getEnd(s.getName()) < tick)
-            .collect(Collectors.toList());
-     */
+  public List<IShape> calculateStatesAtTick(int tick) {
 
-    List<IShape> listOfShapes = new ArrayList<>();
+    Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
 
-    for (IShape singleShape : this.getShapes()) {
-      if (getStart(singleShape.getName()) >= tick &&
-              getEnd(singleShape.getName()) < tick) {
-        listOfShapes.add(singleShape.copy());
+    for (Map.Entry<String, List<ITransform>> singleShapeEntry : transformsAtTick.entrySet()) {
+      IShape shapeToTransform = this.getShape(singleShapeEntry.getKey());
+
+      ITVisitor visualTransformVisitor = new VisualTransformVisitor(mostRecentStateOfShapesAtTick,
+              shapeToTransform, tick);
+
+      for (ITransform singleShapeTransformations : singleShapeEntry.getValue()) {
+        singleShapeTransformations.visitor(visualTransformVisitor);
       }
     }
 
-    return listOfShapes;
+    return mostRecentStateOfShapesAtTick.get(tick);
   }
 
   /**

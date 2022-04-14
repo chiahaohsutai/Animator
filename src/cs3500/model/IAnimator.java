@@ -103,6 +103,4 @@ public interface IAnimator extends ReadAnimator {
    * @throws IllegalArgumentException if the tick rate is 0 or negative.
    */
   void setTickRate(int tick);
-
-  void calculateStates(int tick);
 }

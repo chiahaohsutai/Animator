@@ -13,10 +13,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.swing.JOptionPane;
+
+import cs3500.controller.Controller;
+import cs3500.controller.IController;
 import cs3500.io.AnimationFileReader;
 import cs3500.io.Builder;
 import cs3500.model.IAnimator;
 import cs3500.view.IView;
+import cs3500.view.IVisual;
 import cs3500.view.ViewCreator;
 
 /**
@@ -77,6 +81,11 @@ public class Main {
     ViewCreator c = new ViewCreator(animator, dump);
     try {
       IView v = c.factory(view);
+      if (view.equals("visual")) {
+        IController ctrl = new Controller((IVisual) v, animator);
+        ctrl.start();
+        return;
+      }
       v.render();
     } catch (IllegalArgumentException e) {
       showError("The given view is invalid.");

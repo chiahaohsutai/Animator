@@ -38,9 +38,7 @@ public class VisualViewPanel extends JPanel {
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
 
-    List<IShape> shapesToDraw = model.getShapesAtTick(currentTick);
-
-    //List<ITransform> transformsToDraw = model.getTransformsAtTick(currentTick);
+    List<IShape> shapesToDraw = model.calculateStatesAtTick(currentTick);
 
     ISVisitor visualShapeVisitor = new VisualShapeVisitor(g2);
 

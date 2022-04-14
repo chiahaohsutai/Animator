@@ -26,7 +26,7 @@ public class ViewCreator {
   public IView factory(String type) {
     switch (type) {
       case "visual":
-        return null;
+        return new VisualView();
       case "text":
         return new TextView(this.anim, this.ap);
       case "svg":

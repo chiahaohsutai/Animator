@@ -25,6 +25,8 @@ public class VisualShapeVisitor implements ISVisitor {
 
   @Override
   public void visitEllipse(Ellipse ellipse) {
-
+    g2.setColor(new Color(ellipse.getRed(), ellipse.getGreen(), ellipse.getBlue()));
+    g2.fillOval((int)ellipse.getX(), (int)ellipse.getY(),
+            (int)ellipse.getWidth(), (int)ellipse.getHeight());
   }
 }
