@@ -1,4 +1,7 @@
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -8,6 +11,7 @@ import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
 import cs3500.model.transformation.ITransform;
+import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.TransformType;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -405,5 +409,22 @@ public class AnimatorTest {
     assertEquals(circle.getRed(), c.getRed());
     assertEquals(circle.getX(), c.getX(), 0.0001);
     assertEquals(circle.getY(), c.getY(), 0.0001);
+  }
+
+  @Test
+  public void testCalculateStatesAtTickNoTransformsDone() {
+    animator();
+
+    IShape square = new Rect(10, 10, 1, 1, 1, 2, 3);
+    IShape rectangle = new Rect(10, 30, 50, 50, 10, 11, 12);
+    IShape circle = new Ellipse(10, 10, 15, 20, 50, 1, 3);
+
+    animator.add("square", square, 1, 10);
+    animator.add("rectangle", rectangle, 7, 12);
+    animator.add("circle", circle, 15, 20);
+
+    List<IShape> expected = new ArrayList<>(Arrays.asList(square, rectangle));
+
+    assertEquals(expected, animator.calculateStatesAtTick(8));
   }
 }
