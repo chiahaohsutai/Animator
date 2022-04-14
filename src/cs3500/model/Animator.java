@@ -73,7 +73,6 @@ public class Animator implements IAnimator {
 
   @Override
   public void remove(String name) {
-    checkForNulls(name);
     checkNameExistence(name);
     shapes.get(name).setName(null);
     shapes.remove(name);
@@ -94,9 +93,7 @@ public class Animator implements IAnimator {
 
   @Override
   public void move(String name, int start, int end, double xCoordinate, double yCoordinate) {
-    checkNameExistence(name);
-    checkValidInterval(start, end);
-    checkIntervalOverlap(positionTransformations.get(name), start);
+    checkParamTransform(start, end, name, positionTransformations);
     ITransform t = positionTransformations.get(name).peekLast();
     if (Objects.isNull(t)) {
       IShape s = shapes.get(name);
@@ -111,10 +108,8 @@ public class Animator implements IAnimator {
 
   @Override
   public void reScale(String name, int start, int end, double width, double height) {
-    checkNameExistence(name);
-    checkValidInterval(start, end);
+    checkParamTransform(start, end, name, scaleTransformations);
     checkDimensions(width, height);
-    checkIntervalOverlap(scaleTransformations.get(name), start);
     ITransform t = scaleTransformations.get(name).peekLast();
     if (Objects.isNull(t)) {
       IShape s = shapes.get(name);
@@ -129,10 +124,8 @@ public class Animator implements IAnimator {
 
   @Override
   public void setColor(String name, int start, int end, int r, int g, int b) {
-    checkNameExistence(name);
-    checkValidInterval(start, end);
+    checkParamTransform(start, end, name, colorTransformations);
     checkRGB(r, g, b);
-    checkIntervalOverlap(colorTransformations.get(name), start);
     ITransform t = colorTransformations.get(name).peekLast();
     if (Objects.isNull(t)) {
       IShape s = shapes.get(name);
@@ -180,11 +173,13 @@ public class Animator implements IAnimator {
 
   @Override
   public int getStart(String name) {
+    checkNameExistence(name);
     return getTick(name, creationTimes);
   }
 
   @Override
   public int getEnd(String name) {
+    checkNameExistence(name);
     return getTick(name, obituaryTimes);
   }
 
@@ -358,5 +353,38 @@ public class Animator implements IAnimator {
       return names.getKey();
     }
     throw new IllegalArgumentException("The name is not in the animator");
+  }
+
+  /**
+   * Checks that the shape exists in the for the given time interval.
+   *
+   * @param start is first tick.
+   * @param end is last tick
+   * @param name is the name of the shape.
+   * @throws IllegalArgumentException if the shape does not exist in the given tick.
+   */
+  private void checkTransformationInterval(int start, int end, String name) {
+    if (start < this.getStart(name) || end > this.getEnd(name)) {
+      throw new IllegalArgumentException("The shape does not exists at some tick in the interval.");
+    }
+  }
+
+  /**
+   * Checks that all the parameters for a transform are valid.
+   * @param start the start tick.
+   * @param end the end tick.
+   * @param name the name of the shape.
+   * @param transforms is the map of transformations and shape name.
+   * @throws IllegalArgumentException if time interval is inconsistent.
+   * @throws IllegalArgumentException if the transform leads to an overlap.
+   * @throws IllegalArgumentException if the name is not in the animator.
+   * @throws IllegalArgumentException if the transforms happens outside the shapes' lifespan.
+   */
+  private void checkParamTransform(int start, int end, String name, Map<String,
+          Deque<ITransform>> transforms) {
+    checkNameExistence(name);
+    checkValidInterval(start, end);
+    checkTransformationInterval(start, end, name);
+    checkIntervalOverlap(transforms.get(name), start);
   }
 }

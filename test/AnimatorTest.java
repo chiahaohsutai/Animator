@@ -1,16 +1,14 @@
 import org.junit.Test;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import cs3500.model.Animator;
 import cs3500.model.IAnimator;
+import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.TransformType;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -189,5 +187,223 @@ public class AnimatorTest {
     animator.add("rect1", rect1, 0, 100);
     animator.setColor("rect1", 3, 10, 10, 10, 10);
     animator.setColor("rect1", 3, 10, 10, 10, 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nullShapeAdd() {
+    animator();
+    animator.add("Hola", null, 1, 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void InvalidTimeStartAdd() {
+    animator();
+    animator.add("Hola",
+            new Rect(10, 10, 1, 1, 2, 2, 2), -1, 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void InvalidTimeEndAdd() {
+    animator();
+    animator.add("Hola",
+            new Rect(10, 10, 1, 1, 2, 2, 2), 0, -1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void InvalidNameAdd() {
+    animator();
+    animator.add("Hola",
+            new Rect(10, 10, 1, 1, 2, 2, 2), 0, 1);
+    animator.add("Hola",
+            new Rect(10, 10, 1, 1, 2, 2, 2), 0, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shapeRepeatAdd() {
+    animator();
+    IShape rect = new Rect(10, 10, 1, 1, 2, 2, 2);
+    animator.add("Hola", rect, 0, 1);
+    animator.add("Hola", rect, 0, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nullNameRemove() {
+    animator();
+    animator.remove(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nameNotInAnimatorRemove() {
+    animator();
+    animator.remove("Hola");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nameNotInAnimatorMove() {
+    animator();
+    animator.move("Hola", 1, 2, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidTimeMove() {
+    animator();
+    IShape rect = new Rect(1, 1, 1, 1, 1, 1, 1);
+    animator.add("Hola", rect, 1, 10);
+    animator.move("Hola", 2, 1, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidIntervalMove() {
+    animator();
+    IShape rect = new Rect(1, 1, 1, 1, 1, 1, 1);
+    animator.add("Hola", rect, 1, 9);
+    animator.move("Hola", 1, 10, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nameNotInAnimatorScale() {
+    animator();
+    animator.reScale("Hola", 1, 2, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidTimeScale() {
+    animator();
+    IShape rect = new Rect(1, 1, 1, 1, 1, 1, 1);
+    animator.add("Hola", rect, 1, 10);
+    animator.reScale("Hola", 2, 1, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidIntervalScale() {
+    animator();
+    IShape rect = new Rect(1, 1, 1, 1, 1, 1, 1);
+    animator.add("Hola", rect, 1, 9);
+    animator.reScale("Hola", 1, 10, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nameNotInAnimatorColor() {
+    animator();
+    animator.setColor("Hola", 1, 2, 1, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidTimeColor() {
+    animator();
+    IShape rect = new Rect(1, 1, 1, 1, 1, 1, 1);
+    animator.add("Hola", rect, 1, 10);
+    animator.setColor("Hola", 2, 1, 1, 1,1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidIntervalColor() {
+    animator();
+    IShape rect = new Rect(1, 1, 1, 1, 1, 1, 1);
+    animator.add("Hola", rect, 1, 9);
+    animator.setColor("Hola", 1, 10, 1, 1, 1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidNameDelete() {
+    animator();
+    animator.deleteTransform("name", TransformType.COLOR);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidNullDelete() {
+    animator();
+    animator.deleteTransform("name", TransformType.COLOR);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidWidth() {
+    animator();
+    animator.setBounds(-10, 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidHeight() {
+    animator();
+    animator.setBounds(10, -10);
+  }
+
+  @Test
+  public void getStartEndTest() {
+    animator();
+    animator.add("rect",
+            new Rect(1, 1, 1, 1, 10, 20, 10), 1, 10);
+    assertEquals(1 ,animator.getStart("rect"));
+    assertEquals(10 ,animator.getEnd("rect"));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void getStartInvalidName() {
+    animator();
+    animator.getStart("Hola");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void getStartNullName() {
+    animator();
+    animator.getStart(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void getEndNullName() {
+    animator();
+    animator.getEnd(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void getStarInvalidName() {
+    animator();
+    animator.getStart("hola");
+  }
+
+  @Test
+  public void getShapeTest() {
+    animator();
+    IShape circle = new Ellipse(10, 10, 1, 1, 1, 2, 3);
+    animator.add("circle", circle, 1, 10);
+    IShape c = animator.getShape("circle");
+    assertEquals(circle.getHeight(), c.getHeight(), 0.0001);
+    assertEquals(circle.getWidth(), c.getWidth(), 0.0001);
+    assertEquals(circle.getName(), c.getName());
+    assertEquals(circle.getBlue(), c.getBlue());
+    assertEquals(circle.getGreen(), c.getGreen());
+    assertEquals(circle.getRed(), c.getRed());
+    assertEquals(circle.getX(), c.getX(), 0.0001);
+    assertEquals(circle.getY(), c.getY(), 0.0001);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nullNameGetShape() {
+    animator();
+    animator.getShape(null);
+  }
+
+  @Test
+  public void invalidNameGetShape() {
+    animator();
+    assertNull(animator.getShape("hsu"));
+  }
+
+  @Test
+  public void getShapes() {
+    animator();
+    IShape circle = new Ellipse(10, 10, 1, 1, 1, 2, 3);
+    animator.add("circle", circle, 1, 10);
+    List<IShape> list = animator.getShapes();
+    assertEquals(1, list.size());
+    IShape c = list.get(0);
+    assertEquals(circle.getHeight(), c.getHeight(), 0.0001);
+    assertEquals(circle.getWidth(), c.getWidth(), 0.0001);
+    assertEquals(circle.getName(), c.getName());
+    assertEquals(circle.getBlue(), c.getBlue());
+    assertEquals(circle.getGreen(), c.getGreen());
+    assertEquals(circle.getRed(), c.getRed());
+    assertEquals(circle.getX(), c.getX(), 0.0001);
+    assertEquals(circle.getY(), c.getY(), 0.0001);
   }
 }
