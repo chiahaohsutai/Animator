@@ -260,15 +260,31 @@ public class Animator implements IAnimator {
   private Map<String, List<ITransform>> getTransformsAtTick(int tick) {
     Map<String, List<ITransform>> statesByShape = this.getState();
 
-    for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
-      statesByShape.put(singleShapeEntry.getKey(),
-              singleShapeEntry.getValue().stream()
-                      .filter((ITransform t) -> t.getStart() >= tick && t.getEnd() < tick)
-                      .map((ITransform t) -> t.copy())
-                      .collect(Collectors.toList()));
+    Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
+
+    for (String singleShapeID : statesByShape.keySet()) {
+      statesByShapeAtTick.put(singleShapeID, new ArrayList<>());
     }
 
-    return statesByShape;
+    for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
+      for (ITransform singleTransform : singleShapeEntry.getValue()) {
+        if (singleTransform.getStart() >= tick && singleTransform.getEnd() < tick) {
+          ITransform copy = singleTransform.copy();
+          statesByShapeAtTick.get(singleShapeEntry.getKey()).add(copy);
+        }
+
+        /*
+        statesByShape.put(singleShapeEntry.getKey(),
+                singleShapeEntry.getValue().stream()
+                        .filter((ITransform t) -> t.getStart() >= tick && t.getEnd() < tick)
+                        .map((ITransform t) -> t.copy())
+                        .collect(Collectors.toList()));
+
+         */
+      }
+    }
+
+    return statesByShapeAtTick;
   }
 
   /**
