@@ -1,5 +1,6 @@
 package cs3500.model;
 
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -39,9 +40,7 @@ public class Animator implements IAnimator {
   private final Map<String, Deque<ITransform>> colorTransformations;
   private final Map<String, Deque<ITransform>> scaleTransformations;
   private final Map<String, Deque<ITransform>> positionTransformations;
-  private Map<Integer, List<IShape>> mostRecentStateOfShapesAtTick;
-
-  private final Map<String, IShape> shapes_copy;
+  private final Map<String, IShape> shapesCopy;
 
   /**
    * Creates an instance of an animator with a tick rate of 1 and a canvas dimension of 0x0.
@@ -56,8 +55,7 @@ public class Animator implements IAnimator {
     this.colorTransformations = new HashMap<>();
     this.scaleTransformations = new HashMap<>();
     this.positionTransformations = new HashMap<>();
-    this.mostRecentStateOfShapesAtTick = new HashMap<>();
-    this.shapes_copy = new LinkedHashMap<>();
+    this.shapesCopy = new LinkedHashMap<>();
   }
 
   @Override
@@ -69,7 +67,7 @@ public class Animator implements IAnimator {
     }
     shapes.put(name, shape);
     IShape copy = shape.copy();
-    shapes_copy.put(name, copy);
+    shapesCopy.put(name, copy);
     copy.setName(name);
     shape.setName(name);
     // initialize a list if the key doesn't exist in the map.
@@ -89,7 +87,7 @@ public class Animator implements IAnimator {
     checkNameExistence(name);
     shapes.get(name).setName(null);
     shapes.remove(name);
-    shapes_copy.remove(name);
+    shapesCopy.remove(name);
     colorTransformations.remove(name);
     positionTransformations.remove(name);
     scaleTransformations.remove(name);
@@ -187,8 +185,8 @@ public class Animator implements IAnimator {
 
   @Override
   public void resetShapes() {
-    for (String name : shapes_copy.keySet()) {
-      shapes_copy.put(name, shapes.get(name).copy());
+    for (String name : shapesCopy.keySet()) {
+      shapesCopy.put(name, shapes.get(name).copy());
     }
   }
 
@@ -255,18 +253,11 @@ public class Animator implements IAnimator {
     if (tick < 0) {
       throw new IllegalArgumentException("The given tick cannot be negative!");
     }
-    List<String> name1 = new ArrayList<>();
-    List<String> name2 = new ArrayList<>();
-    Stream<Integer> starts = creationTimes.keySet().stream().filter(k -> k <= tick);
-    Stream<Integer> ends = obituaryTimes.keySet().stream().filter(k -> k >= tick);
-    starts.map(creationTimes::get).forEach(name1::addAll);
-    ends.map(obituaryTimes::get).forEach(name2::addAll);
-    Stream<String> stream_names = name1.stream().filter(name2::contains);
-    List<String> names = stream_names.collect(Collectors.toList());
+    List<String> names = getNamesAtTick(tick);
     List<IShape> result = new ArrayList<>(names.size());
     for (String name : names) {
       List<ITransform> transforms = getTransform(tick, name);
-      IShape s = shapes_copy.get(name);
+      IShape s = shapesCopy.get(name);
       Consumer<ITransform> f = t -> t.acceptShapeMutationVisitor(
               new VisualShapeMutationVisitor(s, tick));
       transforms.forEach(f);
@@ -282,8 +273,25 @@ public class Animator implements IAnimator {
   }
 
   /**
+   * Gets all the shapes that exist in the animator at the given tick.
+   *
+   * @param tick is the tick from which we want to extract the shapes from.
+   * @return a list of all the names that are currently present at the tick.
+   */
+  private List<String> getNamesAtTick(int tick) {
+    List<String> name1 = new ArrayList<>();
+    List<String> name2 = new ArrayList<>();
+    Stream<Integer> starts = creationTimes.keySet().stream().filter(k -> k <= tick);
+    Stream<Integer> ends = obituaryTimes.keySet().stream().filter(k -> k >= tick);
+    starts.map(creationTimes::get).forEach(name1::addAll);
+    ends.map(obituaryTimes::get).forEach(name2::addAll);
+    Stream<String> stream_names = name1.stream().filter(name2::contains);
+    return stream_names.collect(Collectors.toList());
+  }
+
+  /**
    * Gets all the transformations that are occurring at the given tick for the give name.
-   * @param tick is the tick at we want to extract transformations form.
+   * @param tick is the tick at we want to extract transformations from.
    * @param name is the name of the shape that is going through the transform.
    * @return the list of transformations for the shape for the given tick.
    */
