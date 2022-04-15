@@ -20,8 +20,8 @@ public class VisualViewPanel extends JPanel {
   private final ReadTimeKeeper clock;
 
   /**
-   *
-   * @param model
+   * Draws the current state of the animation according to the current tick.
+   * @param model is the animator model with all the states of the animation.
    */
   public VisualViewPanel(ReadAnimator model, ReadTimeKeeper clock) {
     super();
@@ -35,7 +35,6 @@ public class VisualViewPanel extends JPanel {
     Graphics2D g2 = (Graphics2D) g;
     List<IShape> shapesToDraw = model.calculateStatesAtTick(clock.getTime());
     ISVisitor visualShapeVisitor = new VisualShapeVisitor(g2);
-    System.out.print(shapesToDraw);
     for (IShape singleShape : shapesToDraw) {
       singleShape.visitor(visualShapeVisitor);
     }

@@ -17,7 +17,6 @@ import cs3500.model.ReadAnimator;
  */
 public class VisualView extends JFrame implements IVisual {
   private final VisualViewPanel panel;
-  private final ReadAnimator model;
   private final TimeKeeper clock;
 
   /**
@@ -30,7 +29,6 @@ public class VisualView extends JFrame implements IVisual {
     this.setTitle("The Easy Animator Visual View");
     this.setLayout(new BorderLayout());
     this.clock = new Clock();
-    this.model = model;
     panel = new VisualViewPanel(model, clock);
 
     panel.setPreferredSize(new Dimension(model.getCanvasWidth(),

@@ -31,6 +31,8 @@ public class ViewCreator {
         return new TextView(this.anim, this.ap);
       case "svg":
         return new SVGView(this.anim, this.ap);
+      case "interactive":
+        return new InteractiveView(this.anim);
       default:
         throw new IllegalArgumentException("Invalid type !");
     }

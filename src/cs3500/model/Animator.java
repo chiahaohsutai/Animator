@@ -10,7 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import cs3500.model.shape.IShape;
@@ -38,6 +41,8 @@ public class Animator implements IAnimator {
   private final Map<String, Deque<ITransform>> positionTransformations;
   private Map<Integer, List<IShape>> mostRecentStateOfShapesAtTick;
 
+  private final Map<String, IShape> shapes_copy;
+
   /**
    * Creates an instance of an animator with a tick rate of 1 and a canvas dimension of 0x0.
    */
@@ -52,6 +57,7 @@ public class Animator implements IAnimator {
     this.scaleTransformations = new HashMap<>();
     this.positionTransformations = new HashMap<>();
     this.mostRecentStateOfShapesAtTick = new HashMap<>();
+    this.shapes_copy = new LinkedHashMap<>();
   }
 
   @Override
@@ -62,6 +68,9 @@ public class Animator implements IAnimator {
       throw new IllegalArgumentException("The given shape or name already exists.");
     }
     shapes.put(name, shape);
+    IShape copy = shape.copy();
+    shapes_copy.put(name, copy);
+    copy.setName(name);
     shape.setName(name);
     // initialize a list if the key doesn't exist in the map.
     initializeMap(obituaryTimes, end);
@@ -80,6 +89,7 @@ public class Animator implements IAnimator {
     checkNameExistence(name);
     shapes.get(name).setName(null);
     shapes.remove(name);
+    shapes_copy.remove(name);
     colorTransformations.remove(name);
     positionTransformations.remove(name);
     scaleTransformations.remove(name);
@@ -176,6 +186,13 @@ public class Animator implements IAnimator {
   }
 
   @Override
+  public void resetShapes() {
+    for (String name : shapes_copy.keySet()) {
+      shapes_copy.put(name, shapes.get(name).copy());
+    }
+  }
+
+  @Override
   public int getStart(String name) {
     checkNameExistence(name);
     return getTick(name, creationTimes);
@@ -235,109 +252,53 @@ public class Animator implements IAnimator {
 
   @Override
   public List<IShape> calculateStatesAtTick(int tick) {
-    // validate input
     if (tick < 0) {
       throw new IllegalArgumentException("The given tick cannot be negative!");
     }
-
-    // get all the transforms that happen to shapes at given tick
-    // (shape id -> all transforms at given tick)
-    Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
-
-    // if there are no transformations in animator, then just get shapes at tick
-    // (basically draw shapes at their lifetime, no animations)
-    if (transformsAtTick == null) {
-      return getShapesAtTick(tick);
+    List<String> name1 = new ArrayList<>();
+    List<String> name2 = new ArrayList<>();
+    Stream<Integer> starts = creationTimes.keySet().stream().filter(k -> k <= tick);
+    Stream<Integer> ends = obituaryTimes.keySet().stream().filter(k -> k >= tick);
+    starts.map(creationTimes::get).forEach(name1::addAll);
+    ends.map(obituaryTimes::get).forEach(name2::addAll);
+    Stream<String> stream_names = name1.stream().filter(name2::contains);
+    List<String> names = stream_names.collect(Collectors.toList());
+    List<IShape> result = new ArrayList<>(names.size());
+    for (String name : names) {
+      List<ITransform> transforms = getTransform(tick, name);
+      IShape s = shapes_copy.get(name);
+      Consumer<ITransform> f = t -> t.acceptShapeMutationVisitor(
+              new VisualShapeMutationVisitor(s, tick));
+      transforms.forEach(f);
+      result.add(s);
     }
+    return result;
+  }
 
-    // initialize map entry (tick -> states of shapes at tick)
-    mostRecentStateOfShapesAtTick.put(tick, new ArrayList<>());
-
-    // apply the transform to the shape using visitor
-    for (Map.Entry<String, List<ITransform>> singleShapeEntry : transformsAtTick.entrySet()) {
-      IShape shapeToTransform = this.getShape(singleShapeEntry.getKey());
-
-      // create visitor
-      IShapeMutationVisitor visualShapeMutationVisitor =
-              new VisualShapeMutationVisitor(shapeToTransform, tick);
-
-      // issue is here, if there are no transforms, the shape is reverting back to same state
-      // as when it was added
-      // what it should be: when theres no transform at the given tick, the shape should be the same
-      // state as it was in the previous tick
-      // (not the same state as when it was first added to animation)
-
-      // if the shape has no transforms, the state at the tick remains the same as before
-      if (singleShapeEntry.getValue().isEmpty()) {
-        mostRecentStateOfShapesAtTick.get(tick).add(shapeToTransform);
-
-        // if the shape has transforms, apply each transform using visitor
-      } else {
-        for (ITransform singleShapeTransformations : singleShapeEntry.getValue()) {
-          // apply transform to shape
-          singleShapeTransformations.acceptShapeMutationVisitor(visualShapeMutationVisitor);
-          // store state of shape at tick in map
-          mostRecentStateOfShapesAtTick.get(tick).add(shapeToTransform);
-        }
-      }
-    }
-
-    // retrieve the states of shapes at tick
-    return mostRecentStateOfShapesAtTick.get(tick);
+  @Override
+  public int getEndingTick() {
+    Optional<Integer> max = obituaryTimes.keySet().stream().max(Integer::compareTo);
+    return max.orElse(0);
   }
 
   /**
-   *
-   * @param tick
-   * @return
+   * Gets all the transformations that are occurring at the given tick for the give name.
+   * @param tick is the tick at we want to extract transformations form.
+   * @param name is the name of the shape that is going through the transform.
+   * @return the list of transformations for the shape for the given tick.
    */
-  private List<IShape> getShapesAtTick(int tick) {
-    List<IShape> listOfAllShapes = this.getShapes();
-
-    return listOfAllShapes.stream().filter((IShape s) ->
-            this.getStart(s.getName()) <= tick
-                    && this.getEnd(s.getName()) > tick)
-            .map(IShape::copy)
-            .collect(Collectors.toList());
-  }
-
-  /**
-   *
-   * @param tick
-   * @return
-   */
-  private Map<String, List<ITransform>> getTransformsAtTick(int tick) {
-    Map<String, List<ITransform>> statesByShape;
-
-    // if there are no transformations, return null
-    if (this.getState() == null) {
-      return null;
-    } else {
-      statesByShape = this.getState();
+  private List<ITransform> getTransform(int tick, String name) {
+    List<ITransform> result = new ArrayList<>();
+    List<Map<String, Deque<ITransform>>> maps = new ArrayList<>(3);
+    maps.add(colorTransformations);
+    maps.add(positionTransformations);
+    maps.add(scaleTransformations);
+    Predicate<ITransform> pred = t -> t.getStart() <= tick && t.getEnd() >= tick;
+    for (Map<String, Deque<ITransform>> m : maps) {
+      Stream<ITransform> s = m.get(name).stream().filter(pred);
+      s.forEach(result::add);
     }
-
-    // initialize new map to store transforms that happen to shapes at given tick
-    // (shape id -> all transforms at given tick)
-    Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
-
-    // loop through all transforms of all shapes of entire animation,
-    // filter (keep) transforms that happen to shapes during given tick
-    for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
-      boolean inRange = this.getStart(singleShapeEntry.getKey()) <= tick &&
-              this.getEnd(singleShapeEntry.getKey()) > tick;
-
-      if (inRange) {
-        List<ITransform> tr = singleShapeEntry.getValue()
-                .stream()
-                .filter((ITransform t) -> t.getStart() <= tick && t.getEnd() >= tick)
-                .map(ITransform::copy)
-                .collect(Collectors.toList());
-        statesByShapeAtTick.put(singleShapeEntry.getKey(), tr);
-      }
-    }
-
-    // return the "filtered map"
-    return statesByShapeAtTick;
+    return result;
   }
 
   /**

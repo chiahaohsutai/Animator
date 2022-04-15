@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.IllegalFormatException;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -16,9 +17,11 @@ import javax.swing.JOptionPane;
 
 import cs3500.controller.Controller;
 import cs3500.controller.IBasicController;
+import cs3500.controller.InteractiveController;
 import cs3500.io.AnimationFileReader;
 import cs3500.io.Builder;
 import cs3500.model.IAnimator;
+import cs3500.view.IInteractiveVisual;
 import cs3500.view.IView;
 import cs3500.view.IVisual;
 import cs3500.view.ViewCreator;
@@ -81,9 +84,8 @@ public class Main {
     ViewCreator c = new ViewCreator(animator, dump);
     try {
       IView v = c.factory(view);
-      if (view.equals("visual")) {
-        IBasicController ctrl = new Controller((IVisual) v, animator);
-        ctrl.start();
+      if (view.equals("visual") || view.equals("interactive")) {
+        startView(view, v, animator);
         return;
       }
       v.render();
@@ -113,7 +115,7 @@ public class Main {
    * @param keys is set of commands that the user inputted.
    */
   private static void checkValidCmd(List<String> commands, Set<String> keys) {
-    if (!commands.containsAll(keys)) {
+    if (!new HashSet<>(commands).containsAll(keys)) {
       showError("Some of the commands are invalid.");
     }
   }
@@ -127,5 +129,22 @@ public class Main {
     JOptionPane.showMessageDialog(null, infoMessage, "Error",
             JOptionPane.INFORMATION_MESSAGE);
     System.exit(0);
+  }
+
+  /**
+   * Start a visual view depending on the view type.
+   *
+   * @param view is the view type.
+   * @param v the view object that will be used.
+   * @param anim is the animator model.
+   */
+  private static void startView(String view, IView v, IAnimator anim) {
+    IBasicController ctrl;
+    if (view.equals("visual")) {
+      ctrl = new Controller((IVisual) v, anim);
+    } else {
+      ctrl = new InteractiveController(anim, (IInteractiveVisual) v);
+    }
+    ctrl.start();
   }
 }

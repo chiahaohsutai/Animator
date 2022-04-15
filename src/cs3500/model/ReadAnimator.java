@@ -90,4 +90,9 @@ public interface ReadAnimator {
    * @return list of shapes in their respective state at given tick
    */
   List<IShape> calculateStatesAtTick(int tick);
+
+  /**
+   * Gets the tick at which the animation is completed.
+   */
+  int getEndingTick();
 }

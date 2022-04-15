@@ -27,4 +27,9 @@ public class Clock implements TimeKeeper {
   public void decreaseTime() {
     this.currentTick -= 1;
   }
+
+  @Override
+  public void reset() {
+    this.currentTick = 0;
+  }
 }

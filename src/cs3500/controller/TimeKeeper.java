@@ -13,4 +13,9 @@ public interface TimeKeeper extends ReadTimeKeeper {
    *
    */
   void decreaseTime();
+
+  /**
+   *
+   */
+  void reset();
 }

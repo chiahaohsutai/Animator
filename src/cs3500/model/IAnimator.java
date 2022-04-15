@@ -103,4 +103,11 @@ public interface IAnimator extends ReadAnimator {
    * @throws IllegalArgumentException if the tick rate is 0 or negative.
    */
   void setTickRate(int tick);
+
+  /**
+   * Resets all the shapes to their original state.
+   * (Does not remove/clear the history of transform fo the shape, this means that the animator
+   * is still keeping track of all the transforms the shape has gone through).
+   */
+  void resetShapes();
 }

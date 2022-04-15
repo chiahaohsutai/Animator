@@ -15,29 +15,20 @@ import cs3500.model.ReadAnimator;
 public class InteractiveView extends JFrame implements IInteractiveVisual {
   private final ReadAnimator model;
   private final TimeKeeper clock;
-  private int speed;
-  private boolean isPlaying;
-  private boolean isLooping;
-
-  private final VisualViewPanel animationPanel;
-  private final JPanel buttonPanel;
-  private final JPanel labelPanel;
-
-  private JButton startButton;
   private JButton pauseButton;
   private JButton restartButton;
   private JButton loopButton;
   private JButton increaseSpeedButton;
   private JButton decreaseSpeedButton;
   private JButton exitButton;
-
   private JLabel animationPlayingLabel;
   private JLabel speedLabel;
   private JLabel loopingLabel;
 
   /**
+   * Constructors the interactive visual GUI. Sets the size, look and buttons.
    *
-   * @param model
+   * @param model is the read only animator model.
    */
   public InteractiveView(ReadAnimator model) {
     super();
@@ -45,43 +36,42 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     // initialize data
     this.model = model;
     this.clock = new Clock();
-    this.speed = model.getTickRate();
-    this.isLooping = false;
-    this.isPlaying = false;
 
     // set up frame
     this.setTitle("The Easy Animator Visual View");
     this.setLayout(new BorderLayout());
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.setSize(new Dimension(900, 600));
     this.makeVisible();
 
     // set up animation panel
-    this.animationPanel = new VisualViewPanel(model, clock);
+    VisualViewPanel animationPanel = new VisualViewPanel(model, clock);
     this.add(animationPanel, BorderLayout.CENTER);
 
     // set up button panel
-    this.buttonPanel = createButtonPanel();
+    JPanel buttonPanel = createButtonPanel();
     this.add(buttonPanel, BorderLayout.SOUTH);
 
     // set up label panel
-    this.labelPanel = createLabelPanel();
+    JPanel labelPanel = createLabelPanel();
     this.add(labelPanel, BorderLayout.NORTH);
 
     this.makeVisible();
   }
 
   /**
+   * Creates a label for a panel component in the view.
    *
-   * @return
+   * @return for each one for the speed, looping and current state label.
    */
   private JPanel createLabelPanel() {
     JPanel labels = new JPanel();
     labels.setBackground(Color.gray);
     labels.setLayout(new FlowLayout());
 
-    this.animationPlayingLabel = new JLabel(getAnimationPlayingString());
-    this.speedLabel = new JLabel("[ Animation speed : " + this.speed + " ]");
-    this.loopingLabel = new JLabel(getIsLoopingString());
+    this.animationPlayingLabel = new JLabel("Animation is OFF/PAUSED");
+    this.speedLabel = new JLabel(String.format("Tick Rate: %d", model.getTickRate()));
+    this.loopingLabel = new JLabel("Looping is OFF");
 
     labels.add(animationPlayingLabel);
     labels.add(speedLabel);
@@ -91,43 +81,16 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
   }
 
   /**
+   * Creates the panel holding all the buttons. Organizes the buttons in a row (flow layout).
    *
-   * @return
-   */
-  private String getIsLoopingString() {
-    if (isLooping) {
-      return "[ Animation looping is on ]";
-    } else {
-      return "[ Animation looping is off ]";
-    }
-  }
-
-  /**
-   *
-   * @return
-   */
-  private String getAnimationPlayingString() {
-    if (this.isPlaying) {
-      return "[ Animation is playing ]";
-    } else {
-      return "[ No animation is playing ]";
-    }
-  }
-
-  /**
-   *
-   * @return
+   * @return the populated panel golding the buttons.
    */
   private JPanel createButtonPanel() {
     JPanel buttons = new JPanel();
     buttons.setBackground(Color.gray);
     buttons.setLayout(new FlowLayout());
 
-    startButton = new JButton("Start");
-    startButton.setActionCommand("Start Button");
-    buttons.add(startButton);
-
-    pauseButton = new JButton("Pause/Resume");
+    pauseButton = new JButton("Play/Pause");
     pauseButton.setActionCommand("Pause/Resume Button");
     buttons.add(pauseButton);
 
@@ -167,5 +130,54 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
   @Override
   public void moveFrame() {
     clock.increaseTime();
+  }
+
+  @Override
+  public void addFeatures(IInteractiveFeatures feat) {
+    pauseButton.addActionListener(evt -> feat.pauseResume());
+    pauseButton.addActionListener(evt -> setStart());
+    restartButton.addActionListener(evt -> feat.restart());
+    loopButton.addActionListener(evt -> feat.looping());
+    loopButton.addActionListener(evt -> setLoop());
+    increaseSpeedButton.addActionListener(evt -> feat.increaseSpeed());
+    increaseSpeedButton.addActionListener(evt -> setSpeed());
+    decreaseSpeedButton.addActionListener(evt -> feat.decreaseSpeed());
+    decreaseSpeedButton.addActionListener(evt -> setSpeed());
+    exitButton.addActionListener(evt -> feat.exitProgram());
+  }
+
+  @Override
+  public void reset() {
+    animationPlayingLabel.setText("Animation is ON/PLAYING");
+    clock.reset();
+  }
+
+  /**
+   * Sets the playing label to its opposite value. If OFF, the label is set to ON and vice versa.
+   */
+  private void setStart() {
+    if (animationPlayingLabel.getText().equals("Animation is OFF/PAUSED")) {
+      animationPlayingLabel.setText("Animation is ON/PLAYING");
+    } else {
+      animationPlayingLabel.setText("Animation is OFF/PAUSED");
+    }
+  }
+
+  /**
+   * Sets the looping label to the opposite value. If OFF, it's turned to ON.
+   */
+  private void setLoop() {
+    if (loopingLabel.getText().equals("Looping is OFF")) {
+      loopingLabel.setText("Looping is ON");
+    } else {
+      loopingLabel.setText("Looping is OFF");
+    }
+  }
+
+  /**
+   * Sets the speed label to the current speed in the animation.
+   */
+  private void setSpeed() {
+    speedLabel.setText(String.format("Tick Rate: %d", model.getTickRate()));
   }
 }
