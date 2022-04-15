@@ -83,9 +83,11 @@ public interface ReadAnimator {
   List<IShape> getShapes();
 
   /**
+   * Calculate the state of the shapes at the given tick. This method uses tweening to calculate
+   * the intermediate state of shapes.
    *
-   * @param tick
-   * @return
+   * @param tick the given tick
+   * @return list of shapes in their respective state at given tick
    */
   List<IShape> calculateStatesAtTick(int tick);
 }

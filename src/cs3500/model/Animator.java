@@ -239,7 +239,7 @@ public class Animator implements IAnimator {
     // (shape id -> all transforms at given tick)
     Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
 
-    // if there are no transformations in animator, then get shapes at tick
+    // if there are no transformations in animator, then just get shapes at tick
     if (transformsAtTick == null) {
       return getShapesAtTick(tick);
     }

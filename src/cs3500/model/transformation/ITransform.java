@@ -61,7 +61,7 @@ public interface ITransform {
   void visitor(ITVisitor visitor);
 
   /**
-   *
+   * Accepts a visitor that
    * @param shapeMutationVisitor
    */
   IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor);

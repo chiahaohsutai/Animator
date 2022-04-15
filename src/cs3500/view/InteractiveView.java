@@ -64,6 +64,11 @@ public class InteractiveView extends JFrame implements IInteractiveFeatures {
     // set up label panel
     this.labelPanel = createLabelPanel();
     this.add(labelPanel, BorderLayout.NORTH);
+
+    this.setVisible(true);
+
+    // format frame
+    this.pack();
   }
 
   /**
