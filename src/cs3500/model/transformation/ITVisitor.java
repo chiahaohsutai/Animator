@@ -5,21 +5,22 @@ package cs3500.model.transformation;
  * The visitor aims to visit the shape in an animation.
  */
 public interface ITVisitor {
+
   /**
-   *
-   * @param t
+   * Visits the color transform and provides functionality based on the visitor type.
+   * @param t is the transform that will be visited.
    */
   void visitColor(ColorTransform t);
 
   /**
-   *
-   * @param t
+   * Visits the position transform and provides functionality based on the visitor type.
+   * @param t is the transform that will be visited.
    */
   void visitPosition(PositionTransform t);
 
   /**
-   *
-   * @param t
+   * Visits the scale transform and provides functionality based on the visitor type.
+   * @param t is the transform that will be visited.
    */
   void visitScale(ScaleTransform t);
 }

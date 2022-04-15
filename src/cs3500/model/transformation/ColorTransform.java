@@ -2,7 +2,6 @@ package cs3500.model.transformation;
 
 import java.awt.Color;
 import java.util.stream.Stream;
-
 import cs3500.model.shape.IShape;
 
 /**

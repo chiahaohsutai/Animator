@@ -1,7 +1,4 @@
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11,7 +8,6 @@ import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
 import cs3500.model.transformation.ITransform;
-import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.TransformType;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

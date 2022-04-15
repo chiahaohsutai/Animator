@@ -27,7 +27,6 @@ public class VisualViewPanel extends JPanel {
    */
   public VisualViewPanel(ReadAnimator model, int currentTick) {
     super();
-
     this.model = model;
     this.currentTick = currentTick;
     this.setBackground(Color.white);
