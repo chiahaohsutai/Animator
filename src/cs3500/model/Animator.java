@@ -235,11 +235,17 @@ public class Animator implements IAnimator {
 
   @Override
   public List<IShape> calculateStatesAtTick(int tick) {
-    // get all the transforms that happen to all shapes at given tick
+    // validate input
+    if (tick < 0) {
+      throw new IllegalArgumentException("The given tick cannot be negative!");
+    }
+
+    // get all the transforms that happen to shapes at given tick
     // (shape id -> all transforms at given tick)
     Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
 
     // if there are no transformations in animator, then just get shapes at tick
+    // (basically draw shapes at their lifetime, no animations)
     if (transformsAtTick == null) {
       return getShapesAtTick(tick);
     }
@@ -251,8 +257,15 @@ public class Animator implements IAnimator {
     for (Map.Entry<String, List<ITransform>> singleShapeEntry : transformsAtTick.entrySet()) {
       IShape shapeToTransform = this.getShape(singleShapeEntry.getKey());
 
+      // create visitor
       IShapeMutationVisitor visualShapeMutationVisitor =
               new VisualShapeMutationVisitor(shapeToTransform, tick);
+
+      // issue is here, if there are no transforms, the shape is reverting back to same state
+      // as when it was added
+      // what it should be: when theres no transform at the given tick, the shape should be the same
+      // state as it was in the previous tick
+      // (not the same state as when it was first added to animation)
 
       // if the shape has no transforms, the state at the tick remains the same as before
       if (singleShapeEntry.getValue().isEmpty()) {
@@ -261,8 +274,8 @@ public class Animator implements IAnimator {
         // if the shape has transforms, apply each transform using visitor
       } else {
         for (ITransform singleShapeTransformations : singleShapeEntry.getValue()) {
+          // apply transform to shape
           singleShapeTransformations.acceptShapeMutationVisitor(visualShapeMutationVisitor);
-
           // store state of shape at tick in map
           mostRecentStateOfShapesAtTick.get(tick).add(shapeToTransform);
         }
@@ -303,8 +316,12 @@ public class Animator implements IAnimator {
       statesByShape = this.getState();
     }
 
+    // initialize new map to store transforms that happen to shapes at given tick
+    // (shape id -> all transforms at given tick)
     Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
 
+    // loop through all transforms of all shapes of entire animation,
+    // filter (keep) transforms that happen to shapes during given tick
     for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
       boolean inRange = this.getStart(singleShapeEntry.getKey()) <= tick &&
               this.getEnd(singleShapeEntry.getKey()) > tick;
@@ -318,6 +335,8 @@ public class Animator implements IAnimator {
         statesByShapeAtTick.put(singleShapeEntry.getKey(), tr);
       }
     }
+
+    // return the "filtered map"
     return statesByShapeAtTick;
   }
 

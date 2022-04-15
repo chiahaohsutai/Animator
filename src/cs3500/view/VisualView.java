@@ -11,7 +11,9 @@ import cs3500.model.ReadAnimator;
 
 /**
  * Represents a visual view of an animation. The visual view is displayed in a GUI on the local
- * machine.
+ * machine. The visual view of an animation consists of a frame holding a panel in which the
+ * animation occurs in. The frame is repainted after every delay period of the timer. The animation
+ * is essentially a sequence of this repainting action.
  */
 public class VisualView extends JFrame implements IVisual {
   private final VisualViewPanel panel;
@@ -20,6 +22,8 @@ public class VisualView extends JFrame implements IVisual {
 
   /**
    * Constructs the window that holds the animation. The animation is played in this window.
+   *
+   * @param model the given animation model populated with data
    */
   public VisualView(ReadAnimator model) {
     super();

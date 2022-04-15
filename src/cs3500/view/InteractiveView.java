@@ -5,13 +5,14 @@ import java.awt.*;
 import javax.swing.*;
 
 import cs3500.controller.Clock;
+import cs3500.controller.IInteractiveFeatures;
 import cs3500.controller.TimeKeeper;
 import cs3500.model.ReadAnimator;
 
 /**
  *
  */
-public class InteractiveView extends JFrame implements IInteractiveFeatures {
+public class InteractiveView extends JFrame implements IInteractiveVisual {
   private final ReadAnimator model;
   private final TimeKeeper clock;
   private int speed;
@@ -52,6 +53,7 @@ public class InteractiveView extends JFrame implements IInteractiveFeatures {
     this.setTitle("The Easy Animator Visual View");
     this.setLayout(new BorderLayout());
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.makeVisible();
 
     // set up animation panel
     this.animationPanel = new VisualViewPanel(model, clock);
@@ -65,10 +67,7 @@ public class InteractiveView extends JFrame implements IInteractiveFeatures {
     this.labelPanel = createLabelPanel();
     this.add(labelPanel, BorderLayout.NORTH);
 
-    this.setVisible(true);
-
-    // format frame
-    this.pack();
+    this.makeVisible();
   }
 
   /**
@@ -124,20 +123,32 @@ public class InteractiveView extends JFrame implements IInteractiveFeatures {
     buttons.setBackground(Color.gray);
     buttons.setLayout(new FlowLayout());
 
-    this.startButton = new JButton("Start");
-    this.pauseButton = new JButton("Pause/Resume");
-    this.restartButton = new JButton("Restart");
-    this.loopButton = new JButton("Enable/Disable Loop");
-    this.increaseSpeedButton = new JButton("Increase Speed");
-    this.decreaseSpeedButton = new JButton("Decrease Speed");
-    this.exitButton = new JButton("Exit");
-
+    startButton = new JButton("Start");
+    startButton.setActionCommand("Start Button");
     buttons.add(startButton);
+
+    pauseButton = new JButton("Pause/Resume");
+    pauseButton.setActionCommand("Pause/Resume Button");
     buttons.add(pauseButton);
+
+    restartButton = new JButton("Restart");
+    restartButton.setActionCommand("Restart Button");
     buttons.add(restartButton);
+
+    loopButton = new JButton("Enable/Disable Loop");
+    loopButton.setActionCommand("Enable/Disable Loop Button");
     buttons.add(loopButton);
+
+    increaseSpeedButton = new JButton("Increase Speed");
+    increaseSpeedButton.setActionCommand("Increase Speed Button");
     buttons.add(increaseSpeedButton);
+
+    decreaseSpeedButton = new JButton("Decrease Speed");
+    decreaseSpeedButton.setActionCommand("Decrease Speed Button");
     buttons.add(decreaseSpeedButton);
+
+    exitButton = new JButton("Exit");
+    exitButton.setActionCommand("Exit Button");
     buttons.add(exitButton);
 
     return buttons;
@@ -145,51 +156,16 @@ public class InteractiveView extends JFrame implements IInteractiveFeatures {
 
   @Override
   public void render() {
-
+    this.repaint();
   }
 
   @Override
   public void makeVisible() {
-
+    this.setVisible(true);
   }
 
   @Override
   public void moveFrame() {
-
-  }
-
-  @Override
-  public void startAnimation() {
-
-  }
-
-  @Override
-  public void pause() {
-
-  }
-
-  @Override
-  public void resume() {
-
-  }
-
-  @Override
-  public void restart() {
-
-  }
-
-  @Override
-  public void looping() {
-
-  }
-
-  @Override
-  public void increaseSpeed() {
-
-  }
-
-  @Override
-  public void decreaseSpeed() {
-
+    clock.increaseTime();
   }
 }

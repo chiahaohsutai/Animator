@@ -7,34 +7,33 @@ import cs3500.model.IAnimator;
 import cs3500.view.IVisual;
 
 /**
- *
+ * Represents the implementation of the controller for the visual view.
  */
-public class Controller implements IController {
-  private Timer timer;
-  private IVisual view;
-  private IAnimator model;
+public class Controller implements IBasicController, ActionListener {
+  private final IAnimator model;
+  private final IVisual view;
+  private final Timer timer;
 
   /**
-   *
+   * Constructs a controller
+   * @param view
+   * @param model
    */
   public Controller(IVisual view, IAnimator model) {
-    // set up the action listener to be performed every delay.
-    ActionListener performTask = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        view.render();
-        view.moveFrame();
-      }
-    };
-
-    this.timer = new Timer(1000 / model.getTickRate(), performTask);
-    this.view = view;
     this.model = model;
+    this.view = view;
+    this.timer = new Timer(1000 / model.getTickRate(), this);
   }
 
   @Override
   public void start() {
     view.makeVisible();
     timer.start();
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    view.render();
+    view.moveFrame();
   }
 }
