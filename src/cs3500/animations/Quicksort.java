@@ -3,8 +3,6 @@ package cs3500.animations;
 import java.util.Comparator;
 import java.util.List;
 import cs3500.model.shape.IShape;
-import cs3500.model.transformation.ITransform;
-import cs3500.model.transformation.PositionTransform;
 
 /**
  * Animates the quicksort algorithm that sorts a list. The animation will use a list of size
@@ -17,10 +15,10 @@ public class Quicksort extends ASorting {
   @Override
   public void create() {
     // add shapes with random colors.
-    populate(6);
+    populate(8);
     tick += 5;
     // set the canvas size.
-    animation.add("canvas 260 120");
+    animation.add("canvas 340 120");
     // sort the shapes.
     quickSort(array, 0, array.size(), new ColorComparator());
     // draw the shapes.
