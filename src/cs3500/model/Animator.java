@@ -305,24 +305,6 @@ public class Animator implements IAnimator {
 
     Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
 
-    /*
-    Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
-
-    for (String singleShapeID : statesByShape.keySet()) {
-      statesByShapeAtTick.put(singleShapeID, new ArrayList<>());
-    }
-
-    for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
-      for (ITransform singleTransform : singleShapeEntry.getValue()) {
-        if (singleTransform.getStart() >= tick && singleTransform.getEnd() < tick) {
-          ITransform copy = singleTransform.copy();
-          statesByShapeAtTick.get(singleShapeEntry.getKey()).add(copy);
-        }
-      }
-    }
-    */
-
-
     for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
       boolean inRange = this.getStart(singleShapeEntry.getKey()) <= tick &&
               this.getEnd(singleShapeEntry.getKey()) > tick;
@@ -337,9 +319,6 @@ public class Animator implements IAnimator {
       }
     }
     return statesByShapeAtTick;
-
-
-    //return statesByShapeAtTick;
   }
 
   /**

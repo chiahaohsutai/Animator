@@ -2,13 +2,8 @@ package cs3500.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.Timer;
-
 import cs3500.model.IAnimator;
-import cs3500.model.shape.IShape;
 import cs3500.view.IVisual;
 
 /**
@@ -16,7 +11,6 @@ import cs3500.view.IVisual;
  */
 public class Controller implements IController {
   private Timer timer;
-  private List<IShape> mostRecentStatesOfShapes;
   private IVisual view;
   private IAnimator model;
 
@@ -29,12 +23,11 @@ public class Controller implements IController {
       @Override
       public void actionPerformed(ActionEvent e) {
         view.render();
-        view.incrementCurrentTick();
+        view.moveFrame();
       }
     };
 
     this.timer = new Timer(1000 / model.getTickRate(), performTask);
-    this.mostRecentStatesOfShapes = new ArrayList<>();
     this.view = view;
     this.model = model;
   }

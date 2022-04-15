@@ -2,16 +2,14 @@ package cs3500.view;
 
 import java.awt.*;
 
-import java.awt.geom.AffineTransform;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JPanel;
 
+import cs3500.controller.ReadTimeKeeper;
 import cs3500.model.ReadAnimator;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
-import cs3500.model.transformation.ITransform;
 import cs3500.view.visitors.VisualShapeVisitor;
 
 /**
@@ -19,28 +17,24 @@ import cs3500.view.visitors.VisualShapeVisitor;
  */
 public class VisualViewPanel extends JPanel {
   private final ReadAnimator model;
-  private int currentTick;
+  private final ReadTimeKeeper clock;
 
   /**
    *
    * @param model
    */
-  public VisualViewPanel(ReadAnimator model, int currentTick) {
+  public VisualViewPanel(ReadAnimator model, ReadTimeKeeper clock) {
     super();
     this.model = model;
-    this.currentTick = currentTick;
+    this.clock = clock;
     this.setBackground(Color.white);
   }
 
   @Override
   public void paintComponent(Graphics g) {
-
     Graphics2D g2 = (Graphics2D) g;
-
-    List<IShape> shapesToDraw = model.calculateStatesAtTick(currentTick);
-
+    List<IShape> shapesToDraw = model.calculateStatesAtTick(clock.getTime());
     ISVisitor visualShapeVisitor = new VisualShapeVisitor(g2);
-
     System.out.print(shapesToDraw);
     for (IShape singleShape : shapesToDraw) {
       singleShape.visitor(visualShapeVisitor);
