@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import cs3500.model.Animator;
+import cs3500.model.IAnimator;
 import cs3500.model.ReadAnimator;
 
 /**
@@ -20,17 +21,17 @@ public class VisualView extends JFrame implements IVisual {
   /**
    * Constructs the window that holds the animation. The animation is played in this window.
    */
-  public VisualView() {
+  public VisualView(ReadAnimator model) {
     super();
     this.currentTick = 0;
 
     this.setTitle("The Easy Animator Visual View");
     this.setLayout(new BorderLayout());
-    model = new Animator();
+    this.model = model;
     panel = new VisualViewPanel(model, currentTick);
 
     panel.setPreferredSize(new Dimension(model.getCanvasWidth(), model.getCanvasHeight()));
-    this.add(panel, BorderLayout.CENTER);
+    this.add(panel);
 
     // format the window.
     this.pack();
@@ -39,7 +40,7 @@ public class VisualView extends JFrame implements IVisual {
 
   @Override
   public void render() {
-    panel.repaint();
+    this.repaint();
   }
 
   @Override

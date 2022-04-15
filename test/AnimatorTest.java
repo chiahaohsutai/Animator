@@ -412,7 +412,7 @@ public class AnimatorTest {
   }
 
   @Test
-  public void testCalculateStatesAtTickNoTransformsDone() {
+  public void testCalculateStatesAtTickNoTransforms() {
     animator();
 
     IShape square = new Rect(10, 10, 1, 1, 1, 2, 3);
@@ -423,9 +423,9 @@ public class AnimatorTest {
     animator.add("rectangle", rectangle, 7, 12);
     animator.add("circle", circle, 15, 20);
 
-    List<IShape> list = animator.getShapes();
+    List<IShape> list = animator.calculateStatesAtTick(8);
 
-    assertEquals(2, animator.calculateStatesAtTick(8).size());
+    assertEquals(2, list.size());
 
     IShape s = list.get(0);
     IShape r = list.get(1);
@@ -447,5 +447,36 @@ public class AnimatorTest {
     assertEquals(rectangle.getRed(), r.getRed());
     assertEquals(rectangle.getX(), r.getX(), 0.0001);
     assertEquals(rectangle.getY(), r.getY(), 0.0001);
+  }
+
+  @Test
+  public void testCalculateStatesAtTickWithTransforms() {
+    animator();
+
+    IShape square = new Rect(10, 10, 1, 1, 1, 2, 3);
+    IShape rectangle = new Rect(10, 30, 50, 50, 10, 11, 12);
+    IShape circle = new Ellipse(10, 10, 15, 20, 50, 1, 3);
+
+    animator.add("square", square, 1, 10);
+    animator.add("rectangle", rectangle, 7, 12);
+    animator.add("circle", circle, 15, 20);
+
+    animator.move("square", 3, 7, 15, 10);
+
+    List<IShape> list = animator.calculateStatesAtTick(7);
+
+    assertEquals(2, list.size());
+
+    IShape s = list.get(0);
+
+    assertEquals(10, s.getHeight(), 0.0001);
+    assertEquals(10, s.getWidth(), 0.0001);
+    assertEquals("square", s.getName());
+    assertEquals(3, s.getBlue());
+    assertEquals(2, s.getGreen());
+    assertEquals(1, s.getRed());
+    assertEquals(15, s.getX(), 0.0001);
+    assertEquals(10, s.getY(), 0.0001);
+
   }
 }

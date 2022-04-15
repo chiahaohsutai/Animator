@@ -28,9 +28,9 @@ public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
     double[] beginColor = t.getOldData();
     double[] endColor = t.getData();
 
-    double redAtTick = getUpdatedState(t, currentTick, beginColor[1], endColor[1]);
-    double greenAtTick = getUpdatedState(t, currentTick, beginColor[2], endColor[2]);
-    double blueAtTick = getUpdatedState(t, currentTick, beginColor[3], endColor[3]);
+    double redAtTick = getUpdatedState(t, currentTick, beginColor[0], endColor[0]);
+    double greenAtTick = getUpdatedState(t, currentTick, beginColor[1], endColor[1]);
+    double blueAtTick = getUpdatedState(t, currentTick, beginColor[2], endColor[2]);
 
     shapeToTransform.setColor((int)redAtTick, (int)greenAtTick, (int)blueAtTick);
 
@@ -42,8 +42,8 @@ public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
     double[] beginPosition = t.getOldData();
     double[] endPosition = t.getData();
 
-    double xAtTick = getUpdatedState(t, currentTick, beginPosition[1], endPosition[1]);
-    double yAtTick = getUpdatedState(t, currentTick, beginPosition[2], endPosition[2]);
+    double xAtTick = getUpdatedState(t, currentTick, beginPosition[0], endPosition[0]);
+    double yAtTick = getUpdatedState(t, currentTick, beginPosition[1], endPosition[1]);
 
     shapeToTransform.move(xAtTick, yAtTick);
 
@@ -55,8 +55,8 @@ public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
     double[] beginSize = t.getOldData();
     double[] endSize = t.getData();
 
-    double widthAtTick = getUpdatedState(t, currentTick, beginSize[1], endSize[1]);
-    double heightAtTick = getUpdatedState(t, currentTick, beginSize[2], endSize[2]);
+    double widthAtTick = getUpdatedState(t, currentTick, beginSize[0], endSize[0]);
+    double heightAtTick = getUpdatedState(t, currentTick, beginSize[1], endSize[1]);
 
     shapeToTransform.reScale(widthAtTick, heightAtTick);
 

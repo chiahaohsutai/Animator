@@ -239,6 +239,11 @@ public class Animator implements IAnimator {
     // (shape id -> all transforms at given tick)
     Map<String, List<ITransform>> transformsAtTick = getTransformsAtTick(tick);
 
+    // if there are no transformations in animator, then get shapes at tick
+    if (transformsAtTick == null) {
+      return getShapesAtTick(tick);
+    }
+
     // initialize map entry (tick -> states of shapes at tick)
     mostRecentStateOfShapesAtTick.put(tick, new ArrayList<>());
 
@@ -273,8 +278,30 @@ public class Animator implements IAnimator {
    * @param tick
    * @return
    */
+  private List<IShape> getShapesAtTick(int tick) {
+    List<IShape> listOfAllShapes = this.getShapes();
+
+    return listOfAllShapes.stream().filter((IShape s) ->
+            this.getStart(s.getName()) <= tick
+                    && this.getEnd(s.getName()) > tick)
+            .map(IShape::copy)
+            .collect(Collectors.toList());
+  }
+
+  /**
+   *
+   * @param tick
+   * @return
+   */
   private Map<String, List<ITransform>> getTransformsAtTick(int tick) {
-    Map<String, List<ITransform>> statesByShape = this.getState();
+    Map<String, List<ITransform>> statesByShape;
+
+    // if there are no transformations, return null
+    if (this.getState() == null) {
+      return null;
+    } else {
+      statesByShape = this.getState();
+    }
 
     Map<String, List<ITransform>> statesByShapeAtTick = new HashMap<>();
 
@@ -297,17 +324,18 @@ public class Animator implements IAnimator {
 
 
     for (Map.Entry<String, List<ITransform>> singleShapeEntry : statesByShape.entrySet()) {
-      if (this.getStart(singleShapeEntry.getKey()) <= tick &&
-              this.getEnd(singleShapeEntry.getKey()) > tick) {
-        statesByShapeAtTick.put(singleShapeEntry.getKey(),
-                singleShapeEntry.getValue().stream()
-                        .filter((ITransform t) -> t.getStart() <= tick && t.getEnd() > tick)
-                        .map(ITransform::copy)
-                        .collect(Collectors.toList()));
+      boolean inRange = this.getStart(singleShapeEntry.getKey()) <= tick &&
+              this.getEnd(singleShapeEntry.getKey()) > tick;
+
+      if (inRange) {
+        List<ITransform> tr = singleShapeEntry.getValue()
+                .stream()
+                .filter((ITransform t) -> t.getStart() <= tick && t.getEnd() >= tick)
+                .map(ITransform::copy)
+                .collect(Collectors.toList());
+        statesByShapeAtTick.put(singleShapeEntry.getKey(), tr);
       }
     }
-
-
     return statesByShapeAtTick;
 
 
