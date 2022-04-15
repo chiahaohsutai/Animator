@@ -2,11 +2,11 @@ package cs3500.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
-import cs3500.model.Animator;
-import cs3500.model.IAnimator;
+import javax.swing.*;
+
+import cs3500.controller.Clock;
+import cs3500.controller.TimeKeeper;
 import cs3500.model.ReadAnimator;
 
 /**
@@ -16,22 +16,29 @@ import cs3500.model.ReadAnimator;
 public class VisualView extends JFrame implements IVisual {
   private final VisualViewPanel panel;
   private final ReadAnimator model;
-  private int currentTick;
+  private final TimeKeeper clock;
 
   /**
    * Constructs the window that holds the animation. The animation is played in this window.
    */
   public VisualView(ReadAnimator model) {
     super();
-    this.currentTick = 0;
-
     this.setTitle("The Easy Animator Visual View");
     this.setLayout(new BorderLayout());
+    this.clock = new Clock();
     this.model = model;
-    panel = new VisualViewPanel(model, currentTick);
+    panel = new VisualViewPanel(model, clock);
 
-    panel.setPreferredSize(new Dimension(model.getCanvasWidth(), model.getCanvasHeight()));
-    this.add(panel);
+    panel.setPreferredSize(new Dimension(model.getCanvasWidth(),
+            model.getCanvasHeight()));
+    this.add(panel, BorderLayout.CENTER);
+
+
+    // add scroll pane.
+    JScrollPane scroll = new JScrollPane(panel);
+    scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    this.add(scroll);
 
     // format the window.
     this.pack();
@@ -49,7 +56,7 @@ public class VisualView extends JFrame implements IVisual {
   }
 
   @Override
-  public void incrementCurrentTick() {
-    currentTick += 1;
+  public void moveFrame() {
+    clock.increaseTime();
   }
 }
