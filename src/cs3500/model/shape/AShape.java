@@ -8,7 +8,8 @@ import java.util.stream.Stream;
 
 /**
  * Represents a mutable shape that has a color, size, form, and color. The form represents the
- * geometric or non-geometric form of the shape.
+ * geometric or non-geometric form of the shape. The abstract class shares all the
+ * common functionalities of all shapes.
  */
 public abstract class AShape implements IShape {
   protected String name;

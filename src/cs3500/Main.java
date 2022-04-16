@@ -27,7 +27,7 @@ import cs3500.view.IVisual;
 import cs3500.view.ViewCreator;
 
 /**
- * Runs the program. Depending on the argumnets to the program will output different views for
+ * Runs the program. Depending on the arguments to the program will output different views for
  * the animation.
  */
 public class Main {

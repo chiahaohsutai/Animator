@@ -2,6 +2,11 @@ package cs3500.model.transformation;
 
 import cs3500.model.shape.IShape;
 
+/**
+ * Represents a transformation that moves the given object to a new position. This object holds the
+ * data of a move, including its start and end times, beginning position, and ending
+ * position.
+ */
 public class PositionTransform extends ATransform {
   private final double oldX;
   private final double oldY;

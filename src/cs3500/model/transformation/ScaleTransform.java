@@ -3,7 +3,9 @@ package cs3500.model.transformation;
 import cs3500.model.shape.IShape;
 
 /**
- * Represents a transformation that scales the given object to a new scale.
+ * Represents a transformation that scales the given object to a new size. This object holds the
+ * data of a size change, including its start and end times, beginning dimensions, and ending
+ * dimensions.
  */
 public class ScaleTransform extends ATransform {
   private final double oldW;

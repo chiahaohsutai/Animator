@@ -5,7 +5,9 @@ import java.util.stream.Stream;
 import cs3500.model.shape.IShape;
 
 /**
- * Represents a color transformation.
+ * Represents a transformation that changes the color of a given object to a new color. A color
+ * is specified by its RGB values. This object holds the data of a color change, including its
+ * start and end times, beginning color RGB values, and ending color RGB values.
  */
 public class ColorTransform extends ATransform {
   private final Color oldColor;

@@ -1,7 +1,7 @@
 package cs3500.animations;
 
 /**
- * Creates a insertion sort animation. This animation displays how the insertion sort algorithm
+ * Creates an insertion sort animation. This animation displays how the insertion sort algorithm
  * works from a visual point of view.
  */
 public class InsertionsortAnimation {

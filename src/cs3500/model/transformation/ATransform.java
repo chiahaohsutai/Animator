@@ -7,7 +7,8 @@ import cs3500.model.shape.IShape;
 
 /**
  * Represents a transformation for a given object. A transformation happens in a time interval,
- * and it refers to a change in the field of the object.
+ * and it refers to a change in the field of the object. This abstract class shares the common
+ * functionalities of different transformations.
  */
 public abstract class ATransform implements ITransform {
   protected final int start;

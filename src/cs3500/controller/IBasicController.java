@@ -7,7 +7,8 @@ package cs3500.controller;
 public interface IBasicController {
 
   /**
-   * Starts the program. The method will make the window visible and display the animation.
+   * Starts the program. The method will make the window visible and display the animation. The
+   * window remains open even after the animation is done playing, it must be manually closed.
    */
   void start();
 }

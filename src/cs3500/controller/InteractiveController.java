@@ -1,10 +1,6 @@
 package cs3500.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Objects;
-
-import javax.swing.*;
+import javax.swing.Timer;
 
 import cs3500.model.IAnimator;
 import cs3500.view.IInteractiveVisual;
@@ -21,6 +17,14 @@ public class InteractiveController implements IInteractiveFeatures {
   private final IInteractiveVisual view;
   private boolean loop;
 
+  /**
+   * Constructs a controller that handles the user interaction with buttons in the interactive
+   * view. This includes the handling of when the play/pause, restart, enable/disable looping,
+   * increase speed, decrease speed, and exit buttons are pressed. The controller keeps track and
+   * manages the time accordingly.
+   * @param model is the populated model to generate the animation.
+   * @param view is the view for the animation. In this case, it is an interactive view.
+   */
   public InteractiveController(IAnimator model, IInteractiveVisual view) {
     this.clock = new Clock();
     this.loop = false;

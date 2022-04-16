@@ -10,7 +10,10 @@ import cs3500.controller.TimeKeeper;
 import cs3500.model.ReadAnimator;
 
 /**
- *
+ * Represents the interactive view for the animation. The interactive view consists of different
+ * buttons that allow the client to control the animation. It includes features such as
+ * playing, pausing, restarting, enabling/disabling looping, increasing/decreasing speed,
+ * and exiting the animation.
  */
 public class InteractiveView extends JFrame implements IInteractiveVisual {
   private final ReadAnimator model;
@@ -26,7 +29,7 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
   private JLabel loopingLabel;
 
   /**
-   * Constructors the interactive visual GUI. Sets the size, look and buttons.
+   * Constructs the interactive view verison of the GUI. Sets the size, look and buttons.
    *
    * @param model is the read only animator model.
    */

@@ -15,7 +15,8 @@ import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 
 /**
- * Represents animations that animate a sorting algorithm.
+ * Represents animations that animate a sorting algorithm. Abstract class to share common
+ * functionalities of sorting algorithms.
  */
 public abstract class ASorting implements SortingAnimations{
   protected final List<String> animation;

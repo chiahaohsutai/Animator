@@ -56,13 +56,15 @@ public interface ITransform {
   /**
    * Accepts a visitor. The visitor determines the functionality of the method.
    *
+   * @param visitor is the given transformation visitor
    * @throws IllegalArgumentException if the visitor is null.
    */
   void visitor(ITVisitor visitor);
 
   /**
-   * Accepts a visitor that
-   * @param shapeMutationVisitor
+   * Accepts a visitor that mutates a shape based on the transformation.
+   *
+   * @param shapeMutationVisitor is the given shape mutation visitor
    */
   IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor);
 }
