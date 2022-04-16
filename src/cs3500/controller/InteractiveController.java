@@ -91,10 +91,4 @@ public class InteractiveController implements IInteractiveFeatures {
   public void exitProgram() {
     System.exit(0);
   }
-
-  @Override
-  public void play() {
-    timer.start();
-    view.render();
-  }
 }

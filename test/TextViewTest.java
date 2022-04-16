@@ -9,6 +9,10 @@ import cs3500.view.TextView;
 
 import static org.junit.Assert.*;
 
+/**
+ * Represents the tests for the text output for an animation. It tests the output for the
+ * different shapes as well.
+ */
 public class TextViewTest {
 
   @Test

@@ -19,7 +19,11 @@ change of state could be a change in position, change in color or change in scal
 allowed use to store the information in a cleaner more accessible form, which allowed the model
 to pass information to the controller and view more easily. We also added some more methods that
 would allow the view to have access to the shapes at a current tick. This helped to render the 
-visual view and determine if a shape exists at the given tick. 
+visual view and determine if a shape exists at the given tick. We also decided to change the
+signature of several methods. Before, many method signatures would have Java Objects or classes
+that we created as parameters, which meant that our implementations had strong coupling between 
+certain classes. Hence, we try to reduce this by changing all the signatures to use primitive types
+as parameters. 
 
 ##### The IShape and the ITransform
 
