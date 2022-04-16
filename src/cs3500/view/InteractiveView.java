@@ -38,7 +38,7 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     this.clock = new Clock();
 
     // set up frame
-    this.setTitle("The Easy Animator Visual View");
+    this.setTitle("The Easy Animator Interactive View");
     this.setLayout(new BorderLayout());
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setSize(new Dimension(900, 600));
@@ -46,7 +46,13 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
 
     // set up animation panel
     VisualViewPanel animationPanel = new VisualViewPanel(model, clock);
-    this.add(animationPanel, BorderLayout.CENTER);
+    animationPanel.setPreferredSize(new Dimension(model.getCanvasWidth(),model.getCanvasHeight()));
+
+    // add scroll
+    JScrollPane scrollPane = new JScrollPane(animationPanel);
+    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    this.add(scrollPane, BorderLayout.CENTER);
 
     // set up button panel
     JPanel buttonPanel = createButtonPanel();
@@ -69,9 +75,9 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     labels.setBackground(Color.gray);
     labels.setLayout(new FlowLayout());
 
-    this.animationPlayingLabel = new JLabel("Animation is OFF/PAUSED");
-    this.speedLabel = new JLabel(String.format("Tick Rate: %d", model.getTickRate()));
-    this.loopingLabel = new JLabel("Looping is OFF");
+    this.animationPlayingLabel = new JLabel("[ Animation is OFF/PAUSED ]");
+    this.speedLabel = new JLabel(String.format("[ Tick Rate: %d ]", model.getTickRate()));
+    this.loopingLabel = new JLabel("[ Looping is OFF ]");
 
     labels.add(animationPlayingLabel);
     labels.add(speedLabel);
@@ -148,7 +154,7 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
 
   @Override
   public void reset() {
-    animationPlayingLabel.setText("Animation is ON/PLAYING");
+    animationPlayingLabel.setText("[ Animation is ON/PLAYING ]");
     clock.reset();
   }
 
@@ -156,10 +162,10 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
    * Sets the playing label to its opposite value. If OFF, the label is set to ON and vice versa.
    */
   private void setStart() {
-    if (animationPlayingLabel.getText().equals("Animation is OFF/PAUSED")) {
-      animationPlayingLabel.setText("Animation is ON/PLAYING");
+    if (animationPlayingLabel.getText().equals("[ Animation is OFF/PAUSED ]")) {
+      animationPlayingLabel.setText("[ Animation is ON/PLAYING ]");
     } else {
-      animationPlayingLabel.setText("Animation is OFF/PAUSED");
+      animationPlayingLabel.setText("[ Animation is OFF/PAUSED ]");
     }
   }
 
@@ -167,10 +173,10 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
    * Sets the looping label to the opposite value. If OFF, it's turned to ON.
    */
   private void setLoop() {
-    if (loopingLabel.getText().equals("Looping is OFF")) {
-      loopingLabel.setText("Looping is ON");
+    if (loopingLabel.getText().equals("[ Looping is OFF ]")) {
+      loopingLabel.setText("[ Looping is ON ]");
     } else {
-      loopingLabel.setText("Looping is OFF");
+      loopingLabel.setText("[ Looping is OFF ]");
     }
   }
 
@@ -178,6 +184,6 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
    * Sets the speed label to the current speed in the animation.
    */
   private void setSpeed() {
-    speedLabel.setText(String.format("Tick Rate: %d", model.getTickRate()));
+    speedLabel.setText(String.format("[ Tick Rate: %d ]", model.getTickRate()));
   }
 }
