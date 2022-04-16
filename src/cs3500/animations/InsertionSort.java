@@ -1,9 +1,7 @@
 package cs3500.animations;
 
 import java.util.List;
-
 import cs3500.model.shape.IShape;
-import cs3500.model.transformation.ITransform;
 
 /**
  * Represents an animation for insertion sort algorithm for sorting lists. The animation will sort
