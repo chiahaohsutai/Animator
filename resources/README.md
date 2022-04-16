@@ -35,12 +35,61 @@ something different.
 
 ### Changes to the View
 
+Previously in Assignment 5, we submitted an incomplete version of the visual view. This assignment, 
+we completed the visual view in its entirety and implemented the interactive view.
+
+Implementation details:
+
+The visual view is essentially a GUI that pops up and plays the animation. It is just a single
+JPanel layed onto the JFrame. The animation is played in its entirety and dissapears after its 
+completion. The window will stay open until it is manually closed. The JPanel essentially grabs
+the existing shapes and their current state at given tick and draws it. As the time progresses, 
+it keeps drawing the updated states of existing shapes, creating an animation.
+
+The interactive view is much more interesting. The GUI contains many more components. We reused
+the prior implementation of the JPanel in the visual view to display the animation. This panel
+is placed in the center of the GUI. In addition to the animation panel, we created two more panels,
+one to house the buttons and one to house the labels that provides the client with some information
+about what is going on. The button panel holds all the interactive elements. We connected these
+buttons to the controller by adding action listener, so when one is clicked, the corresponding 
+action is performed. In addition, we added additional action listeners to specific buttons
+to change the labels to reflect what is going on in the window.
+
+Both of our views contain a manual timekeeper that is synced with the Timer. These clocks are 
+meant for internal use and their sole purpose is to determine the shapes and their states at a 
+given time. This is used to provide a visual representation of the shapes. These clocks actually
+do not move by themselves. Rather, the time of the program is solely handled by the Timer in the
+controller. This is discussed later in the controller section.
+
 The main changes to the view are the use of visitors to construct the required views. The view has
-a series of different visitors where ach visitor behaves according to the view type. We decided to
-do this because, we wanted to take advantage of dynamic dispatch and allow java figure out what
+a series of different visitors where each visitor behaves according to the view type. We decided to
+do this because, we wanted to take advantage of dynamic dispatch and allow Java figure out what
 needs to be done based on the object being visited. Hence, we were able to avoid having to check
-which type of shape or transform is being worked on while generating the view.
+which type of shape or transform is being worked on while generating the view. 
+
 
 ## The Controller
+
+For this assignment, we finished the implementation of the controller for the visual view and
+implemented the controller for the interactive view.
+
+We have two controllers, each specifically paired with one of the visual views. 
+
+The Controller class that implements the BasicController interface is meant to be used with the 
+visual view. This controller does not contain many functionalities, all it does is make the GUI 
+appear and play the animation until its ending. The animation will end, but the window will remain 
+open until it is manually closed. The Controller has access to the view and houses the Timer of the
+program. The Timer object ticks after every delay based on the given tick rate and performs a 
+repeated action at every tick. This action is essentially to update the clock in the view and to
+repaint the entire frame of the view with the updated states.
+
+The InteractiveController class that implements the IInteractiveFeatures interface
+is meant to be used with the interactive view. The InteractiveController has access to the view, model, and 
+houses the Timer of the program. The Timer object ticks after every delay based on the given tick
+rate and performs a repeated action at every tick. This action is essentially to repaint the entire
+frame, update the clock in the view, and handle actions in the GUI as time passes. 
+The InteractiveController provides the view with functionality and handles all the button presses
+by the client. This includes the play/pause, restart, enable/disable looping, increase speed,
+decrease speed, and exit buttons.
 
 
