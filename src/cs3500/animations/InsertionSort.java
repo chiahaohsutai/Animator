@@ -1,7 +1,6 @@
 package cs3500.animations;
 
 import java.util.List;
-
 import cs3500.model.shape.IShape;
 
 /**
