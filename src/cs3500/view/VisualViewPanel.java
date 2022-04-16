@@ -1,11 +1,10 @@
 package cs3500.view;
 
-import java.awt.*;
-
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.List;
-
+import java.awt.Graphics2D;
 import javax.swing.JPanel;
-
 import cs3500.controller.ReadTimeKeeper;
 import cs3500.model.ReadAnimator;
 import cs3500.model.shape.ISVisitor;
@@ -13,7 +12,8 @@ import cs3500.model.shape.IShape;
 import cs3500.view.visitors.VisualShapeVisitor;
 
 /**
- * Represents a
+ * Represents a panel in which the animation is being played. It grabs the state of the existing
+ * shapes at a given tick and draws them.
  */
 public class VisualViewPanel extends JPanel {
   private final ReadAnimator model;

@@ -1,6 +1,5 @@
 package cs3500.model;
 
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import cs3500.model.shape.IShape;
 import cs3500.model.transformation.ColorTransform;
-import cs3500.model.transformation.IShapeMutationVisitor;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;

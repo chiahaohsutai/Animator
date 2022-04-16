@@ -7,9 +7,6 @@ import cs3500.controller.TimeKeeper;
 import cs3500.model.Animator;
 import cs3500.model.IAnimator;
 import cs3500.view.IVisual;
-import cs3500.view.VisualView;
-
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**

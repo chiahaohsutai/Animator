@@ -108,8 +108,8 @@ public class SVGView extends TextualView {
    * Sets the visibility of a shape in an animation.
    *
    * @param name is the name of the shape.
-   * @throws IllegalArgumentException if the name is not in the animation or the name is null.
    * @return an SVG tag which sets the visibility attribute of a shape.
+   * @throws IllegalArgumentException if the name is not in the animation or the name is null.
    */
   private String setVisibility(String name) {
     double start = (double)animator.getStart(name) / animator.getTickRate();

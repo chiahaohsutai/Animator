@@ -1,9 +1,16 @@
 package cs3500.view;
 
-import java.awt.*;
-
-import javax.swing.*;
-
+import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.WindowConstants;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JScrollPane;
 import cs3500.controller.Clock;
 import cs3500.controller.IInteractiveFeatures;
 import cs3500.controller.TimeKeeper;

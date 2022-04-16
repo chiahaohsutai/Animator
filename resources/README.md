@@ -10,7 +10,7 @@ description was produced.
 
 ### Changes to the Model
 
-The model was changed in several changed in several aspects. Most of the changes were driven by the 
+The model was changed in several aspects. Most of the changes were driven by the 
 difficulty of transmitting information from the model to the view and controller. The biggest issue
 was that stored the states of the shapes as strings, which lead to the model string manipulations
 and string slicing for a lot of operations. Hence, we decided to introduce an object called the 

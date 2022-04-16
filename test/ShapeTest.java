@@ -1,7 +1,6 @@
 import org.junit.Test;
 
 import cs3500.model.shape.Ellipse;
-import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
 
@@ -21,12 +20,12 @@ public class ShapeTest {
   IShape ellipse;
 
   // initializes a rectangle.
-  public void initRect() {
+  private void initRect() {
     rect = new Rect(10, 5, 10, 0, 255, 255, 0);
   }
 
   // initializes an ellipse.
-  public void initEllipse() {
+  private void initEllipse() {
     ellipse = new Ellipse(10, 5, 10, 0, 255, 255, 0);
   }
 

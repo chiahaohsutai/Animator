@@ -2,9 +2,10 @@ package cs3500.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
-import javax.swing.*;
-
+import javax.swing.WindowConstants;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import cs3500.controller.Clock;
 import cs3500.controller.TimeKeeper;
 import cs3500.model.ReadAnimator;
@@ -16,7 +17,6 @@ import cs3500.model.ReadAnimator;
  * is essentially a sequence of this repainting action.
  */
 public class VisualView extends JFrame implements IVisual {
-  private final VisualViewPanel panel;
   private final TimeKeeper clock;
 
   /**
@@ -29,7 +29,7 @@ public class VisualView extends JFrame implements IVisual {
     this.setTitle("The Easy Animator Visual View");
     this.setLayout(new BorderLayout());
     this.clock = new Clock();
-    panel = new VisualViewPanel(model, clock);
+    VisualViewPanel panel = new VisualViewPanel(model, clock);
 
     panel.setPreferredSize(new Dimension(model.getCanvasWidth(),
             model.getCanvasHeight()));

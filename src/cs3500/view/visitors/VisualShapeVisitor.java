@@ -1,7 +1,7 @@
 package cs3500.view.visitors;
 
-import java.awt.*;
-
+import java.awt.Graphics2D;
+import java.awt.Color;
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.Rect;

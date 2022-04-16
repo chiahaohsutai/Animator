@@ -37,7 +37,9 @@ public abstract class TextualView implements IView {
    * @param list is the svg tags in a list format.
    */
   protected void render(List<String> list) {
-    try { output.append(String.join("\n", list)); }
+    try {
+      output.append(String.join("\n", list));
+    }
     catch (IOException e) {
       throw new IllegalStateException("Failed to render the svg.");
     }

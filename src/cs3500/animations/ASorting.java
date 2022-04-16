@@ -18,7 +18,7 @@ import cs3500.model.transformation.PositionTransform;
  * Represents animations that animate a sorting algorithm. Abstract class to share common
  * functionalities of sorting algorithms.
  */
-public abstract class ASorting implements SortingAnimations{
+public abstract class ASorting implements SortingAnimations {
   protected final List<String> animation;
   protected final Random random;
   protected final List<IShape> array;
@@ -109,9 +109,9 @@ public abstract class ASorting implements SortingAnimations{
     int max = 0;
     for (List<ITransform> t : transforms.values()) {
       if (t.size() != 0) {
-        ITransform Tlast = t.get(t.size() - 1);
-        if (Tlast.getEnd() > max) {
-          max = Tlast.getEnd();
+        ITransform tLast = t.get(t.size() - 1);
+        if (tLast.getEnd() > max) {
+          max = tLast.getEnd();
         }
       }
     }
@@ -139,7 +139,8 @@ public abstract class ASorting implements SortingAnimations{
    * @param after is the position of the shape after moving.
    * @param direction is the direction in the y direction the shape moves. (up or down).
    */
-  protected void moveTransforms(List<ITransform> t, double[] before, double[] after, int direction) {
+  protected void moveTransforms(List<ITransform> t, double[] before,
+                                double[] after, int direction) {
     int y = 20 * direction;
     t.add(new PositionTransform(tick, tick + 2, before[0], before[1],
             before[0], before[1] + y));

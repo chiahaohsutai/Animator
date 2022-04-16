@@ -29,6 +29,7 @@ public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
     this.shapeToTransform = shapeToTransform;
     this.currentTick = currentTick;
   }
+
   @Override
   public IShape visitAndApplyColorTransform(ColorTransform t) {
     double[] beginColor = t.getOldData();

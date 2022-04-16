@@ -6,9 +6,8 @@ package cs3500.view;
  * forms to display animation: a text view that shows a textual description of
  * the animation, an SVG view that is a textual representation compliant with the popular
  * SVG file format, and a visual view that displays the animation in a GUI locally.
- * This interface includes the methods required to generate the different views.
- *
- * New addition: the client has the additional option of a fourth view : an interactive view that
+ * This interface includes the methods required to generate the different views. New addition:
+ * the client has the additional option of a fourth view : an interactive view that
  * supports playback features. This new view includes the options to start, pause, resume, restart,
  * loop, increase speed, and decrease speed of an animation.
  */

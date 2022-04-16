@@ -18,9 +18,9 @@ public interface ReadAnimator {
    * Gets the shape with the given id.
    *
    * @param name is the name/id of the shape you want to get.
-   * @throws IllegalArgumentException if the given id/name is null.
    * @return the shape associated with the id if the id exists in the animator or null if the shape
    *     does not exist in the animator.
+   * @throws IllegalArgumentException if the given id/name is null.
    */
   IShape getShape(String name);
 
