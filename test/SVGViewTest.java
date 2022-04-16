@@ -8,6 +8,9 @@ import cs3500.view.IView;
 import cs3500.view.SVGView;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class to test the SVG output for different animations and shape types.
+ */
 public class SVGViewTest {
 
   @Test

@@ -8,18 +8,24 @@ import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
 
 /**
- *
+ * Mutates a shape according to the tick and mutation. The visitor tweens the shape
+ * according to the transform and the given tick.
  */
 public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
   private final IShape shapeToTransform;
   private int currentTick;
 
   /**
+   * Create a visitor which will transform the shape given the tick. It tweens the shape to the
+   * appropriate transition state.
    *
-   * @param shapeToTransform
-   * @param currentTick
+   * @param shapeToTransform is the shape that will be transformed.
+   * @param currentTick is the tick at which the shape needs to be inbetweenning at.
    */
   public VisualShapeMutationVisitor(IShape shapeToTransform, int currentTick) {
+    if (currentTick < 0 || shapeToTransform == null) {
+      throw new IllegalArgumentException("Invalid parameters");
+    }
     this.shapeToTransform = shapeToTransform;
     this.currentTick = currentTick;
   }
@@ -64,12 +70,13 @@ public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
   }
 
   /**
+   *  Does the math for the tweening for the trasnfomration.
    *
-   * @param t
-   * @param currentTick
-   * @param beginState
-   * @param endState
-   * @return
+   * @param t is the transform object.
+   * @param currentTick is the tick.
+   * @param beginState is the starting state of the shape.
+   * @param endState is the ending state of the shape.
+   * @return the in between state of the object.
    */
   private double getUpdatedState(ITransform t, int currentTick, double beginState,
                                  double endState) {

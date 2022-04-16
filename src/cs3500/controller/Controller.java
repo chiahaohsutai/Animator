@@ -1,7 +1,5 @@
 package cs3500.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import cs3500.model.IAnimator;
 import cs3500.view.IVisual;

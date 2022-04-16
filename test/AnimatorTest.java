@@ -1,23 +1,31 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import cs3500.model.Animator;
 import cs3500.model.IAnimator;
 import cs3500.model.shape.Ellipse;
+import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
+import cs3500.model.transformation.ColorTransform;
+import cs3500.model.transformation.IShapeMutationVisitor;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
+import cs3500.model.transformation.ScaleTransform;
 import cs3500.model.transformation.TransformType;
+import cs3500.view.visitors.VisualShapeMutationVisitor;
+import cs3500.view.visitors.VisualShapeVisitor;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Represents all the test to test the functionality of the animator model and the mutating
+ * methods. It also tests constructor requirements and getter methods.
+ */
 public class AnimatorTest {
 
   IAnimator animator;
@@ -507,5 +515,92 @@ public class AnimatorTest {
     assertEquals(1, s.getRed());
     assertEquals(8, s.getX(), 0.0001);
     assertEquals(5.5, s.getY(), 0.0001);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testVisualShapeConstructorVisitor() {
+    ISVisitor v = new VisualShapeVisitor(null);
+    v.visitRect(new Rect(1, 1, 1, 1 , 11, 1, 1));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testMutatingVisitorConstructorNullShape() {
+    IShapeMutationVisitor v = new VisualShapeMutationVisitor(null, 0);
+    v.visitAndApplyColorTransform(new ColorTransform(1, 1, 2, 2,
+            2, 3, 4, 5));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testMutatingVisitorConstructorInvalidTime() {
+    IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
+    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, -1);
+    v.visitAndApplyColorTransform(new ColorTransform(1, 1, 2, 2,
+            2, 3, 4, 5));
+  }
+
+  @Test
+  public void testMutatingVisitorColor() {
+    IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
+    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, 10);
+    assertEquals(10, r.getY(), 0.01);
+    assertEquals(10, r.getX(), 0.01);
+    assertEquals(10, r.getWidth(), 0.01);
+    assertEquals(10, r.getHeight(), 0.01);
+    assertEquals(2, r.getRed());
+    assertEquals(4, r.getGreen());
+    assertEquals(6, r.getBlue());
+    v.visitAndApplyColorTransform(new ColorTransform(1, 12, 2, 2,
+            2, 3, 4, 5));
+    assertEquals(10, r.getY(), 0.01);
+    assertEquals(10, r.getX(), 0.01);
+    assertEquals(10, r.getWidth(), 0.01);
+    assertEquals(10, r.getHeight(), 0.01);
+    assertEquals(2, r.getRed());
+    assertEquals(3, r.getGreen());
+    assertEquals(4, r.getBlue());
+  }
+
+  @Test
+  public void testMutatingVisitorPos() {
+    IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
+    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, 10);
+    assertEquals(10, r.getY(), 0.01);
+    assertEquals(10, r.getX(), 0.01);
+    assertEquals(10, r.getWidth(), 0.01);
+    assertEquals(10, r.getHeight(), 0.01);
+    assertEquals(2, r.getRed());
+    assertEquals(4, r.getGreen());
+    assertEquals(6, r.getBlue());
+    v.visitAndApplyPositionTransform(new PositionTransform(1, 12, 2, 2,
+            2, 3));
+    assertEquals(2.81818, r.getY(), 0.01);
+    assertEquals(2.0, r.getX(), 0.01);
+    assertEquals(10, r.getWidth(), 0.01);
+    assertEquals(10, r.getHeight(), 0.01);
+    assertEquals(2, r.getRed());
+    assertEquals(4, r.getGreen());
+    assertEquals(6, r.getBlue());
+  }
+
+  @Test
+  public void testMutatingVisitorScale() {
+    IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
+    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, 10);
+    assertEquals(10, r.getY(), 0.01);
+    assertEquals(10, r.getX(), 0.01);
+    assertEquals(10, r.getWidth(), 0.01);
+    assertEquals(10, r.getHeight(), 0.01);
+    assertEquals(2, r.getRed());
+    assertEquals(4, r.getGreen());
+    assertEquals(6, r.getBlue());
+    v.visitAndApplyScaleTransform(new ScaleTransform(1, 12, 2, 2,
+            2, 3));
+    assertEquals(10, r.getY(), 0.01);
+    assertEquals(10, r.getX(), 0.01);
+    assertEquals(2.0, r.getWidth(), 0.01);
+    assertEquals(2.81818, r.getHeight(), 0.01);
+    assertEquals(2, r.getRed());
+    assertEquals(4, r.getGreen());
+    assertEquals(6, r.getBlue());
   }
 }

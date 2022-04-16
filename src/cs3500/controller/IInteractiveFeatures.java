@@ -1,6 +1,5 @@
 package cs3500.controller;
 
-import cs3500.controller.IBasicController;
 import cs3500.view.IInteractiveVisual;
 
 /**
@@ -46,9 +45,4 @@ public interface IInteractiveFeatures extends IBasicController {
    *
    */
   void exitProgram();
-
-  /**
-   * Starts the animation.
-   */
-  void play();
 }

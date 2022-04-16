@@ -6,10 +6,22 @@ import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.Rect;
 
+/**
+ * Draws a shape using the Java AWT library. It draws the shape according to the shapes
+ * attributes.
+ */
 public class VisualShapeVisitor implements ISVisitor {
   private final Graphics2D g2;
 
+  /**
+   * Instantiates the visitor with a graphics 2D object. The object is used to draw the shape.
+   * @param g2 is the graphics object used to draw a shape in a GUI.
+   * @throws IllegalArgumentException if the graphics object is null.
+   */
   public VisualShapeVisitor(Graphics2D g2) {
+    if (g2 == null) {
+      throw new IllegalArgumentException("Invalid parameters.");
+    }
     this.g2 = g2;
   }
 

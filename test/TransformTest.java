@@ -8,6 +8,10 @@ import cs3500.model.transformation.TransformType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
+/**
+ * To test that the transform's getter methods work appropriately. Makes sure that the
+ * functionality of the transforms is correct.
+ */
 public class TransformTest {
 
   // dummy constructor.
