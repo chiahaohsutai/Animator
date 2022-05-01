@@ -20,4 +20,12 @@ public interface ISVisitor {
    * @throws IllegalArgumentException if the shape is null.
    */
   void visitEllipse(Ellipse ellipse);
+
+  /**
+   * Visits the Plus Class and executes the functionality according to the visitor.
+   *
+   * @param plus is the plus shape being visited.
+   * @throws IllegalArgumentException if the shape is null.
+   */
+  void visitPlus(Plus plus);
 }
