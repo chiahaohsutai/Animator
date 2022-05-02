@@ -110,4 +110,10 @@ public interface IAnimator extends ReadAnimator {
    * is still keeping track of all the transforms the shape has gone through).
    */
   void resetShapes();
+
+  /**
+   * Toggles the draw mode of the animation. If true, meaning the animation is being drawn in FILL
+   * MODE, toggle to false, meaning the animation is being drawn in OUTLINE MODE. And vice versa.
+   */
+  void toggleFill();
 }

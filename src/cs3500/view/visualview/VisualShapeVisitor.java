@@ -17,39 +17,59 @@ import cs3500.view.textualviews.svg.SVGShapeVisitor;
  */
 public class VisualShapeVisitor implements ISVisitor {
   private final Graphics2D g2;
+  private boolean fillHa;
 
   /**
    * Instantiates the visitor with a graphics 2D object. The object is used to draw the shape.
    * @param g2 is the graphics object used to draw a shape in a GUI.
    * @throws IllegalArgumentException if the graphics object is null.
    */
-  public VisualShapeVisitor(Graphics2D g2) {
+  public VisualShapeVisitor(Graphics2D g2, boolean fillHa) {
     if (g2 == null) {
       throw new IllegalArgumentException("Invalid parameters.");
     }
     this.g2 = g2;
+    this.fillHa = fillHa;
   }
 
   @Override
   public void visitRect(Rect rect) {
     g2.setColor(new Color(rect.getRed(), rect.getGreen(), rect.getBlue()));
-    g2.fillRect((int)rect.getX(), (int)rect.getY(),
-            (int)rect.getWidth(), (int)rect.getHeight());
+
+    if (fillHa) {
+      g2.fillRect((int) rect.getX(), (int) rect.getY(),
+              (int) rect.getWidth(), (int) rect.getHeight());
+    } else {
+      g2.drawRect((int) rect.getX(), (int) rect.getY(),
+              (int) rect.getWidth(), (int) rect.getHeight());
+    }
   }
 
   @Override
   public void visitEllipse(Ellipse ellipse) {
     g2.setColor(new Color(ellipse.getRed(), ellipse.getGreen(), ellipse.getBlue()));
-    g2.fillOval((int)ellipse.getX(), (int)ellipse.getY(),
-            (int)ellipse.getWidth(), (int)ellipse.getHeight());
+
+    if (fillHa) {
+      g2.fillOval((int)ellipse.getX(), (int)ellipse.getY(),
+              (int)ellipse.getWidth(), (int)ellipse.getHeight());
+    } else {
+      g2.drawOval((int)ellipse.getX(), (int)ellipse.getY(),
+              (int)ellipse.getWidth(), (int)ellipse.getHeight());
+    }
   }
 
   @Override
   public void visitPlus(Plus plus) {
     Polygon plusPolygon = getPlusPolygon(plus.getX(), plus.getY(), plus.getWidth(),
             plus.getHeight());
+
     g2.setColor(new Color(plus.getRed(), plus.getBlue(), plus.getBlue()));
-    g2.fillPolygon(plusPolygon);
+
+    if (fillHa) {
+      g2.fillPolygon(plusPolygon);
+    } else {
+      g2.drawPolygon(plusPolygon);
+    }
   }
 
   /**

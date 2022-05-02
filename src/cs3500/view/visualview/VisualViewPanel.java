@@ -1,9 +1,8 @@
 package cs3500.view.visualview;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.List;
-import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 import cs3500.controller.ReadTimeKeeper;
 import cs3500.model.ReadAnimator;
@@ -12,24 +11,20 @@ import cs3500.model.shape.IShape;
 
 /**
  * Represents a panel in which the animation is being played. It grabs the state of the existing
- * shapes at a given tick and draws them.
+ * shapes at a given tick and draws them. This
  */
 public class VisualViewPanel extends JPanel {
   private final ReadAnimator model;
   private final ReadTimeKeeper clock;
-
-  // true = fill mode, false = outline mode
-  private boolean drawMode;
-
   /**
    * Draws the current state of the animation according to the current tick.
    * @param model is the animator model with all the states of the animation.
+   * @param clock is the clock to keep track of time in the animation.
    */
   public VisualViewPanel(ReadAnimator model, ReadTimeKeeper clock) {
     super();
     this.model = model;
     this.clock = clock;
-    this.drawMode = true;
     this.setBackground(Color.white);
   }
 
@@ -37,7 +32,10 @@ public class VisualViewPanel extends JPanel {
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
     List<IShape> shapesToDraw = model.calculateStatesAtTick(clock.getTime());
-    ISVisitor visualShapeVisitor = new VisualShapeVisitor(g2);
+
+    boolean fillHa = model.getFillHa();
+
+    ISVisitor visualShapeVisitor = new VisualShapeVisitor(g2, fillHa);
     for (IShape singleShape : shapesToDraw) {
       singleShape.visitor(visualShapeVisitor);
     }

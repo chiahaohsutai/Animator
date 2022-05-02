@@ -16,7 +16,6 @@ import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
 import cs3500.model.transformation.TransformType;
 import cs3500.view.visualview.VisualShapeMutationVisitor;
-import cs3500.view.visualview.VisualShapeVisitor;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -518,12 +517,6 @@ public class AnimatorTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testVisualShapeConstructorVisitor() {
-    ISVisitor v = new VisualShapeVisitor(null);
-    v.visitRect(new Rect(1, 1, 1, 1 , 11, 1, 1));
-  }
-
-  @Test(expected = IllegalArgumentException.class)
   public void testMutatingVisitorConstructorNullShape() {
     IShapeMutationVisitor v = new VisualShapeMutationVisitor(null, 0);
     v.visitAndApplyColorTransform(new ColorTransform(1, 1, 2, 2,
@@ -602,5 +595,19 @@ public class AnimatorTest {
     assertEquals(2, r.getRed());
     assertEquals(4, r.getGreen());
     assertEquals(6, r.getBlue());
+  }
+
+  @Test
+  public void testToggleDrawMode() {
+    animator();
+    assertEquals(true, animator.getFillHa());
+    animator.toggleFill();
+    assertEquals(false, animator.getFillHa());
+  }
+
+  @Test
+  public void testGetDraw() {
+    animator();
+    assertEquals(true, animator.getFillHa());
   }
 }

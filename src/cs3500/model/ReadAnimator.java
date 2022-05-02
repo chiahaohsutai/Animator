@@ -95,4 +95,12 @@ public interface ReadAnimator {
    * Gets the tick at which the animation is completed.
    */
   int getEndingTick();
+
+  /**
+   * Gets the draw mode of the animation. If true, that means the animation is being drawn in FILL
+   * MODE. If false, that means animation is being drawn in OUTLINE MODE.
+   *
+   * @return a boolean representing the draw mode of the animation.
+   */
+  boolean getFillHa();
 }

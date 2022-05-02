@@ -40,6 +40,9 @@ public class Animator implements IAnimator {
   private final Map<String, Deque<ITransform>> positionTransformations;
   private final Map<String, IShape> shapesCopy;
 
+  // true means animation is being drawn in FILL MODE, false means animation is being drawn in
+  // OUTLINE MODE
+  private boolean fillHa;
   /**
    * Creates an instance of an animator with a tick rate of 1 and a canvas dimension of 0x0.
    */
@@ -54,6 +57,8 @@ public class Animator implements IAnimator {
     this.scaleTransformations = new HashMap<>();
     this.positionTransformations = new HashMap<>();
     this.shapesCopy = new LinkedHashMap<>();
+    // the default is true, which means the animation is being drawn in FILL MODE
+    this.fillHa = true;
   }
 
   @Override
@@ -189,6 +194,15 @@ public class Animator implements IAnimator {
   }
 
   @Override
+  public void toggleFill() {
+    if (fillHa) {
+      fillHa = false;
+    } else {
+      fillHa = true;
+    }
+  }
+
+  @Override
   public int getStart(String name) {
     checkNameExistence(name);
     return getTick(name, creationTimes);
@@ -268,6 +282,11 @@ public class Animator implements IAnimator {
   public int getEndingTick() {
     Optional<Integer> max = obituaryTimes.keySet().stream().max(Integer::compareTo);
     return max.orElse(0);
+  }
+
+  @Override
+  public boolean getFillHa() {
+    return fillHa;
   }
 
   /**
