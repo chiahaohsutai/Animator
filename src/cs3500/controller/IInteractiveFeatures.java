@@ -1,6 +1,6 @@
 package cs3500.controller;
 
-import cs3500.view.IInteractiveVisual;
+import cs3500.view.visualview.IInteractiveVisual;
 
 /**
  * Represent a controller for a GUI for the  interactive view of an animation. The controller has

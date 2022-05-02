@@ -2,7 +2,7 @@ package cs3500.controller;
 
 import javax.swing.Timer;
 import cs3500.model.IAnimator;
-import cs3500.view.IVisual;
+import cs3500.view.visualview.IVisual;
 
 /**
  * Represents a controller for the visual view. This controller keeps track of time and

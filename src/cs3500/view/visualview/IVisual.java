@@ -1,4 +1,6 @@
-package cs3500.view;
+package cs3500.view.visualview;
+
+import cs3500.view.IView;
 
 /**
  * Represents a visual view of an animation. Sets the functionality of window.

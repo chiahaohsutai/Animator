@@ -1,4 +1,4 @@
-package cs3500.view.visitors;
+package cs3500.view.visualview;
 
 import cs3500.model.shape.IShape;
 import cs3500.model.transformation.ColorTransform;

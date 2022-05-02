@@ -1,4 +1,4 @@
-package cs3500.view.visitors;
+package cs3500.view.textualviews.text;
 
 import java.util.ArrayList;
 import java.util.Arrays;

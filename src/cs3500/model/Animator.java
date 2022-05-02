@@ -22,7 +22,7 @@ import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
 import cs3500.model.transformation.TransformType;
-import cs3500.view.visitors.VisualShapeMutationVisitor;
+import cs3500.view.visualview.VisualShapeMutationVisitor;
 
 /**
  * Represents an animator that can animate simple geometric shapes. Tracks the state of each shape

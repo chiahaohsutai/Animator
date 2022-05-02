@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.controller.IInteractiveFeatures;
-import cs3500.view.IInteractiveVisual;
-import cs3500.view.IVisual;
+import cs3500.view.visualview.IInteractiveVisual;
+import cs3500.view.visualview.IVisual;
 
 /**
  * Mock class to test the functionality of the controller.

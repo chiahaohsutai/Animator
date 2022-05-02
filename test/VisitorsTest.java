@@ -1,4 +1,8 @@
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
@@ -8,10 +12,10 @@ import cs3500.model.transformation.ITVisitor;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
-import cs3500.view.visitors.SVGAnimateVisitor;
-import cs3500.view.visitors.SVGShapeVisitor;
-import cs3500.view.visitors.SVGTransformVisitor;
-import cs3500.view.visitors.TextVisitor;
+import cs3500.view.textualviews.svg.SVGRectTransform;
+import cs3500.view.textualviews.svg.SVGShapeAnimation;
+import cs3500.view.textualviews.svg.SVGShapeVisitor;
+import cs3500.view.textualviews.text.TextVisitor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -21,18 +25,82 @@ import static org.junit.Assert.assertNull;
  */
 public class VisitorsTest {
 
-  ////// SVGAnimatorVisitor //////
+  ////// SVGShapeAnimationVisitor //////
 
   @Test
-  public void visitSVGAnimVisit() {
-    IShape rect = new Rect(10, 10, 1, 20, 10, 10, 10);
-    IShape ellipse = new Ellipse(10, 10, 1, 30, 12, 12, 30);
-    ISVisitor visitor = new SVGAnimateVisitor();
+  public void testShapeAnim() {
+    ITransform t1 = new PositionTransform(1, 4, 90, 80, 10, 10);
+    ITransform t2 = new PositionTransform(4, 6, 10, 10, 100, 80);
+    List<ITransform> trans = Arrays.asList(t1, t2);
+    ISVisitor visitor = new SVGShapeAnimation(trans, 10);
+    IShape r = new Rect(10, 10, 10, 20, 1, 56, 80);
+    IShape e = new Ellipse(10, 10, 10, 10, 90, 90, 80);
     assertNull(visitor.toString());
-    rect.visitor(visitor);
-    assertEquals("x y width height", visitor.toString());
-    ellipse.visitor(visitor);
-    assertEquals("cx cy rx ry", visitor.toString());
+    r.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+            "attributeName=\"x\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+            "attributeName=\"y\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.400s\" dur=\"0.200s\" " +
+            "attributeName=\"x\" from=\"10.000\" to=\"100.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.400s\" dur=\"0.200s\" " +
+            "attributeName=\"y\" from=\"10.000\" to=\"80.000\" fill=\"freeze\"/>",
+            visitor.toString());
+    e.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+            "attributeName=\"cx\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+            "attributeName=\"cy\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.400s\" dur=\"0.200s\" " +
+            "attributeName=\"cx\" from=\"10.000\" to=\"100.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.400s\" dur=\"0.200s\" " +
+            "attributeName=\"cy\" from=\"10.000\" to=\"80.000\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
+  ////// SVGRectTransform //////
+
+  @Test
+  public void testRectTransform() {
+    ITransform t1 = new PositionTransform(1, 4, 90, 80, 10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+            "attributeName=\"x\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+            "attributeName=\"y\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
+  ////// SVGEllipseTransform //////
+
+  @Test
+  public void testEllipseTransform() {
+    ITransform t1 = new ScaleTransform(1, 4, 90, 80, 10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"width\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+                    "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"height\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
+  ////// SVGPlusTransform //////
+
+  @Test
+  public void testPlusTransform() {
+    ITransform t1 = new ColorTransform(1, 4, 90, 80, 10, 10,
+            10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
+                    "from=\"rgb(90.000,80.000,10.000)\" to=\"rgb(10.000,10.000,10.000)\" " +
+                    "begin=\"0.100s\" dur=\"0.300s\" fill=\"freeze\"/>",
+            visitor.toString());
   }
 
   ////// SVGShapeVisitor //////
@@ -51,83 +119,6 @@ public class VisitorsTest {
     assertEquals("<ellipse id=\"null\" cx=\"1.000\" cy=\"30.000\" rx=\"10.000\" " +
             "ry=\"10.000\" fill=\"rgb(12,12,30)\" visibility=\"hidden\">\n" +
             "</ellipse>", visitor.toString());
-  }
-
-  ////// SVGTransformVisitor //////
-
-  @Test
-  public void visitSVGTransformVisitorPos() {
-    IShape rect = new Rect(10, 10, 1, 20, 10, 10, 10);
-    IShape ellipse = new Ellipse(10, 10, 1, 30, 12, 12, 30);
-    ITVisitor visitRect = new SVGTransformVisitor(10, rect);
-    ITVisitor visitEllipse = new SVGTransformVisitor(10, ellipse);
-    ITransform colorT = new ColorTransform(10, 11, 1, 1, 1, 20,
-            30, 50);
-    ITransform scaleT = new ScaleTransform(10, 10, 10, 4,
-            30, 5);
-    ITransform posT = new PositionTransform(10, 10, 10, 30, -10, 5);
-
-    assertNull(visitEllipse.toString());
-    assertNull(visitRect.toString());
-    posT.visitor(visitEllipse);
-    assertEquals("<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\" " +
-            "attributeName=\"cx\" from=\"10.000\" to=\"-10.000\" fill=\"freeze\"/>\n" +
-            "<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\" " +
-            "attributeName=\"cy\" from=\"30.000\" to=\"5.000\"" +
-            " fill=\"freeze\"/>", visitEllipse.toString());
-    posT.visitor(visitRect);
-    assertEquals("<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\"" +
-                    " attributeName=\"x\" from=\"10.000\" to=\"-10.000\" fill=\"freeze\"/>\n" +
-                    "<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\" " +
-                    "attributeName=\"y\" from=\"30.000\" to=\"5.000\" fill=\"freeze\"/>",
-            visitRect.toString());
-  }
-
-  @Test
-  public void visitSVGTransformVisitorColor() {
-    IShape rect = new Rect(10, 10, 1, 20, 10, 10, 10);
-    IShape ellipse = new Ellipse(10, 10, 1, 30, 12, 12, 30);
-    ITVisitor visitRect = new SVGTransformVisitor(10, rect);
-    ITVisitor visitEllipse = new SVGTransformVisitor(10, ellipse);
-    ITransform colorT = new ColorTransform(10, 11, 1, 1, 1, 20,
-            30, 50);
-    ITransform scaleT = new ScaleTransform(10, 10, 10, 4,
-            30, 5);
-
-    assertNull(visitEllipse.toString());
-    assertNull(visitRect.toString());
-    colorT.visitor(visitEllipse);
-    assertEquals("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
-            "from=\"rgb(1.000,1.000,1.000)\" to=\"rgb(20.000,30.000,50.000)\" begin=\"1.000s\" " +
-            "dur=\"0.100s\" fill=\"freeze\"/>", visitEllipse.toString());
-    colorT.visitor(visitRect);
-    assertEquals("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
-            "from=\"rgb(1.000,1.000,1.000)\" to=\"rgb(20.000,30.000,50.000)\" " +
-            "begin=\"1.000s\" dur=\"0.100s\" fill=\"freeze\"/>", visitRect.toString());
-  }
-
-  @Test
-  public void visitSVGTransformVisitScale() {
-    IShape rect = new Rect(10, 10, 1, 20, 10, 10, 10);
-    IShape ellipse = new Ellipse(10, 10, 1, 30, 12, 12, 30);
-    ITVisitor visitRect = new SVGTransformVisitor(10, rect);
-    ITVisitor visitEllipse = new SVGTransformVisitor(10, ellipse);
-    ITransform scaleT = new ScaleTransform(10, 10, 10, 4,
-            30, 5);
-    assertNull(visitEllipse.toString());
-    assertNull(visitRect.toString());
-    scaleT.visitor(visitEllipse);
-    assertEquals("<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\" " +
-                    "attributeName=\"rx\" from=\"10.000\" to=\"30.000\" fill=\"freeze\"/>\n" +
-                    "<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\" " +
-                    "attributeName=\"ry\" from=\"4.000\" to=\"5.000\" fill=\"freeze\"/>",
-            visitEllipse.toString());
-    scaleT.visitor(visitRect);
-    assertEquals("<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\" " +
-                    "attributeName=\"width\" from=\"10.000\" to=\"30.000\" fill=\"freeze\"/>\n" +
-                    "<animate attributeType=\"xml\" begin=\"1.000s\" dur=\"0.000s\" " +
-                    "attributeName=\"height\" from=\"4.000\" to=\"5.000\" fill=\"freeze\"/>",
-            visitRect.toString());
   }
 
   ////// TextViewVisitor //////

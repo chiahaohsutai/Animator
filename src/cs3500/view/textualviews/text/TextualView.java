@@ -1,10 +1,11 @@
-package cs3500.view;
+package cs3500.view.textualviews.text;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 import cs3500.model.ReadAnimator;
+import cs3500.view.IView;
 
 /**
  * Represents views that are textual or consists of strings.

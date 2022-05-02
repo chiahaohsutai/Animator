@@ -21,9 +21,9 @@ import cs3500.controller.InteractiveController;
 import cs3500.io.AnimationFileReader;
 import cs3500.io.Builder;
 import cs3500.model.IAnimator;
-import cs3500.view.IInteractiveVisual;
+import cs3500.view.visualview.IInteractiveVisual;
 import cs3500.view.IView;
-import cs3500.view.IVisual;
+import cs3500.view.visualview.IVisual;
 import cs3500.view.ViewCreator;
 
 /**

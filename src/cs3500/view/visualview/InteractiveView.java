@@ -1,4 +1,4 @@
-package cs3500.view;
+package cs3500.view.visualview;
 
 import java.awt.Color;
 import java.awt.BorderLayout;

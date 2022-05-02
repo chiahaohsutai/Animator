@@ -3,7 +3,7 @@ package cs3500.controller;
 import javax.swing.Timer;
 
 import cs3500.model.IAnimator;
-import cs3500.view.IInteractiveVisual;
+import cs3500.view.visualview.IInteractiveVisual;
 
 /**
  * Represents a controller for an interactive view. Responds to button presses and inputs

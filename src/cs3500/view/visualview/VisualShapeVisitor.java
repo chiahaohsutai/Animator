@@ -1,9 +1,10 @@
-package cs3500.view.visitors;
+package cs3500.view.visualview;
 
 import java.awt.Graphics2D;
 import java.awt.Color;
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
+import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
 
 /**
@@ -37,5 +38,10 @@ public class VisualShapeVisitor implements ISVisitor {
     g2.setColor(new Color(ellipse.getRed(), ellipse.getGreen(), ellipse.getBlue()));
     g2.fillOval((int)ellipse.getX(), (int)ellipse.getY(),
             (int)ellipse.getWidth(), (int)ellipse.getHeight());
+  }
+
+  @Override
+  public void visitPlus(Plus plus) {
+    ////////////////////////////////////////////////////////////////////////////
   }
 }

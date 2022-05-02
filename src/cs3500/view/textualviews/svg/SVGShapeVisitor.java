@@ -1,9 +1,10 @@
-package cs3500.view.visitors;
+package cs3500.view.textualviews.svg;
 
 import java.util.Arrays;
 import java.util.Objects;
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
+import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
 
 /**
@@ -31,6 +32,11 @@ public class SVGShapeVisitor implements ISVisitor {
                     "ry=\"%.3f\" fill=\"rgb(%d,%d,%d)\" visibility=\"hidden\">\n</ellipse>",
             ellipse.getName(), ellipse.getX(), ellipse.getY(), ellipse.getWidth(),
             ellipse.getHeight(), ellipse.getRed(), ellipse.getGreen(), ellipse.getBlue());
+  }
+
+  @Override
+  public void visitPlus(Plus plus) {
+    /////////////////////////////////////////////////////
   }
 
   @Override

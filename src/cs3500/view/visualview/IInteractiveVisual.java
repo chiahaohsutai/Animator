@@ -1,6 +1,7 @@
-package cs3500.view;
+package cs3500.view.visualview;
 
 import cs3500.controller.IInteractiveFeatures;
+import cs3500.view.visualview.IVisual;
 
 /**
  * Represents an interactive view of an animation. Sets the functionality of window.

@@ -1,6 +1,10 @@
 package cs3500.view;
 
 import cs3500.model.ReadAnimator;
+import cs3500.view.textualviews.svg.SVGView;
+import cs3500.view.textualviews.text.TextView;
+import cs3500.view.visualview.InteractiveView;
+import cs3500.view.visualview.VisualView;
 
 /**
  * Factory of views for the animator.

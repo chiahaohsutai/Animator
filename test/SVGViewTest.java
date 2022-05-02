@@ -5,7 +5,7 @@ import cs3500.model.IAnimator;
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.Rect;
 import cs3500.view.IView;
-import cs3500.view.SVGView;
+import cs3500.view.textualviews.svg.SVGView;
 import static org.junit.Assert.assertEquals;
 
 /**

@@ -1,4 +1,4 @@
-package cs3500.view;
+package cs3500.view.textualviews.text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import cs3500.model.ReadAnimator;
 import cs3500.model.shape.IShape;
 import cs3500.model.transformation.ITVisitor;
 import cs3500.model.transformation.ITransform;
-import cs3500.view.visitors.TextVisitor;
 
 /**
  * Represents a textual view for the animation.
