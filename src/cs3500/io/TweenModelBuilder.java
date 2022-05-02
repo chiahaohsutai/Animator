@@ -1,5 +1,7 @@
 package cs3500.io;
 
+import cs3500.model.IAnimator;
+
 /**
  * This interface contains all the methods that the AnimationFileReader class
  * calls as it reads a file containing the animation and builds a model It is
@@ -60,6 +62,27 @@ public interface TweenModelBuilder<T> {
           float width, float height,
           float red, float green, float blue,
           int startOfLife, int endOfLife);
+
+  /**
+   * Add a new rectangle to the model with the given specifications.
+   *
+   * @param name        the unique name given to this shape.
+   * @param lx          the minimum x-coordinate of a corner of the
+   *                    shape's bounding box.
+   * @param ly          the minimum y-coordinate of a corner of the
+   *                    shape's bounding box.
+   * @param width       the width of the bounding box of the plus.
+   * @param height      the height of the bounding box of the plus.
+   * @param red         the red component of the color of the plus.
+   * @param green       the green component of the color of the plus.
+   * @param blue        the blue component of the color of the plus.
+   * @param startOfLife the time tick at which this plus appears.
+   * @param endOfLife   the time tick at which this plus disappears.
+   * @return the builder object.
+   */
+  TweenModelBuilder<IAnimator> addPlus(String name, float lx, float ly, float width,
+                                       float height, float red, float green, float blue,
+                                       int startOfLife, int endOfLife);
 
   /**
    * Move the specified shape to the given position during the given time

@@ -4,6 +4,7 @@ import cs3500.model.Animator;
 import cs3500.model.IAnimator;
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.IShape;
+import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
 
 /**
@@ -43,6 +44,16 @@ public class Builder implements TweenModelBuilder<IAnimator> {
     IShape rect = new Rect(width, height, lx, ly, (int)(red * 255), (int)(green * 255),
             (int)(blue * 255));
     animator.add(name, rect, startOfLife, endOfLife);
+    return this;
+  }
+
+  @Override
+  public TweenModelBuilder<IAnimator> addPlus(String name, float lx, float ly, float width,
+                                              float height, float red, float green, float blue,
+                                              int startOfLife, int endOfLife) {
+    IShape plus = new Plus(width, height, lx, ly, (int)(red * 255), (int)(green * 255),
+            (int)(blue * 255));
+    animator.add(name, plus, startOfLife, endOfLife);
     return this;
   }
 
