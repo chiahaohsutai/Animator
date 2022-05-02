@@ -163,6 +163,7 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     increaseSpeedButton.addActionListener(evt -> setSpeed());
     decreaseSpeedButton.addActionListener(evt -> feat.decreaseSpeed());
     decreaseSpeedButton.addActionListener(evt -> setSpeed());
+    fillOutlineButton.addActionListener(evt -> feat.toggleFillOutline());
     fillOutlineButton.addActionListener(evt -> setFillOutline());
     exitButton.addActionListener(evt -> feat.exitProgram());
   }

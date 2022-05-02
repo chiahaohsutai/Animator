@@ -95,4 +95,9 @@ public class InteractiveController implements IInteractiveFeatures {
   public void exitProgram() {
     System.exit(0);
   }
+
+  @Override
+  public void toggleFillOutline() {
+    model.toggleFill();
+  }
 }

@@ -47,4 +47,10 @@ public interface IInteractiveFeatures extends IBasicController {
    * Exits the animation by closing the window in which the animation was playing.
    */
   void exitProgram();
+
+  /**
+   * Toggles the drawing mode that the animation is in. The two modes are FILL MODE and
+   * OUTLINE MODE.
+   */
+  void toggleFillOutline();
 }
