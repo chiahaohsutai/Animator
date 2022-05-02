@@ -6,6 +6,7 @@ import java.util.List;
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
+import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
 import cs3500.model.transformation.ColorTransform;
 import cs3500.model.transformation.ITVisitor;
@@ -119,6 +120,19 @@ public class VisitorsTest {
     assertEquals("<ellipse id=\"null\" cx=\"1.000\" cy=\"30.000\" rx=\"10.000\" " +
             "ry=\"10.000\" fill=\"rgb(12,12,30)\" visibility=\"hidden\">\n" +
             "</ellipse>", visitor.toString());
+  }
+
+  @Test
+  public void visitShapePlus() {
+    IShape plusShape = new Plus(15, 15, 10, 10, 255, 255, 0);
+    ISVisitor plus = new SVGShapeVisitor();
+    assertNull(plus.toString());
+    plusShape.visitor(plus);
+    assertEquals("<polygon id=\"null\" points=\"15.000 10.000, 20.000 10.000, 20.000 " +
+            "15.000, 25.000 15.000, 25.000 20.000, 20.000 20.000, 20.000 25.000, 15.000 25.000, " +
+            "15.000 20.000, 10.000 20.000,10.000 15.000, 15.000 15.000\" " +
+            "fill=\"rgb(255,255,0)\" visibility=\"hidden\">\n" +
+            "</polygon>", plus.toString());
   }
 
   ////// TextViewVisitor //////

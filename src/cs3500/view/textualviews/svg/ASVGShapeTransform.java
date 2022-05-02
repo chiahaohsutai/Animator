@@ -12,8 +12,6 @@ import cs3500.model.transformation.ITransform;
  * the common functionalities to a single class.
  */
 public abstract class ASVGShapeTransform implements ITVisitor {
-  protected final String template = "<animate attributeType=\"xml\" begin=\"%.3fs\" " +
-          "dur=\"%.3fs\" attributeName=\"%s\" from=\"%.3f\" to=\"%.3f\" fill=\"freeze\"/>";
   protected final int tickRate;
   protected String animate;
 
@@ -60,6 +58,8 @@ public abstract class ASVGShapeTransform implements ITVisitor {
    * @param attributes is the attributes for the animation tag.
    */
   protected void makeTags(ITransform t, String[] attributes) {
+    String template = "<animate attributeType=\"xml\" begin=\"%.3fs\" " +
+            "dur=\"%.3fs\" attributeName=\"%s\" from=\"%.3f\" to=\"%.3f\" fill=\"freeze\"/>";
     double start = (double) t.getStart() / tickRate;
     double duration = getDuration(t.getStart(), t.getEnd());
     double[] old = t.getOldData();

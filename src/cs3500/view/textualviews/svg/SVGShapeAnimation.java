@@ -1,14 +1,16 @@
 package cs3500.view.textualviews.svg;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
+import cs3500.model.shape.IShape;
 import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
 import cs3500.model.transformation.ITVisitor;
 import cs3500.model.transformation.ITransform;
+import cs3500.model.transformation.TransformType;
 
 /**
  * Creates the animation tags for the Shape. The animation tags follow SVG format.
@@ -43,7 +45,8 @@ public class SVGShapeAnimation implements ISVisitor {
 
   @Override
   public void visitPlus(Plus plus) {
-    ITVisitor visitor = new SVGPlusTransform(tickRate);
+    IShape copy = plus.copy();
+    ITVisitor visitor = new SVGPlusTransform(tickRate, copy);
     makeTags(visitor);
   }
 

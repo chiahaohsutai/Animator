@@ -16,7 +16,7 @@ public class Plus extends AShape {
    * @throws IllegalArgumentException if any RGB value is not in the range [0, 255].
    * @throws IllegalArgumentException if high or width are less than or equal to 0.
    */
-  protected Plus(double w, double h, double x, double y, int r, int g, int b) {
+  public Plus(double w, double h, double x, double y, int r, int g, int b) {
     super(w, h, x, y, r, g, b);
   }
 
