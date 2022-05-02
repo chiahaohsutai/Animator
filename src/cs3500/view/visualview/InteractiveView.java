@@ -1,9 +1,6 @@
 package cs3500.view.visualview;
 
-import java.awt.Color;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.swing.*;
 
@@ -28,10 +25,12 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
   private JButton decreaseSpeedButton;
   private JButton exitButton;
   private JButton fillOutlineButton;
+  private JButton continuousDiscreteButton;
   private JLabel animationPlayingLabel;
   private JLabel speedLabel;
   private JLabel loopingLabel;
   private JLabel fillOutlineLabel;
+  private JLabel continuousDiscreteLabel;
 
   /**
    * Constructs the interactive view verison of the GUI. Sets the size, look and buttons.
@@ -80,18 +79,34 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
    */
   private JPanel createLabelPanel() {
     JPanel labels = new JPanel();
+    labels.setLayout(new BorderLayout());
     labels.setBackground(Color.gray);
-    labels.setLayout(new FlowLayout());
+
+    JPanel labelsTop = new JPanel();
+    labelsTop.setLayout(new FlowLayout());
+    labelsTop.setBackground(Color.gray);
 
     this.animationPlayingLabel = new JLabel("[ Animation is OFF/PAUSED ]");
     this.speedLabel = new JLabel(String.format("[ Tick Rate: %d ]", model.getTickRate()));
     this.loopingLabel = new JLabel("[ Looping is OFF ]");
-    this.fillOutlineLabel = new JLabel("[ Drawing Shapes in FILL MODE ]");
 
-    labels.add(animationPlayingLabel);
-    labels.add(speedLabel);
-    labels.add(loopingLabel);
-    labels.add(fillOutlineLabel);
+    labelsTop.add(animationPlayingLabel);
+    labelsTop.add(speedLabel);
+    labelsTop.add(loopingLabel);
+
+    labels.add(labelsTop, BorderLayout.NORTH);
+
+    JPanel labelsBottom = new JPanel();
+    labelsBottom.setLayout(new FlowLayout());
+    labelsBottom.setBackground(Color.gray);
+
+    this.fillOutlineLabel = new JLabel("[ Drawing Shapes in FILL MODE ]");
+    this.continuousDiscreteLabel = new JLabel("[ Playing Animation in CONTINUOUS MODE ]");
+
+    labelsBottom.add(fillOutlineLabel);
+    labelsBottom.add(continuousDiscreteLabel);
+
+    labels.add(labelsBottom, BorderLayout.SOUTH);
 
     return labels;
   }
@@ -103,36 +118,52 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
    */
   private JPanel createButtonPanel() {
     JPanel buttons = new JPanel();
+    buttons.setLayout(new BorderLayout());
     buttons.setBackground(Color.gray);
-    buttons.setLayout(new FlowLayout());
+
+    JPanel buttonsTop = new JPanel();
+    buttonsTop.setLayout(new FlowLayout());
+    buttonsTop.setBackground(Color.gray);
 
     pauseButton = new JButton("Play/Pause");
     pauseButton.setActionCommand("Pause/Resume Button");
-    buttons.add(pauseButton);
+    buttonsTop.add(pauseButton);
 
     restartButton = new JButton("Restart");
     restartButton.setActionCommand("Restart Button");
-    buttons.add(restartButton);
+    buttonsTop.add(restartButton);
 
     loopButton = new JButton("Enable/Disable Loop");
     loopButton.setActionCommand("Enable/Disable Loop Button");
-    buttons.add(loopButton);
+    buttonsTop.add(loopButton);
 
     increaseSpeedButton = new JButton("Increase Speed");
     increaseSpeedButton.setActionCommand("Increase Speed Button");
-    buttons.add(increaseSpeedButton);
+    buttonsTop.add(increaseSpeedButton);
 
     decreaseSpeedButton = new JButton("Decrease Speed");
     decreaseSpeedButton.setActionCommand("Decrease Speed Button");
-    buttons.add(decreaseSpeedButton);
+    buttonsTop.add(decreaseSpeedButton);
+
+    buttons.add(buttonsTop, BorderLayout.NORTH);
+
+    JPanel buttonsBottom = new JPanel();
+    buttonsBottom.setLayout(new FlowLayout());
+    buttonsBottom.setBackground(Color.gray);
 
     fillOutlineButton = new JButton("Fill/Outline Shapes");
     fillOutlineButton.setActionCommand("Fill/Outline");
-    buttons.add(fillOutlineButton);
+    buttonsBottom.add(fillOutlineButton);
+
+    continuousDiscreteButton = new JButton("Continuous/Discrete Playing");
+    continuousDiscreteButton.setActionCommand("Continuous/Discrete");
+    buttonsBottom.add(continuousDiscreteButton);
 
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("Exit Button");
-    buttons.add(exitButton);
+    buttonsBottom.add(exitButton);
+
+    buttons.add(buttonsBottom, BorderLayout.SOUTH);
 
     return buttons;
   }
