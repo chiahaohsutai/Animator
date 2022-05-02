@@ -18,6 +18,9 @@ public class VisualViewPanel extends JPanel {
   private final ReadAnimator model;
   private final ReadTimeKeeper clock;
 
+  // true = fill mode, false = outline mode
+  private boolean drawMode;
+
   /**
    * Draws the current state of the animation according to the current tick.
    * @param model is the animator model with all the states of the animation.
@@ -26,6 +29,7 @@ public class VisualViewPanel extends JPanel {
     super();
     this.model = model;
     this.clock = clock;
+    this.drawMode = true;
     this.setBackground(Color.white);
   }
 

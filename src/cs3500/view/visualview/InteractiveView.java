@@ -4,13 +4,9 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.WindowConstants;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JScrollPane;
+
+import javax.swing.*;
+
 import cs3500.controller.Clock;
 import cs3500.controller.IInteractiveFeatures;
 import cs3500.controller.TimeKeeper;
@@ -31,9 +27,11 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
   private JButton increaseSpeedButton;
   private JButton decreaseSpeedButton;
   private JButton exitButton;
+  private JButton fillOutlineButton;
   private JLabel animationPlayingLabel;
   private JLabel speedLabel;
   private JLabel loopingLabel;
+  private JLabel fillOutlineLabel;
 
   /**
    * Constructs the interactive view verison of the GUI. Sets the size, look and buttons.
@@ -51,7 +49,7 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     this.setTitle("The Easy Animator Interactive View");
     this.setLayout(new BorderLayout());
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    this.setSize(new Dimension(900, 600));
+    this.setSize(new Dimension(1000, 600));
     this.makeVisible();
 
     // set up animation panel
@@ -88,10 +86,12 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     this.animationPlayingLabel = new JLabel("[ Animation is OFF/PAUSED ]");
     this.speedLabel = new JLabel(String.format("[ Tick Rate: %d ]", model.getTickRate()));
     this.loopingLabel = new JLabel("[ Looping is OFF ]");
+    this.fillOutlineLabel = new JLabel("[ Drawing Shapes in FILL MODE ]");
 
     labels.add(animationPlayingLabel);
     labels.add(speedLabel);
     labels.add(loopingLabel);
+    labels.add(fillOutlineLabel);
 
     return labels;
   }
@@ -126,6 +126,10 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     decreaseSpeedButton.setActionCommand("Decrease Speed Button");
     buttons.add(decreaseSpeedButton);
 
+    fillOutlineButton = new JButton("Fill/Outline Shapes");
+    fillOutlineButton.setActionCommand("Fill/Outline");
+    buttons.add(fillOutlineButton);
+
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("Exit Button");
     buttons.add(exitButton);
@@ -159,6 +163,7 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     increaseSpeedButton.addActionListener(evt -> setSpeed());
     decreaseSpeedButton.addActionListener(evt -> feat.decreaseSpeed());
     decreaseSpeedButton.addActionListener(evt -> setSpeed());
+    fillOutlineButton.addActionListener(evt -> setFillOutline());
     exitButton.addActionListener(evt -> feat.exitProgram());
   }
 
@@ -195,5 +200,17 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
    */
   private void setSpeed() {
     speedLabel.setText(String.format("[ Tick Rate: %d ]", model.getTickRate()));
+  }
+
+  /**
+   * Sets the fill/outline label to its opposite value. If in FILL MODE, the label is set to
+   * OUTLINE MODE. If in OUTLINE MODE, the label is set to FILL MODE.
+   */
+  private void setFillOutline() {
+    if (fillOutlineLabel.getText().equals("[ Drawing Shapes in FILL MODE ]")) {
+      fillOutlineLabel.setText("[ Drawing Shapes in OUTLINE MODE ]");
+    } else {
+      fillOutlineLabel.setText("[ Drawing Shapes in FILL MODE ]");
+    }
   }
 }
