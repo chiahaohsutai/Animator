@@ -1,4 +1,4 @@
-package cs3500.view.visualview;
+package cs3500.model;
 
 import cs3500.model.shape.IShape;
 import cs3500.model.transformation.ColorTransform;
@@ -11,7 +11,7 @@ import cs3500.model.transformation.ScaleTransform;
  * Mutates a shape according to the tick and mutation. The visitor tweens the shape
  * according to the transform and the given tick.
  */
-public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
+public class TweeningVisitor implements IShapeMutationVisitor {
   private final IShape shapeToTransform;
   private int currentTick;
 
@@ -22,7 +22,7 @@ public class VisualShapeMutationVisitor implements IShapeMutationVisitor {
    * @param shapeToTransform is the shape that will be transformed.
    * @param currentTick is the tick at which the shape needs to be inbetweenning at.
    */
-  public VisualShapeMutationVisitor(IShape shapeToTransform, int currentTick) {
+  public TweeningVisitor(IShape shapeToTransform, int currentTick) {
     if (currentTick < 0 || shapeToTransform == null) {
       throw new IllegalArgumentException("Invalid parameters");
     }

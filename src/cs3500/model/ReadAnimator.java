@@ -105,7 +105,7 @@ public interface ReadAnimator {
   boolean getFillHa();
 
   /**
-   *
+   * Returns at list of all the starting and ending ticks where a transformation occurred.
    */
   List<Integer> getDiscretePlaying();
 }

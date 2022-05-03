@@ -53,4 +53,10 @@ public interface IInteractiveFeatures extends IBasicController {
    * OUTLINE MODE.
    */
   void toggleFillOutline();
+
+  /**
+   * Toggle discrete playing mode for the animation. The mode will display the start tick and end
+   * tick of each transformation occurring in the animation.
+   */
+  void toggleDiscretePlaying();
 }

@@ -22,7 +22,6 @@ import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
 import cs3500.model.transformation.TransformType;
-import cs3500.view.visualview.VisualShapeMutationVisitor;
 
 /**
  * Represents an animator that can animate simple geometric shapes. Tracks the state of each shape
@@ -272,7 +271,7 @@ public class Animator implements IAnimator {
       List<ITransform> transforms = getTransform(tick, name);
       IShape s = shapesCopy.get(name);
       Consumer<ITransform> f = t -> t.acceptShapeMutationVisitor(
-              new VisualShapeMutationVisitor(s, tick));
+              new TweeningVisitor(s, tick));
       transforms.forEach(f);
       result.add(s);
     }

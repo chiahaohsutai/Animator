@@ -1,4 +1,4 @@
-package cs3500.controller;
+package cs3500.controller.clock;
 
 /**
  * Represents the observable functionalities of the clock. This interface allows the client

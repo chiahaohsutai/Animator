@@ -47,4 +47,9 @@ public class MockView implements IVisual, IInteractiveVisual {
   public void reset() {
     output.add("reset");
   }
+
+  @Override
+  public void setFrame(int tick) {
+    output.add("setFrame");
+  }
 }

@@ -4,9 +4,9 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import cs3500.controller.Clock;
+import cs3500.controller.clock.Clock;
 import cs3500.controller.IInteractiveFeatures;
-import cs3500.controller.TimeKeeper;
+import cs3500.controller.clock.TimeKeeper;
 import cs3500.model.ReadAnimator;
 
 /**
@@ -200,6 +200,8 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
     decreaseSpeedButton.addActionListener(evt -> setSpeed());
     fillOutlineButton.addActionListener(evt -> feat.toggleFillOutline());
     fillOutlineButton.addActionListener(evt -> setFillOutline());
+    continuousDiscreteButton.addActionListener(evt -> feat.toggleDiscretePlaying());
+    continuousDiscreteButton.addActionListener(evt -> setDiscrete());
     exitButton.addActionListener(evt -> feat.exitProgram());
   }
 
@@ -207,6 +209,11 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
   public void reset() {
     animationPlayingLabel.setText("[ Animation is ON/PLAYING ]");
     clock.reset();
+  }
+
+  @Override
+  public void setFrame(int tick) {
+    clock.setTime(tick);
   }
 
   /**
@@ -247,6 +254,17 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
       fillOutlineLabel.setText("[ Drawing Shapes in OUTLINE MODE ]");
     } else {
       fillOutlineLabel.setText("[ Drawing Shapes in FILL MODE ]");
+    }
+  }
+
+  /**
+   * Sets the label for discrete playing to on or off.
+   */
+  private void setDiscrete() {
+    if (continuousDiscreteLabel.getText().equals("[ Playing Animation in CONTINUOUS MODE ]")) {
+      continuousDiscreteLabel.setText("[ Playing Animation in DISCRETE MODE ]");
+    } else {
+      continuousDiscreteLabel.setText("[ Playing Animation in CONTINUOUS MODE ]");
     }
   }
 }

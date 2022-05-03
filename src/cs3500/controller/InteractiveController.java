@@ -1,7 +1,13 @@
 package cs3500.controller;
 
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.Timer;
 
+import cs3500.controller.clock.Clock;
+import cs3500.controller.clock.TimeKeeper;
 import cs3500.model.IAnimator;
 import cs3500.view.visualview.IInteractiveVisual;
 
@@ -16,6 +22,8 @@ public class InteractiveController implements IInteractiveFeatures {
   private final IAnimator model;
   private final IInteractiveVisual view;
   private boolean loop;
+  private boolean discrete;
+  private final Deque<Integer> frames;
 
   /**
    * Constructs a controller that handles the user interaction with buttons in the interactive
@@ -26,19 +34,35 @@ public class InteractiveController implements IInteractiveFeatures {
    * @param view is the view for the animation. In this case, it is an interactive view.
    */
   public InteractiveController(IAnimator model, IInteractiveVisual view) {
+    this.discrete = false;
     this.clock = new Clock();
     this.loop = false;
     this.model = model;
     this.view = view;
     int lastTick = model.getEndingTick();
+    this.frames = new LinkedList<>(model.getDiscretePlaying());
+
     this.timer = new Timer(1000 / model.getTickRate(), e -> {
-      view.render();
-      view.moveFrame();
-      clock.increaseTime();
+      // delete from frames if we pass the frame.
+      if (!frames.isEmpty() && clock.getTime() > frames.getFirst()) {
+        frames.pop();
+      }
+      if (discrete && !frames.isEmpty()) {
+        view.render();
+        view.setFrame(frames.getFirst());
+        clock.setTime(frames.getFirst());
+        frames.pop();
+      } else {
+        view.render();
+        view.moveFrame();
+        clock.increaseTime();
+      }
       if (clock.getTime() == lastTick && loop) {
         clock.reset();
         view.reset();
         model.resetShapes();
+        frames.clear();
+        frames.addAll(model.getDiscretePlaying());
       }
     });
     setView(view);
@@ -69,6 +93,8 @@ public class InteractiveController implements IInteractiveFeatures {
     view.reset();
     clock.reset();
     model.resetShapes();
+    frames.clear();
+    frames.addAll(model.getDiscretePlaying());
   }
 
   @Override
@@ -99,5 +125,10 @@ public class InteractiveController implements IInteractiveFeatures {
   @Override
   public void toggleFillOutline() {
     model.toggleFill();
+  }
+
+  @Override
+  public void toggleDiscretePlaying() {
+    discrete = !discrete;
   }
 }

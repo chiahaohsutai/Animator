@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.List;
 
 import javax.swing.JPanel;
-import cs3500.controller.ReadTimeKeeper;
+import cs3500.controller.clock.ReadTimeKeeper;
 import cs3500.model.ReadAnimator;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;

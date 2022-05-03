@@ -1,4 +1,4 @@
-package cs3500.controller;
+package cs3500.controller.clock;
 
 /**
  * Represents the mutable functionalities of the clock. The clock can go forward in time, go
@@ -20,4 +20,12 @@ public interface TimeKeeper extends ReadTimeKeeper {
    * Sets the time back to the beginning tick (= 0).
    */
   void reset();
+
+  /**
+   * Sets the time to the given time.
+   *
+   * @param time is the time you want to set the clock to.
+   * @throws IllegalArgumentException if the time is negative.
+   */
+  void setTime(int time);
 }

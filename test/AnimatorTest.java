@@ -6,7 +6,6 @@ import java.util.Objects;
 import cs3500.model.Animator;
 import cs3500.model.IAnimator;
 import cs3500.model.shape.Ellipse;
-import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.IShape;
 import cs3500.model.shape.Rect;
 import cs3500.model.transformation.ColorTransform;
@@ -15,7 +14,7 @@ import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 import cs3500.model.transformation.ScaleTransform;
 import cs3500.model.transformation.TransformType;
-import cs3500.view.visualview.VisualShapeMutationVisitor;
+import cs3500.model.TweeningVisitor;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -518,7 +517,7 @@ public class AnimatorTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testMutatingVisitorConstructorNullShape() {
-    IShapeMutationVisitor v = new VisualShapeMutationVisitor(null, 0);
+    IShapeMutationVisitor v = new TweeningVisitor(null, 0);
     v.visitAndApplyColorTransform(new ColorTransform(1, 1, 2, 2,
             2, 3, 4, 5));
   }
@@ -526,7 +525,7 @@ public class AnimatorTest {
   @Test(expected = IllegalArgumentException.class)
   public void testMutatingVisitorConstructorInvalidTime() {
     IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
-    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, -1);
+    IShapeMutationVisitor v = new TweeningVisitor(r, -1);
     v.visitAndApplyColorTransform(new ColorTransform(1, 1, 2, 2,
             2, 3, 4, 5));
   }
@@ -534,7 +533,7 @@ public class AnimatorTest {
   @Test
   public void testMutatingVisitorColor() {
     IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
-    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, 10);
+    IShapeMutationVisitor v = new TweeningVisitor(r, 10);
     assertEquals(10, r.getY(), 0.01);
     assertEquals(10, r.getX(), 0.01);
     assertEquals(10, r.getWidth(), 0.01);
@@ -556,7 +555,7 @@ public class AnimatorTest {
   @Test
   public void testMutatingVisitorPos() {
     IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
-    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, 10);
+    IShapeMutationVisitor v = new TweeningVisitor(r, 10);
     assertEquals(10, r.getY(), 0.01);
     assertEquals(10, r.getX(), 0.01);
     assertEquals(10, r.getWidth(), 0.01);
@@ -578,7 +577,7 @@ public class AnimatorTest {
   @Test
   public void testMutatingVisitorScale() {
     IShape r = new Rect(10, 10, 10, 10, 2, 4,6);
-    IShapeMutationVisitor v = new VisualShapeMutationVisitor(r, 10);
+    IShapeMutationVisitor v = new TweeningVisitor(r, 10);
     assertEquals(10, r.getY(), 0.01);
     assertEquals(10, r.getX(), 0.01);
     assertEquals(10, r.getWidth(), 0.01);

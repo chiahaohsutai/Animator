@@ -47,7 +47,7 @@ public class SVGPlusTransform extends ASVGShapeTransform {
     double posY = shape.getY();
 
     // get the before and after.
-    Point2D[] oldPoints = getPoints(posX, posY, oldData[0], oldData[0]);
+    Point2D[] oldPoints = getPoints(posX, posY, oldData[0], oldData[1]);
     Point2D[] newPoints = getPoints(posX, posY, newData[0], newData[1]);
     makePlusTag(t, oldPoints, newPoints);
     // mutate the shape.

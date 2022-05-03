@@ -1,4 +1,4 @@
-package cs3500.controller;
+package cs3500.controller.clock;
 
 /**
  * Represents a clock that helps keep track of time by being synced up with the Timer object.
@@ -34,5 +34,13 @@ public class Clock implements TimeKeeper {
   @Override
   public void reset() {
     this.currentTick = 0;
+  }
+
+  @Override
+  public void setTime(int time) {
+    if (time < 0) {
+      throw new IllegalArgumentException("Time cannot be native");
+    }
+    currentTick = time;
   }
 }

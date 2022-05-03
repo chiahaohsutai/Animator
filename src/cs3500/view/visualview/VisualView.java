@@ -6,8 +6,8 @@ import javax.swing.WindowConstants;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import cs3500.controller.Clock;
-import cs3500.controller.TimeKeeper;
+import cs3500.controller.clock.Clock;
+import cs3500.controller.clock.TimeKeeper;
 import cs3500.model.ReadAnimator;
 
 /**

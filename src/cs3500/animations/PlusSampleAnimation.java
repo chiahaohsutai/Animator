@@ -51,8 +51,8 @@ public class PlusSampleAnimation {
     List<String> animations = new ArrayList<>();
     IShape plus = new Plus(150, 150, 100, 100, 255, 0, 0);
     IShape rect = new Rect(100, 100, 300, 150, 0, 255, 0);
-    IShape ellipse = new Ellipse(300, 300, 200, 200, 0, 0, 255);
-    animations.add("canvas 300 300");
+    IShape ellipse = new Ellipse(150, 150, 200, 200, 0, 0, 255);
+    animations.add("canvas 400 400");
     plus.setName("p");
     rect.setName("r");
     ellipse.setName("c");
@@ -125,7 +125,7 @@ public class PlusSampleAnimation {
     ellipse.reScale(20, 20);
 
     animations.add(scale("p", plusCopy.getWidth(), plusCopy.getHeight(),
-            9, 9, 10, 20));
+            9, 9, 10, 30));
     animations.add(scale("r", plusCopy.getWidth(), plusCopy.getHeight(),
             15, 20, 10, 20));
     animations.add(scale("c", plusCopy.getWidth(), plusCopy.getHeight(),

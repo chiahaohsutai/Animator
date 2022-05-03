@@ -19,4 +19,12 @@ public interface IInteractiveVisual extends IVisual {
    * Reset the view to the beginning of the animation.
    */
   void reset();
+
+  /**
+   * Sets the frame to the given tick
+   *
+   * @param tick is the tick at which you want the frame at.
+   * @throws IllegalArgumentException if the tick is negative.
+   */
+  void setFrame(int tick);
 }

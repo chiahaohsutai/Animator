@@ -1,9 +1,9 @@
 import org.junit.Test;
 
-import cs3500.controller.Clock;
+import cs3500.controller.clock.Clock;
 import cs3500.controller.Controller;
 import cs3500.controller.IBasicController;
-import cs3500.controller.TimeKeeper;
+import cs3500.controller.clock.TimeKeeper;
 import cs3500.model.Animator;
 import cs3500.model.IAnimator;
 import cs3500.view.visualview.IVisual;
