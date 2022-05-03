@@ -2,6 +2,7 @@ package cs3500.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ public class Animator implements IAnimator {
   private final Map<String, Deque<ITransform>> scaleTransformations;
   private final Map<String, Deque<ITransform>> positionTransformations;
   private final Map<String, IShape> shapesCopy;
+  private final List<TempoInfo> tempos;
 
   // true means animation is being drawn in FILL MODE, false means animation is being drawn in
   // OUTLINE MODE
@@ -59,6 +61,7 @@ public class Animator implements IAnimator {
     this.shapesCopy = new LinkedHashMap<>();
     // the default is true, which means the animation is being drawn in FILL MODE
     this.fillHa = true;
+    this.tempos = new ArrayList<>();
   }
 
   @Override
@@ -203,6 +206,21 @@ public class Animator implements IAnimator {
   }
 
   @Override
+  public void setTempo(int tickRate, int start, int end) {
+    checkValidInterval(start, end);
+    if (tickRate <= 0) {
+      throw new IllegalArgumentException("Invalid tick rate.");
+    }
+    if (this.tempos.size() == 0) {
+      tempos.add(new TempoInfo(tickRate, start, end));
+    }
+    else {
+      checkTempoOverlap(start, end);
+      tempos.add(new TempoInfo(tickRate, start, end));
+    }
+  }
+
+  @Override
   public int getStart(String name) {
     checkNameExistence(name);
     return getTick(name, creationTimes);
@@ -304,6 +322,80 @@ public class Animator implements IAnimator {
     // get rid of the duplicates in the stream
     // this will represent a list of the frames that should be played
     return ticksToPlay.stream().distinct().collect(Collectors.toList());
+  }
+
+  @Override
+  public List<int[]> getTempos() {
+    List<int[]> temp = new ArrayList<>();
+    tempos.forEach(t -> temp.add(new int[] {t.getTickRate(), t.getStart(), t.getEnd()}));
+    Collections.sort(temp, Comparator.comparingInt(t -> t[1]));
+    return temp;
+  }
+
+  /**
+   * Class to store the tempo info. Stores the start time, end time and tick rate for the
+   * interval.
+   */
+  private class TempoInfo {
+    private final int tickRate;
+    private final int start;
+    private final int end;
+
+    /**
+     * Stores the tempo for a specified interval.
+     *
+     * @param tickRate is the tickRate for the interval.
+     * @param start is the start tick for the interval.
+     * @param end is the end time for the interval.
+     */
+    private TempoInfo(int tickRate, int start, int end) {
+      this.tickRate = tickRate;
+      this.start = start;
+      this.end = end;
+    }
+
+    /**
+     * Gets the tick rate for the interval.
+     *
+     * @return the tick rate.
+     */
+    private int getTickRate() {
+      return this.tickRate;
+    }
+
+    /**
+     * Gets the start time of the interval.
+     *
+     * @return the start time of the interval.
+     */
+    private int getStart() {
+      return this.start;
+    }
+
+    /**
+     * Gets the end time of the interval
+     *
+     * @return the end time of the interval.
+     */
+    private int getEnd() {
+      return this.end;
+    }
+  }
+
+  /**
+   * Checks that the tempo does not overlap with existing tempos.
+   *
+   * @param start is the start time of the tempo.
+   * @param end is the end time of the tempo.
+   */
+  private void checkTempoOverlap(int start, int end) {
+    tempos.forEach(i -> {
+      if (end >= i.getStart() && end <= i.getEnd()) {
+        throw new IllegalArgumentException("Invalid interval.");
+      } else if (start >= i.getStart() && start <= i.getStart()) {
+        throw new IllegalArgumentException("Invalid interval.");
+      }
+    });
   }
 
   /**

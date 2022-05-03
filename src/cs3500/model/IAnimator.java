@@ -116,4 +116,16 @@ public interface IAnimator extends ReadAnimator {
    * MODE, toggle to false, meaning the animation is being drawn in OUTLINE MODE. And vice versa.
    */
   void toggleFill();
+
+  /**
+   * Sets the tempo for a user specified time interval.
+   *
+   * @param tickRate is the tick rate for the time interval.
+   * @param start is the start time of the interval.
+   * @param end is the end time of the interval.
+   * @throws IllegalArgumentException if the interval is inconsistent or invalid (negative time).
+   * @throws IllegalArgumentException if the tick rate is negative or zero.
+   * @throws IllegalArgumentException if the tempo causes an overlap in already defined intervals.
+   */
+  void setTempo(int tickRate, int start, int end);
 }

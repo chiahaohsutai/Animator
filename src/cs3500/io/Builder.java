@@ -83,6 +83,12 @@ public class Builder implements TweenModelBuilder<IAnimator> {
   }
 
   @Override
+  public TweenModelBuilder<IAnimator> addTempo(float tickRate, int start, int end) {
+
+    return this;
+  }
+
+  @Override
   public IAnimator build() {
     return animator;
   }

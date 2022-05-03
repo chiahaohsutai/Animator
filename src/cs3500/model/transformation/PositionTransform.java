@@ -1,7 +1,5 @@
 package cs3500.model.transformation;
 
-import cs3500.model.shape.IShape;
-
 /**
  * Represents a transformation that moves the given object to a new position. This object holds the
  * data of a move, including its start and end times, beginning position, and ending
@@ -58,8 +56,8 @@ public class PositionTransform extends ATransform {
   }
 
   @Override
-  public IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor) {
+  public void acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor) {
     checkForNulls(shapeMutationVisitor);
-    return shapeMutationVisitor.visitAndApplyPositionTransform(this);
+    shapeMutationVisitor.visitAndApplyPositionTransform(this);
   }
 }

@@ -108,4 +108,12 @@ public interface ReadAnimator {
    * Returns at list of all the starting and ending ticks where a transformation occurred.
    */
   List<Integer> getDiscretePlaying();
+
+  /**
+   * Gets all the intervals with modified tempos. (Slow-mo intervals). The list contains arrays,
+   * where each array has the tempo info. The arrays are all size 3 and the first element is
+   * the tickRate, the second the start time and the third the end time. The intervals are sorted by
+   * start time.
+   */
+  List<int[]> getTempos();
 }

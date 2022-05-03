@@ -102,6 +102,12 @@ public class AnimationFileReader {
                   scaleByInfo.getStart(),
                   scaleByInfo.getEnd());
           break;
+        case "tempo":
+          TempoInfo tempoInfo = readTempoInfo(sc);
+          builder.addTempo(tempoInfo.getTickRate(),
+                  tempoInfo.getStart(),
+                  tempoInfo.getEnd());
+          break;
         default:
           throw new IllegalStateException("Unidentified token " + command + " "
                   + "read from file");
@@ -269,6 +275,31 @@ public class AnimationFileReader {
         default:
           throw new IllegalStateException("Invalid attribute " + command + " for "
                   + "move");
+      }
+    }
+
+    return info;
+  }
+
+  private TempoInfo readTempoInfo(Scanner sc) throws
+          IllegalStateException, InputMismatchException {
+    TempoInfo info = new TempoInfo();
+
+    while (!info.isAllInitialized()) {
+      String command = sc.next();
+      switch (command) {
+        case "tickrate":
+          info.setTickRate(sc.nextInt());
+          break;
+        case "from":
+          info.setStart(sc.nextInt());
+          break;
+        case "to":
+          info.setEnd(sc.nextInt());
+          break;
+        default:
+          throw new IllegalStateException("Invalid attribute " + command + " for "
+                  + "tempo");
       }
     }
 
@@ -607,6 +638,47 @@ public class AnimationFileReader {
       return yradius;
     }
 
+  }
+
+  class TempoInfo extends Inputable {
+    private int tickRate;
+    private int start;
+    private int end;
+
+    TempoInfo() {
+      super();
+
+      valueFlags.put("tick", false);
+      valueFlags.put("start", false);
+      valueFlags.put("end", false);
+    }
+
+    void setTickRate(int tick) {
+      this.tickRate = tick;
+      valueFlags.replace("tick", true);
+    }
+
+    void setStart(int start) {
+      this.start = start;
+      valueFlags.replace("start", true);
+    }
+
+    void setEnd(int end) {
+      this.end = end;
+      valueFlags.replace("end", true);
+    }
+
+    float getTickRate() {
+      return tickRate;
+    }
+
+    int getStart() {
+      return start;
+    }
+
+    int getEnd() {
+      return end;
+    }
   }
 
   class MoveInfo extends Inputable {

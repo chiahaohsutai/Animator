@@ -1,7 +1,5 @@
 package cs3500.model.transformation;
 
-import cs3500.model.shape.IShape;
-
 /**
  * Represents a transformation in an animation. A transformation refers to any type of change that
  * occurs to a geometric shape in an animation i.e. a color change, a position change, a scaling
@@ -66,5 +64,5 @@ public interface ITransform {
    *
    * @param shapeMutationVisitor is the given shape mutation visitor
    */
-  IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor);
+  void acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor);
 }

@@ -2,7 +2,6 @@ package cs3500.model.transformation;
 
 import java.awt.Color;
 import java.util.stream.Stream;
-import cs3500.model.shape.IShape;
 
 /**
  * Represents a transformation that changes the color of a given object to a new color. A color
@@ -60,9 +59,9 @@ public class ColorTransform extends ATransform {
   }
 
   @Override
-  public IShape acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor) {
+  public void acceptShapeMutationVisitor(IShapeMutationVisitor shapeMutationVisitor) {
     checkForNulls(shapeMutationVisitor);
-    return shapeMutationVisitor.visitAndApplyColorTransform(this);
+    shapeMutationVisitor.visitAndApplyColorTransform(this);
   }
 
   /**
