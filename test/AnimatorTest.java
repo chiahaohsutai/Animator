@@ -17,6 +17,7 @@ import cs3500.model.transformation.TransformType;
 import cs3500.model.TweeningVisitor;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -599,14 +600,65 @@ public class AnimatorTest {
   @Test
   public void testToggleDrawMode() {
     animator();
-    assertEquals(true, animator.getFillHa());
+    assertTrue(animator.getFillHa());
     animator.toggleFill();
-    assertEquals(false, animator.getFillHa());
+    assertFalse(animator.getFillHa());
   }
 
   @Test
   public void testGetDraw() {
     animator();
-    assertEquals(true, animator.getFillHa());
+    assertTrue(animator.getFillHa());
+  }
+
+  @Test
+  public void testGetSetTempo() {
+    animator();
+    List<int[]> t = animator.getTempos();
+    assertEquals(0, t.size());
+    animator.setTempo(2, 10, 20);
+    t = animator.getTempos();
+    assertEquals(1, t.size());
+    assertEquals(2, t.get(0)[0]);
+    assertEquals(10, t.get(0)[1]);
+    assertEquals(20, t.get(0)[2]);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetSetTempoNegativeTick() {
+    animator();
+    animator.setTempo(-2, 10, 20);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetSetTempoZeroTick() {
+    animator();
+    animator.setTempo(0, 10, 20);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetSetTempoNegativeStart() {
+    animator();
+    animator.setTempo(1, -10, 20);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetSetTempoNegativeEnd() {
+    animator();
+    animator.setTempo(1, 10, -20);
+  }
+
+  @Test
+  public void getDiscrete() {
+    animator();
+    animator.add("e", new Ellipse(10, 10, 10, 1, 1, 13, 13),
+            0, 90);
+    animator.setColor("e", 1, 13, 13, 13, 15);
+    animator.reScale("e", 12, 30, 12, 11);
+    animator.move("e", 16, 40, 10, 70);
+    Integer[] ticks = new Integer[] {1, 12, 13, 16, 30, 40};
+    Integer[] tickArray = new Integer[animator.getDiscretePlaying().size()];
+    tickArray = animator.getDiscretePlaying().toArray(tickArray);
+    assertArrayEquals(ticks, tickArray);
   }
 }

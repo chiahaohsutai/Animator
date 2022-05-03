@@ -668,7 +668,7 @@ public class AnimationFileReader {
       valueFlags.replace("end", true);
     }
 
-    float getTickRate() {
+    int getTickRate() {
       return tickRate;
     }
 

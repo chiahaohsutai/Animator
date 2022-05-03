@@ -132,7 +132,7 @@ public interface TweenModelBuilder<T> {
   TweenModelBuilder<T> addScaleToChange(String name, float fromSx, float
           fromSy, float toSx, float toSy, int startTime, int endTime);
 
-  TweenModelBuilder<T> addTempo(float tickRate, int start, int end);
+  TweenModelBuilder<T> addTempo(int tickRate, int start, int end);
 
   /**
    * Return the model built so far.

@@ -1,5 +1,4 @@
 import org.junit.Test;
-
 import cs3500.controller.clock.Clock;
 import cs3500.controller.Controller;
 import cs3500.controller.IBasicController;
@@ -34,6 +33,8 @@ public class ControllerTest {
     assertEquals(2, c.getTime());
     c.reset();
     assertEquals(0, c.getTime());
+    c.setTime(13);
+    assertEquals(13, c.getTime());
   }
 
   @Test

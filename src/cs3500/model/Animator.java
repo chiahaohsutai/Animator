@@ -565,7 +565,7 @@ public class Animator implements IAnimator {
   }
 
   /**
-   * Checks that the shape exists in the for the given time interval.
+   * Checks that the shape exists in the given time interval.
    *
    * @param start is first tick.
    * @param end is last tick
