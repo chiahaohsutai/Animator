@@ -321,7 +321,10 @@ public class Animator implements IAnimator {
 
     // get rid of the duplicates in the stream
     // this will represent a list of the frames that should be played
-    return ticksToPlay.stream().distinct().collect(Collectors.toList());
+    List<Integer> unsorted = ticksToPlay.stream().distinct().collect(Collectors.toList());
+    Collections.sort(unsorted, Integer::compareTo);
+
+    return unsorted;
   }
 
   @Override

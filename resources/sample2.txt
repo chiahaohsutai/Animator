@@ -1,0 +1,7 @@
+canvas 500 500
+plus name plus1 min-x 250.000 min-y 100.000 width 100.000 height 200.000 color 0.000000 1.000000 0.000000 from 0 to 80
+plus name plus2 min-x 100.000 min-y 300.000 width 50.000 height 50.000 color 1.000000 1.000000 0.000000 from 0 to 80
+rectangle name rect min-x 50.000 min-y 150.000 width 80.000 height 50.000 color 0.000000 1.000000 0.000000 from 0 to 50
+move name plus1 moveto 250.000 100.000 380.000 200.000 from 1 to 7
+change-color name plus1 colorto 0.000000 1.000000 0.000000 1.000000 1.000000 0.000000 from 3 to 8
+move name plus1 moveto

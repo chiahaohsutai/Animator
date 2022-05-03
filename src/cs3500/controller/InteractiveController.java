@@ -47,6 +47,7 @@ public class InteractiveController implements IInteractiveFeatures {
       if (!frames.isEmpty() && clock.getTime() > frames.getFirst()) {
         frames.pop();
       }
+
       if (discrete && !frames.isEmpty()) {
         view.render();
         view.setFrame(frames.getFirst());
@@ -57,6 +58,7 @@ public class InteractiveController implements IInteractiveFeatures {
         view.moveFrame();
         clock.increaseTime();
       }
+
       if (clock.getTime() == lastTick && loop) {
         clock.reset();
         view.reset();
@@ -65,6 +67,7 @@ public class InteractiveController implements IInteractiveFeatures {
         frames.addAll(model.getDiscretePlaying());
       }
     });
+
     setView(view);
   }
 
