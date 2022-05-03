@@ -18,6 +18,8 @@ import cs3500.model.ReadAnimator;
 public class InteractiveView extends JFrame implements IInteractiveVisual {
   private final ReadAnimator model;
   private final TimeKeeper clock;
+
+  // buttons
   private JButton pauseButton;
   private JButton restartButton;
   private JButton loopButton;
@@ -26,6 +28,8 @@ public class InteractiveView extends JFrame implements IInteractiveVisual {
   private JButton exitButton;
   private JButton fillOutlineButton;
   private JButton continuousDiscreteButton;
+
+  // labels
   private JLabel animationPlayingLabel;
   private JLabel speedLabel;
   private JLabel loopingLabel;

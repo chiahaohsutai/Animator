@@ -43,6 +43,7 @@ public class Animator implements IAnimator {
   // true means animation is being drawn in FILL MODE, false means animation is being drawn in
   // OUTLINE MODE
   private boolean fillHa;
+
   /**
    * Creates an instance of an animator with a tick rate of 1 and a canvas dimension of 0x0.
    */
@@ -287,6 +288,23 @@ public class Animator implements IAnimator {
   @Override
   public boolean getFillHa() {
     return fillHa;
+  }
+
+  @Override
+  public List<Integer> getDiscretePlaying() {
+    List<Integer> ticksToPlay = new ArrayList<>();
+
+    // add all start and end ticks of transformations in the animation
+    Map<String, List<ITransform>> states = this.getState();
+
+    states.values().forEach(l -> l.forEach(t -> {
+      ticksToPlay.add(t.getStart());
+      ticksToPlay.add(t.getEnd());
+    }));
+
+    // get rid of the duplicates in the stream
+    // this will represent a list of the frames that should be played
+    return ticksToPlay.stream().distinct().collect(Collectors.toList());
   }
 
   /**

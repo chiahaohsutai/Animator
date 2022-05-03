@@ -103,4 +103,9 @@ public interface ReadAnimator {
    * @return a boolean representing the draw mode of the animation.
    */
   boolean getFillHa();
+
+  /**
+   *
+   */
+  List<Integer> getDiscretePlaying();
 }
