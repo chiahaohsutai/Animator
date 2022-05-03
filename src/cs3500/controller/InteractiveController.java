@@ -3,6 +3,7 @@ package cs3500.controller;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.Timer;
 
@@ -24,6 +25,9 @@ public class InteractiveController implements IInteractiveFeatures {
   private boolean loop;
   private boolean discrete;
   private final Deque<Integer> frames;
+  private final List<int[]> tempos;
+  private final Deque<int[]> temposCopy;
+  private int lastKnownTickRate;
 
   /**
    * Constructs a controller that handles the user interaction with buttons in the interactive
@@ -39,32 +43,39 @@ public class InteractiveController implements IInteractiveFeatures {
     this.loop = false;
     this.model = model;
     this.view = view;
-    int lastTick = model.getEndingTick();
     this.frames = new LinkedList<>(model.getDiscretePlaying());
+    this.tempos = model.getTempos();
+    this.temposCopy = new LinkedList<>(tempos);
+    this.lastKnownTickRate = model.getTickRate();
+    int lastTick = model.getEndingTick();
 
     this.timer = new Timer(1000 / model.getTickRate(), e -> {
+
+      // slow-mo / tempo.
+      if (!temposCopy.isEmpty()) {
+        int[] info = temposCopy.getFirst();
+        if (info[1] == clock.getTime()) {
+          model.setTickRate(info[0]);
+          setTimer(model.getTickRate());
+        }
+        if (info[2] == clock.getTime()) {
+          model.setTickRate(lastKnownTickRate);
+          setTimer(model.getTickRate());
+          temposCopy.pop();
+        }
+      }
+
       // delete from frames if we pass the frame.
       if (!frames.isEmpty() && clock.getTime() > frames.getFirst()) {
         frames.pop();
       }
-
       if (discrete && !frames.isEmpty()) {
-        view.render();
-        view.setFrame(frames.getFirst());
-        clock.setTime(frames.getFirst());
-        frames.pop();
+        playDiscrete();
       } else {
-        view.render();
-        view.moveFrame();
-        clock.increaseTime();
+        playContinuous();
       }
-
       if (clock.getTime() == lastTick && loop) {
-        clock.reset();
-        view.reset();
-        model.resetShapes();
-        frames.clear();
-        frames.addAll(model.getDiscretePlaying());
+        restart();
       }
     });
 
@@ -98,6 +109,9 @@ public class InteractiveController implements IInteractiveFeatures {
     model.resetShapes();
     frames.clear();
     frames.addAll(model.getDiscretePlaying());
+    temposCopy.clear();
+    temposCopy.addAll(tempos);
+    setTimer(lastKnownTickRate);
   }
 
   @Override
@@ -109,6 +123,7 @@ public class InteractiveController implements IInteractiveFeatures {
   public void increaseSpeed() {
     model.setTickRate(model.getTickRate() + 1);
     timer.setDelay(1000 / model.getTickRate());
+    lastKnownTickRate += 1;
   }
 
   @Override
@@ -118,6 +133,7 @@ public class InteractiveController implements IInteractiveFeatures {
     }
     model.setTickRate(model.getTickRate() - 1);
     timer.setDelay(1000 / model.getTickRate());
+    lastKnownTickRate -= 1;
   }
 
   @Override
@@ -133,5 +149,33 @@ public class InteractiveController implements IInteractiveFeatures {
   @Override
   public void toggleDiscretePlaying() {
     discrete = !discrete;
+  }
+
+  /**
+   * Plays the discrete states.
+   */
+  private void playDiscrete() {
+    view.render();
+    view.setFrame(frames.getFirst());
+    clock.setTime(frames.getFirst());
+    frames.pop();
+  }
+
+  /**
+   * Plays the continuous states.
+   */
+  private void playContinuous() {
+    view.render();
+    view.moveFrame();
+    clock.increaseTime();
+  }
+
+  /**
+   * Sets the timers delay to the given tick rate.
+   *
+   * @param tick the tick rate.
+   */
+  private void setTimer(int tick) {
+    timer.setDelay(1000 / tick);
   }
 }

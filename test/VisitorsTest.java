@@ -36,6 +36,7 @@ public class VisitorsTest {
     ISVisitor visitor = new SVGShapeAnimation(trans, 10);
     IShape r = new Rect(10, 10, 10, 20, 1, 56, 80);
     IShape e = new Ellipse(10, 10, 10, 10, 90, 90, 80);
+    IShape p = new Plus(10, 10, 10, 10, 100, 100, 100);
     assertNull(visitor.toString());
     r.visitor(visitor);
     assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
@@ -57,12 +58,28 @@ public class VisitorsTest {
             "<animate attributeType=\"xml\" begin=\"0.400s\" dur=\"0.200s\" " +
             "attributeName=\"cy\" from=\"10.000\" to=\"80.000\" fill=\"freeze\"/>",
             visitor.toString());
+    p.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+            "attributeName=\"points\" from=\"93.333 80.000, 96.667 80.000, 96.667 83.333, " +
+            "100.000 83.333, 100.000 86.667, 96.667 86.667, 96.667 90.000, 93.333 90.000, " +
+            "93.333 86.667, 90.000 86.667, 90.000 83.333, 93.333 83.333\" to=\"13.333 10.000, " +
+            "16.667 10.000, 16.667 13.333, 20.000 13.333, 20.000 16.667, 16.667 16.667, " +
+            "16.667 20.000, 13.333 20.000, 13.333 16.667, 10.000 16.667, 10.000 13.333, " +
+            "13.333 13.333\" fill=\"freeze\"/>\n" +
+            "<animate attributeType=\"xml\" begin=\"0.400s\" dur=\"0.200s\" " +
+            "attributeName=\"points\" from=\"13.333 10.000, 16.667 10.000, " +
+            "16.667 13.333, 20.000 13.333, 20.000 16.667, 16.667 16.667, " +
+            "16.667 20.000, 13.333 20.000, 13.333 16.667, 10.000 16.667, " +
+            "10.000 13.333, 13.333 13.333\" to=\"103.333 80.000, 106.667 80.000, " +
+            "106.667 83.333, 110.000 83.333, 110.000 86.667, 106.667 86.667, 106.667 " +
+            "90.000, 103.333 90.000, 103.333 86.667, 100.000 86.667, 100.000 83.333, " +
+            "103.333 83.333\" fill=\"freeze\"/>", visitor.toString());
   }
 
   ////// SVGRectTransform //////
 
   @Test
-  public void testRectTransform() {
+  public void testRectTransformPos() {
     ITransform t1 = new PositionTransform(1, 4, 90, 80, 10, 10);
     ITVisitor visitor = new SVGRectTransform(10);
     assertNull(visitor.toString());
@@ -74,10 +91,37 @@ public class VisitorsTest {
             visitor.toString());
   }
 
+  @Test
+  public void testRectTransformColor() {
+    ITransform t1 = new ColorTransform(1, 4, 90, 80,
+            10, 10, 10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
+                    "from=\"rgb(90.000,80.000,10.000)\" to=\"rgb(10.000,10.000,10.000)\" " +
+                    "begin=\"0.100s\" dur=\"0.300s\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
+  @Test
+  public void testRectTransform() {
+    ITransform t1 = new ScaleTransform(1, 4, 90, 80,
+            10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"width\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+                    "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"height\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
   ////// SVGEllipseTransform //////
 
   @Test
-  public void testEllipseTransform() {
+  public void testEllipseTransformScale() {
     ITransform t1 = new ScaleTransform(1, 4, 90, 80, 10, 10);
     ITVisitor visitor = new SVGRectTransform(10);
     assertNull(visitor.toString());
@@ -89,10 +133,36 @@ public class VisitorsTest {
             visitor.toString());
   }
 
+  @Test
+  public void testEllipseTransformPos() {
+    ITransform t1 = new PositionTransform(1, 4, 90, 80, 10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"x\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+                    "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"y\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
+  @Test
+  public void testEllipseTransformColor() {
+    ITransform t1 = new ColorTransform(1, 4, 90, 80, 10,
+            10, 1, 34);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
+                    "from=\"rgb(90.000,80.000,10.000)\" to=\"rgb(10.000,1.000,34.000)\" " +
+                    "begin=\"0.100s\" dur=\"0.300s\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
   ////// SVGPlusTransform //////
 
   @Test
-  public void testPlusTransform() {
+  public void testPlusTransformColor() {
     ITransform t1 = new ColorTransform(1, 4, 90, 80, 10, 10,
             10, 10);
     ITVisitor visitor = new SVGRectTransform(10);
@@ -101,6 +171,32 @@ public class VisitorsTest {
     assertEquals("<animate attributeName=\"fill\" attributeType=\"CSS\" " +
                     "from=\"rgb(90.000,80.000,10.000)\" to=\"rgb(10.000,10.000,10.000)\" " +
                     "begin=\"0.100s\" dur=\"0.300s\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
+  @Test
+  public void testPlusTransformScale() {
+    ITransform t1 = new ScaleTransform(1, 4, 90, 80, 10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"width\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+                    "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"height\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>",
+            visitor.toString());
+  }
+
+  @Test
+  public void testPlusTransformPos() {
+    ITransform t1 = new PositionTransform(1, 4, 90, 80, 10, 10);
+    ITVisitor visitor = new SVGRectTransform(10);
+    assertNull(visitor.toString());
+    t1.visitor(visitor);
+    assertEquals("<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"x\" from=\"90.000\" to=\"10.000\" fill=\"freeze\"/>\n" +
+                    "<animate attributeType=\"xml\" begin=\"0.100s\" dur=\"0.300s\" " +
+                    "attributeName=\"y\" from=\"80.000\" to=\"10.000\" fill=\"freeze\"/>",
             visitor.toString());
   }
 

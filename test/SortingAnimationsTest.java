@@ -45,61 +45,77 @@ public class SortingAnimationsTest {
     quick.setSeed(2);
     assertEquals("", quick.toString());
     quick.create();
-    String expected = "canvas 260 120\n" +
-            "oval name circle0 center-x 30.000 center-y 60.0 x-radius 10.0 y-radius " +
-            "10.0 color 0.000000 0.733333 0.000000 from 0 to 103\n" +
-            "oval name circle1 center-x 70.000 center-y 60.0 x-radius 10.0 y-radius " +
-            "10.0 color 0.000000 0.294118 0.000000 from 0 to 103\n" +
-            "oval name circle2 center-x 110.000 center-y 60.0 x-radius 10.0 y-radius " +
-            "10.0 color 0.000000 0.901961 0.000000 from 0 to 103\n" +
-            "oval name circle3 center-x 150.000 center-y 60.0 x-radius 10.0 y-radius " +
-            "10.0 color 0.000000 0.003922 0.000000 from 0 to 103\n" +
-            "oval name circle4 center-x 190.000 center-y 60.0 x-radius 10.0 y-radius" +
-            " 10.0 color 0.000000 0.498039 0.000000 from 0 to 103\n" +
-            "oval name circle5 center-x 230.000 center-y 60.0 x-radius 10.0 y-radius " +
-            "10.0 color 0.000000 0.854902 0.000000 from 0 to 103\n" +
+    String expected = "canvas 340 120\n" +
+            "oval name circle0 center-x 30.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.733333 0.000000 from 0 to 131\n" +
+            "oval name circle1 center-x 70.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.294118 0.000000 from 0 to 131\n" +
+            "oval name circle2 center-x 110.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.901961 0.000000 from 0 to 131\n" +
+            "oval name circle3 center-x 150.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.003922 0.000000 from 0 to 131\n" +
+            "oval name circle4 center-x 190.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.498039 0.000000 from 0 to 131\n" +
+            "oval name circle5 center-x 230.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.854902 0.000000 from 0 to 131\n" +
+            "oval name circle6 center-x 270.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.988235 0.000000 from 0 to 131\n" +
+            "oval name circle7 center-x 310.000 center-y 60.0 x-radius 10.0 " +
+            "y-radius 10.0 color 0.000000 0.031373 0.000000 from 0 to 131\n" +
             "move name circle2 moveto 110.000 60.000 110.000 80.000 from 5 to 7\n" +
-            "move name circle2 moveto 110.000 80.000 190.000 80.000 from 7 to 9\n" +
-            "move name circle2 moveto 190.000 80.000 190.000 60.000 from 9 to 11\n" +
-            "move name circle2 moveto 190.000 60.000 190.000 80.000 from 75 to 77\n" +
-            "move name circle2 moveto 190.000 80.000 230.000 80.000 from 77 to 79\n" +
-            "move name circle2 moveto 230.000 80.000 230.000 60.000 from 79 to 81\n" +
-            "move name circle3 moveto 150.000 60.000 150.000 40.000 from 26 to 28\n" +
-            "move name circle3 moveto 150.000 40.000 150.000 40.000 from 28 to 30\n" +
-            "move name circle3 moveto 150.000 40.000 150.000 60.000 from 30 to 32\n" +
-            "move name circle3 moveto 30.000 60.000 30.000 80.000 from 33 to 35\n" +
-            "move name circle3 moveto 30.000 80.000 30.000 80.000 from 35 to 37\n" +
-            "move name circle3 moveto 30.000 80.000 30.000 60.000 from 37 to 39\n" +
-            "move name circle3 moveto 30.000 60.000 30.000 40.000 from 40 to 42\n" +
-            "move name circle3 moveto 30.000 40.000 30.000 40.000 from 42 to 44\n" +
+            "move name circle2 moveto 110.000 80.000 310.000 80.000 from 7 to 9\n" +
+            "move name circle2 moveto 310.000 80.000 310.000 60.000 from 9 to 11\n" +
+            "move name circle2 moveto 310.000 60.000 310.000 40.000 from 110 to 112\n" +
+            "move name circle2 moveto 310.000 40.000 270.000 40.000 from 112 to 114\n" +
+            "move name circle2 moveto 270.000 40.000 270.000 60.000 from 114 to 116\n" +
+            "move name circle2 moveto 270.000 60.000 270.000 80.000 from 117 to 119\n" +
+            "move name circle2 moveto 270.000 80.000 270.000 80.000 from 119 to 121\n" +
+            "move name circle2 moveto 270.000 80.000 270.000 60.000 from 121 to 123\n" +
+            "move name circle2 moveto 270.000 60.000 270.000 40.000 from 124 to 126\n" +
+            "move name circle2 moveto 270.000 40.000 270.000 40.000 from 126 to 128\n" +
+            "move name circle2 moveto 270.000 40.000 270.000 60.000 from 128 to 130\n" +
+            "move name circle3 moveto 150.000 60.000 150.000 40.000 from 40 to 42\n" +
+            "move name circle3 moveto 150.000 40.000 30.000 40.000 from 42 to 44\n" +
             "move name circle3 moveto 30.000 40.000 30.000 60.000 from 44 to 46\n" +
+            "move name circle3 moveto 30.000 60.000 30.000 80.000 from 47 to 49\n" +
+            "move name circle3 moveto 30.000 80.000 30.000 80.000 from 49 to 51\n" +
+            "move name circle3 moveto 30.000 80.000 30.000 60.000 from 51 to 53\n" +
+            "move name circle3 moveto 30.000 60.000 30.000 40.000 from 54 to 56\n" +
+            "move name circle3 moveto 30.000 40.000 30.000 40.000 from 56 to 58\n" +
+            "move name circle3 moveto 30.000 40.000 30.000 60.000 from 58 to 60\n" +
             "move name circle0 moveto 30.000 60.000 30.000 80.000 from 19 to 21\n" +
-            "move name circle0 moveto 30.000 80.000 150.000 80.000 from 21 to 23\n" +
-            "move name circle0 moveto 150.000 80.000 150.000 60.000 from 23 to 25\n" +
-            "move name circle1 moveto 70.000 60.000 70.000 80.000 from 47 to 49\n" +
-            "move name circle1 moveto 70.000 80.000 70.000 80.000 from 49 to 51\n" +
-            "move name circle1 moveto 70.000 80.000 70.000 60.000 from 51 to 53\n" +
-            "move name circle1 moveto 70.000 60.000 70.000 40.000 from 54 to 56\n" +
-            "move name circle1 moveto 70.000 40.000 70.000 40.000 from 56 to 58\n" +
-            "move name circle1 moveto 70.000 40.000 70.000 60.000 from 58 to 60\n" +
-            "move name circle4 moveto 190.000 60.000 190.000 40.000 from 12 to 14\n" +
-            "move name circle4 moveto 190.000 40.000 190.000 40.000 from 14 to 16\n" +
-            "move name circle4 moveto 190.000 40.000 190.000 60.000 from 16 to 18\n" +
-            "move name circle4 moveto 110.000 60.000 110.000 80.000 from 61 to 63\n" +
-            "move name circle4 moveto 110.000 80.000 110.000 80.000 from 63 to 65\n" +
-            "move name circle4 moveto 110.000 80.000 110.000 60.000 from 65 to 67\n" +
-            "move name circle4 moveto 110.000 60.000 110.000 40.000 from 68 to 70\n" +
-            "move name circle4 moveto 110.000 40.000 110.000 40.000 from 70 to 72\n" +
-            "move name circle4 moveto 110.000 40.000 110.000 60.000 from 72 to 74\n" +
-            "move name circle5 moveto 230.000 60.000 230.000 40.000 from 82 to 84\n" +
-            "move name circle5 moveto 230.000 40.000 230.000 40.000 from 84 to 86\n" +
-            "move name circle5 moveto 230.000 40.000 230.000 60.000 from 86 to 88\n" +
-            "move name circle5 moveto 190.000 60.000 190.000 80.000 from 89 to 91\n" +
-            "move name circle5 moveto 190.000 80.000 190.000 80.000 from 91 to 93\n" +
-            "move name circle5 moveto 190.000 80.000 190.000 60.000 from 93 to 95\n" +
-            "move name circle5 moveto 190.000 60.000 190.000 40.000 from 96 to 98\n" +
-            "move name circle5 moveto 190.000 40.000 190.000 40.000 from 98 to 100\n" +
-            "move name circle5 moveto 190.000 40.000 190.000 60.000 from 100 to 102";
+            "move name circle0 moveto 30.000 80.000 190.000 80.000 from 21 to 23\n" +
+            "move name circle0 moveto 190.000 80.000 190.000 60.000 from 23 to 25\n" +
+            "move name circle1 moveto 70.000 60.000 70.000 80.000 from 61 to 63\n" +
+            "move name circle1 moveto 70.000 80.000 110.000 80.000 from 63 to 65\n" +
+            "move name circle1 moveto 110.000 80.000 110.000 60.000 from 65 to 67\n" +
+            "move name circle6 moveto 270.000 60.000 270.000 80.000 from 103 to 105\n" +
+            "move name circle6 moveto 270.000 80.000 310.000 80.000 from 105 to 107\n" +
+            "move name circle6 moveto 310.000 80.000 310.000 60.000 from 107 to 109\n" +
+            "move name circle7 moveto 310.000 60.000 310.000 40.000 from 12 to 14\n" +
+            "move name circle7 moveto 310.000 40.000 110.000 40.000 from 14 to 16\n" +
+            "move name circle7 moveto 110.000 40.000 110.000 60.000 from 16 to 18\n" +
+            "move name circle7 moveto 110.000 60.000 110.000 40.000 from 68 to 70\n" +
+            "move name circle7 moveto 110.000 40.000 70.000 40.000 from 70 to 72\n" +
+            "move name circle7 moveto 70.000 40.000 70.000 60.000 from 72 to 74\n" +
+            "move name circle7 moveto 70.000 60.000 70.000 80.000 from 75 to 77\n" +
+            "move name circle7 moveto 70.000 80.000 70.000 80.000 from 77 to 79\n" +
+            "move name circle7 moveto 70.000 80.000 70.000 60.000 from 79 to 81\n" +
+            "move name circle7 moveto 70.000 60.000 70.000 40.000 from 82 to 84\n" +
+            "move name circle7 moveto 70.000 40.000 70.000 40.000 from 84 to 86\n" +
+            "move name circle7 moveto 70.000 40.000 70.000 60.000 from 86 to 88\n" +
+            "move name circle4 moveto 190.000 60.000 190.000 40.000 from 26 to 28\n" +
+            "move name circle4 moveto 190.000 40.000 30.000 40.000 from 28 to 30\n" +
+            "move name circle4 moveto 30.000 40.000 30.000 60.000 from 30 to 32\n" +
+            "move name circle4 moveto 30.000 60.000 30.000 80.000 from 33 to 35\n" +
+            "move name circle4 moveto 30.000 80.000 150.000 80.000 from 35 to 37\n" +
+            "move name circle4 moveto 150.000 80.000 150.000 60.000 from 37 to 39\n" +
+            "move name circle5 moveto 230.000 60.000 230.000 80.000 from 89 to 91\n" +
+            "move name circle5 moveto 230.000 80.000 230.000 80.000 from 91 to 93\n" +
+            "move name circle5 moveto 230.000 80.000 230.000 60.000 from 93 to 95\n" +
+            "move name circle5 moveto 230.000 60.000 230.000 40.000 from 96 to 98\n" +
+            "move name circle5 moveto 230.000 40.000 230.000 40.000 from 98 to 100\n" +
+            "move name circle5 moveto 230.000 40.000 230.000 60.000 from 100 to 102";
     assertEquals(expected, quick.toString());
   }
 
