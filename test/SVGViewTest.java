@@ -1,5 +1,4 @@
 import org.junit.Test;
-
 import cs3500.model.Animator;
 import cs3500.model.IAnimator;
 import cs3500.model.shape.Ellipse;
