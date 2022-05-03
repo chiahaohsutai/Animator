@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.IShape;
+import cs3500.model.shape.Plus;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 
@@ -74,7 +75,7 @@ public abstract class ASorting implements SortingAnimations {
    */
   protected void populate(int num) {
     for (int i = 0; i < num; i++) {
-      IShape c = new Ellipse(10, 10, 30 + 40 * i, 60,
+      IShape c = new Ellipse(15, 15, 30 + 40 * i, 60,
               0, random.nextInt(256),  0);
       c.setName("circle" + i);
       IShape c_copy = c.copy();
@@ -93,7 +94,6 @@ public abstract class ASorting implements SortingAnimations {
   protected void drawCircle(IShape s, int end) {
     String template = "oval name %s center-x %.3f center-y %.1f x-radius %.1f y-radius " +
             "%.1f color %f %f %f from 0 to %d";
-    int max = getEnd();
     animation.add(String.format(template, s.getName(), s.getX(), s.getY(), s.getWidth(),
             s.getHeight(), s.getRed() / (float)255, s.getGreen() / (float)255,
             s.getBlue() / (float)255, end));
@@ -116,19 +116,6 @@ public abstract class ASorting implements SortingAnimations {
       }
     }
     return max;
-  }
-
-  /**
-   * Swaps the positions of the two given shapes.
-   *
-   * @param s1 is the first shape.
-   * @param s2 is the second shape.
-   */
-  protected void swapPositions(IShape s1, IShape s2) {
-    double[] s1_pos = new double[] {s1.getX(), s1.getY()};
-    double[] s2_pos = new double[] {s2.getX(), s2.getY()};
-    s1.move(s2_pos[0], s2_pos[1]);
-    s2.move(s1_pos[0], s1_pos[1]);
   }
 
   /**

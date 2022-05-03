@@ -22,6 +22,8 @@ public class Quicksort extends ASorting {
     // sort the shapes.
     quickSort(array, 0, array.size(), new ColorComparator());
     // draw the shapes.
+    // for circle switch lambda for drawCricle (makePlus)
+    // u also have to edit populate so it makes ellipses.
     array_origin.forEach(s -> drawCircle(s, getEnd() + 1));
     makeEntries();
   }
@@ -76,5 +78,20 @@ public class Quicksort extends ASorting {
     move(array.get(lowIdx), array.get(currHigh));
     source.set(lowIdx, source.set(currHigh, source.get(lowIdx)));
     return currHigh;
+  }
+
+  /**
+   * Draws a Plus shape in the reader format.
+   *
+   * @param s is the shape that will be drawn.
+   * @param end is the last tick in which a transformation ends.
+   * @return the shape in File Reader format.
+   */
+  private String makePlus(IShape s, int end) {
+    String template = "plus name %s min-x %.3f min-y %.3f width %.3f height " +
+            "%.3f color %f %f %f from 0 to %d";
+    return String.format(template, s.getName(), s.getX(), s.getY(), s.getWidth(),
+            s.getHeight(), s.getRed() / (float)255, s.getGreen() / (float)255,
+            s.getBlue() / (float)255, end);
   }
 }
