@@ -815,7 +815,6 @@ public class AnimationFileReader {
       valueFlags.replace("fromb", true);
     }
 
-
     void setToR(float r) {
       this.toR = r;
       valueFlags.replace("tor", true);
