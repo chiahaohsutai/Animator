@@ -2,7 +2,6 @@
 
 ## New Features Implemented
 
-
 - Level 1
   - Add the plus sign shape to an animation
   - Animate the plus sign shape (move, scale, change colors) in an animation
@@ -43,7 +42,7 @@ We added the ability to display the discrete frames by getting all the existing 
 model. We obtained the frames by creating a method that iterates through the 
 existing transformations and gets all the start and end ticks. In the method, the ticks are stored
 in a list and any repeated values are removed. Moreover, the list gets sorted by increasing order
-of tick value. We sort the list in order to facilitate its traversal in the controller. 
+of tick value. We sort the list in order to facilitate its traversal in the controller.
 
 ### To implement Level 3 features
 
@@ -85,11 +84,15 @@ polygon.
 
 We added the fill/outline modes to the view by passing a flag to the visitor that draws the 
 shapes (VisualShapeVisitor.java). If the flag is true, the shapes get filled and if the flag is
-false the shape are not filled. 
+false the shape are not filled. Moreover, we added a button in the JFrame that turns the mode on
+off and a JLabel that displays the state (fill mode on or off). 
 
 ### To implement Level 2 features
 
-There were no changes to the view implementations for this level.
+For this level we added a button that responds to the user and changes between discrete and 
+non-discrete playing. The button calls a method in the controller, which then sets the frames
+that should be played by the view. Additionally, the button will update the JLabel that displays 
+whether the mode is on or off.
 
 ### To implement Level 3 features
 
@@ -99,6 +102,27 @@ There were no changes to the view implementations for this level.
 
 ### To implement Level 1 features
 
+We added a method that responds to the fill/outline button in the JFrame. This method mutates the 
+model and sets the fill/outline flag. If the flag is false, it changed to true and vice-versa. 
+
 ### To implement Level 2 features
 
+We added a flag in the controller that responds to the JFrame button for discrete playing. This
+flag is turn on and off (switched between true and false) through the use of a method in the
+controller. This flag then determines the methods that are executed by the Timer class. If the flag
+is true (discrete playing is on), then the Timer object will tell the view to only display the 
+frames in which a motion (move, scale, color change) is either starting or ending. If the mode is
+turned off the controller tells the view to play normally starting from where the discrete mode 
+left off. The controller gets these "frames" (frames where a motion start or ends) by calling
+a method in the model which returns the ticks at which a motion starts or ends. 
+
 ### To implement Level 3 features
+
+We added this feature getting the slo-mo intervals from the model and responding to the intervals
+in the Timer object we used to move the animation. When the Timer tries to move the animation 
+through an ActionEvent, we first check whether the current tick is the start of a slo-mo interval.
+If the current tick is part of the interval, we set the Timer's delay to a slower tempo 
+(which can be specified by the user in the txt file for the animation) and we keep this tempo until
+we get to the end of the interval. Then the Timer's delay is set to the original tick rate 
+(the tick rate before the slo-mo frames happened). The animation will keep checking for these 
+intervals until the end of the animation.
