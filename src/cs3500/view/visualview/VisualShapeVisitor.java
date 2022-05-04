@@ -1,6 +1,8 @@
 package cs3500.view.visualview;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 
@@ -8,8 +10,6 @@ import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
-import cs3500.view.textualviews.svg.SVGShapeAnimation;
-import cs3500.view.textualviews.svg.SVGShapeVisitor;
 
 /**
  * Draws a shape using the Java AWT library. It draws the shape according to the shapes

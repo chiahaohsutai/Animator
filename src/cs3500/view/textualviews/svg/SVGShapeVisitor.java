@@ -7,7 +7,6 @@ import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.ISVisitor;
 import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
-import cs3500.model.transformation.PositionTransform;
 
 /**
  * Visits a shape and formats the shape in XML format for an SVG animation.

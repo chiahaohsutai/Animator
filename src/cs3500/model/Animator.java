@@ -376,7 +376,7 @@ public class Animator implements IAnimator {
     }
 
     /**
-     * Gets the end time of the interval
+     * Gets the end time of the interval.
      *
      * @return the end time of the interval.
      */

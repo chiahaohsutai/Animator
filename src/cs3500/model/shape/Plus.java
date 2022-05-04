@@ -1,5 +1,8 @@
 package cs3500.model.shape;
 
+/**
+ * Represents a plus sign shape in an Animation.
+ */
 public class Plus extends AShape {
 
   /**

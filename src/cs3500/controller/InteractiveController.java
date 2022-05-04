@@ -3,10 +3,7 @@ package cs3500.controller;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.swing.Timer;
-
 import cs3500.controller.clock.Clock;
 import cs3500.controller.clock.TimeKeeper;
 import cs3500.model.IAnimator;

@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import cs3500.model.shape.Ellipse;
 import cs3500.model.shape.IShape;
-import cs3500.model.shape.Plus;
 import cs3500.model.transformation.ITransform;
 import cs3500.model.transformation.PositionTransform;
 
