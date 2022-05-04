@@ -1,6 +1,5 @@
 package cs3500.view.textualviews.svg;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import cs3500.model.shape.Ellipse;
@@ -10,7 +9,6 @@ import cs3500.model.shape.Plus;
 import cs3500.model.shape.Rect;
 import cs3500.model.transformation.ITVisitor;
 import cs3500.model.transformation.ITransform;
-import cs3500.model.transformation.TransformType;
 
 /**
  * Creates the animation tags for the Shape. The animation tags follow SVG format.
