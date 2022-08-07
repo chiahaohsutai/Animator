@@ -23,3 +23,5 @@ In order to run the project run the Main.java file and where the command line ar
 - view: type of view to output (text, visual, svg).
 - out: location where the application will write the animation to (txt file).
 - speed: is the speed of the animation (needs to be positive).
+
+(there are some sample text files that can be used to run the application, you may find the files in the resources folder)
