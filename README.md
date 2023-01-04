@@ -21,4 +21,3 @@ To run the project, run the Main.java file and where the command line argument s
 - speed: is the speed of the animation (needs to be positive).
 
 (There are some sample text files that can be used to run the application, you may find the files in the resources folder)
-![image](https://user-images.githubusercontent.com/89400862/210667377-3040c8bd-d65d-4ee4-a150-734d9128ac9e.png)
