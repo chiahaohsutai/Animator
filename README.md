@@ -16,8 +16,10 @@ To run the project, run the Main.java file and where the command line argument s
 -in "name-of-animation-file" -view "type-of-view" -out "where-output-show-go" -speed "integer-ticks-per-second"
 
 - name-of-animation-file: text file containing the animation description.
-- view: type of view to output (text, visual, SVG).
+- view: type of view to output (text, visual, SVG, interactive).
 - out: location where the application will write the animation to (txt file).
 - speed: is the speed of the animation (needs to be positive).
+
+Make sure that the txt file being read is within the outermost folder (in other words, the project folder). If the txt folder is within an inner folder, the application may fail to find the file. 
 
 (There are some sample text files that can be used to run the application, you may find the files in the resources folder)
